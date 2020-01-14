@@ -66,12 +66,16 @@ class Cover
      * @ApiProperty(iri="http://schema.org/contentUrl")
      * @Groups({"cover_read"})
      */
-    public $contentUrl;
+    private $imageUrl;
 
     /**
      * @var File|null
      *
-     * @Assert\File(maxSize="10M")
+     * @Assert\File(
+     *     maxSize = "1024k",
+     *     mimeTypes = {"image/jpeg", "image/png"},
+     *     mimeTypesMessage = "Please upload a valid jpeg or png"
+     * )
      * @Assert\NotNull(groups={"cover_create"})
      * @Vich\UploadableField(mapping="cover", fileNameProperty="filePath", size="size")
      */
@@ -103,7 +107,19 @@ class Cover
         return $this->id;
     }
 
-    public function setFile(?File $file = null): void
+    public function getImageUrl(): ?string
+    {
+        return $this->imageUrl;
+    }
+
+    public function setImageUrl(string $imageUrl): self
+    {
+        $this->imageUrl = $imageUrl;
+
+        return $this;
+    }
+
+    public function setFile(?File $file = null): self
     {
         $this->file = $file;
 
@@ -112,6 +128,8 @@ class Cover
             // otherwise the event listeners won't be called and the file is lost
             $this->updatedAt = new \DateTimeImmutable();
         }
+
+        return $this;
     }
 
     public function getFile(): ?File
@@ -119,9 +137,11 @@ class Cover
         return $this->file;
     }
 
-    public function setFilePath(?string $filePath): void
+    public function setFilePath(?string $filePath): self
     {
         $this->filePath = $filePath;
+
+        return $this;
     }
 
     public function getFilePath(): ?string
@@ -129,9 +149,11 @@ class Cover
         return $this->filePath;
     }
 
-    public function setSize(?int $size): void
+    public function setSize(?int $size): self
     {
         $this->size = $size;
+
+        return $this;
     }
 
     public function getSize(): ?int

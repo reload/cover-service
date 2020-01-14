@@ -7,7 +7,7 @@ use ApiPlatform\Core\Util\RequestAttributesExtractor;
 use App\Entity\Cover;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Event\GetResponseForControllerResultEvent;
+use Symfony\Component\HttpKernel\Event\ViewEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
 use Vich\UploaderBundle\Storage\StorageInterface;
 
@@ -27,7 +27,7 @@ final class ResolveCoverContentUrlSubscriber implements EventSubscriberInterface
         ];
     }
 
-    public function onPreSerialize(GetResponseForControllerResultEvent $event): void
+    public function onPreSerialize(ViewEvent $event): void
     {
         $controllerResult = $event->getControllerResult();
         $request = $event->getRequest();
@@ -51,7 +51,7 @@ final class ResolveCoverContentUrlSubscriber implements EventSubscriberInterface
                 continue;
             }
 
-            $cover->contentUrl = $this->storage->resolveUri($cover, 'file');
+            $cover->setImageUrl($this->storage->resolveUri($cover, 'file'));
         }
     }
 }

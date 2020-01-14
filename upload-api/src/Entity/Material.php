@@ -7,7 +7,10 @@ use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ApiResource()
+ * @ApiResource(
+ *     collectionOperations={"get", "post"},
+ *     itemOperations={"get", "delete"}
+ * )
  * @ORM\Entity(repositoryClass="App\Repository\MaterialRepository")
  */
 class Material
@@ -28,6 +31,11 @@ class Material
      * @ORM\Column(type="string", length=5)
      */
     private $isType;
+
+    /**
+     * @ORM\Column(type="string", length=16)
+     */
+    private $agencyId;
 
     /**
      * @var Cover|null
@@ -63,6 +71,18 @@ class Material
     public function setIsType(string $isType): self
     {
         $this->isType = $isType;
+
+        return $this;
+    }
+
+    public function getAgencyId(): ?string
+    {
+        return $this->isType;
+    }
+
+    public function setAgencyId(string $agencyId): self
+    {
+        $this->agencyId = $agencyId;
 
         return $this;
     }
