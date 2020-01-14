@@ -28,6 +28,15 @@ class Material
     private $isIdentifier;
 
     /**
+     * @ApiProperty(
+     *     attributes={
+     *         "openapi_context"={
+     *             "type"="string",
+     *             "enum"={"faust", "isbn", "issn", "pid"},
+     *             "example"="pid"
+     *         }
+     *     }
+     * )
      * @ORM\Column(type="string", length=5)
      */
     private $isType;
