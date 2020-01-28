@@ -36,7 +36,8 @@ final class ResolveCoverContentUrlSubscriber implements EventSubscriberInterface
             return;
         }
 
-        if (!($attributes = RequestAttributesExtractor::extractAttributes($request)) || !\is_a($attributes['resource_class'], Cover::class, true)) {
+        if (!($attributes = RequestAttributesExtractor::extractAttributes($request)) ||
+            !\is_a($attributes['resource_class'], Cover::class, true)) {
             return;
         }
 
