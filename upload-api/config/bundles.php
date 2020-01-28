@@ -10,4 +10,5 @@ return [
     Vich\UploaderBundle\VichUploaderBundle::class => ['all' => true],
     Doctrine\Bundle\MigrationsBundle\DoctrineMigrationsBundle::class => ['all' => true],
     Symfony\Bundle\MakerBundle\MakerBundle::class => ['dev' => true],
+    Enqueue\Bundle\EnqueueBundle::class => ['all' => true],
 ];
