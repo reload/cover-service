@@ -58,3 +58,9 @@ services:
       - "traefik.docker.network=frontend"
       - "traefik.http.routers.${COMPOSE_PROJECT_NAME}.rule=Host(`${COMPOSE_DOMAIN}`)"
 
+  redis:
+    image: 'redis:4'
+    networks:
+      - app
+    ports:
+      - '6379'

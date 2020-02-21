@@ -1,4 +1,11 @@
 <?php
+/**
+ * @file
+ * Returning the plain file path on the filesystem where the file is stored is not useful for the client,
+ * which needs a URL to work with.
+ *
+ * So this event subscriber sets that URL on the cover object.
+ */
 
 namespace App\EventSubscriber;
 
@@ -11,6 +18,11 @@ use Symfony\Component\HttpKernel\Event\ViewEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
 use Vich\UploaderBundle\Storage\StorageInterface;
 
+/**
+ * Class ResolveCoverContentUrlSubscriber.
+ *
+ * @package App\EventSubscriber
+ */
 final class ResolveCoverContentUrlSubscriber implements EventSubscriberInterface
 {
     private $storage;
