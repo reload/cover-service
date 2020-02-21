@@ -86,7 +86,7 @@ class Material
 
     public function getAgencyId(): ?string
     {
-        return $this->isType;
+        return $this->agencyId;
     }
 
     public function setAgencyId(string $agencyId): self

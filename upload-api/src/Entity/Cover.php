@@ -57,6 +57,7 @@ class Cover
      * @ORM\Column(type="integer")
      * @ORM\GeneratedValue
      * @ORM\Id
+     * @Groups({"cover_read"})
      */
     protected $id;
 
@@ -72,7 +73,7 @@ class Cover
      * @var File|null
      *
      * @Assert\File(
-     *     maxSize = "1024k",
+     *     maxSize = "6144k",
      *     mimeTypes = {"image/jpeg", "image/png"},
      *     mimeTypesMessage = "Please upload a valid jpeg or png"
      * )
@@ -92,6 +93,7 @@ class Cover
      * @ORM\Column(type="integer")
      *
      * @var integer
+     * @Groups({"cover_read"})
      */
     private $size;
 
@@ -99,6 +101,7 @@ class Cover
      * @ORM\Column(type="datetime")
      *
      * @var \DateTime
+     * @Groups({"cover_read"})
      */
     private $updatedAt;
 
