@@ -16,6 +16,7 @@ class CoverUploadProcessMessage implements \JsonSerializable
     private $identifier;
     private $imageUrl;
     private $accrediting;
+    private $vendorId;
 
     /**
      * {@inheritdoc}
@@ -130,5 +131,25 @@ class CoverUploadProcessMessage implements \JsonSerializable
     public function getAccrediting(): string
     {
         return $this->accrediting;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getVendorId()
+    {
+        return $this->vendorId;
+    }
+
+    /**
+     * @param mixed $vendorId
+     *
+     * @return CoverUploadProcessMessage
+     */
+    public function setVendorId($vendorId): self
+    {
+        $this->vendorId = $vendorId;
+
+        return $this;
     }
 }
