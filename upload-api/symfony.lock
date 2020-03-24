@@ -162,6 +162,9 @@
     "microsoft/tolerant-php-parser": {
         "version": "v0.0.18"
     },
+    "monolog/monolog": {
+        "version": "1.25.3"
+    },
     "nelmio/cors-bundle": {
         "version": "1.5",
         "recipe": {
@@ -371,6 +374,23 @@
     },
     "symfony/mime": {
         "version": "v4.4.2"
+    },
+    "symfony/monolog-bridge": {
+        "version": "v4.4.5"
+    },
+    "symfony/monolog-bundle": {
+        "version": "3.3",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "master",
+            "version": "3.3",
+            "ref": "877bdb4223245783d00ed1f7429aa7ebc606d914"
+        },
+        "files": [
+            "config/packages/dev/monolog.yaml",
+            "config/packages/prod/monolog.yaml",
+            "config/packages/test/monolog.yaml"
+        ]
     },
     "symfony/options-resolver": {
         "version": "v4.4.2"
