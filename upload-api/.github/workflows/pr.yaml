@@ -103,3 +103,17 @@ jobs:
 
             - name: phpcsfixerr
               run: composer actions/phpcsfixer
+
+    helm:
+      name: Helm
+      runs-on: ubuntu-latest
+      steps:
+        - uses: actions/checkout@v1
+
+        - uses: azure/setup-helm@v1
+          name: Install helm
+          with:
+            version: v3.1.2
+
+        - name: Lint helm
+          run: helm lint infrastructure/cover-service-upload --set hpa.enabled=true --set ingress.enableTLS=true --set ingress.mail=test@itkdev.dk --set ingress.domain=upload-cover.dandigbib.org
