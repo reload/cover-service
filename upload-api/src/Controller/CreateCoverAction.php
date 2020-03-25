@@ -11,9 +11,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
 /**
- * Class CreateCoverAction-
- *
- * @package App\Controller
+ * Class CreateCoverAction-.
  */
 final class CreateCoverAction
 {

@@ -92,7 +92,7 @@ class Cover
     /**
      * @ORM\Column(type="integer")
      *
-     * @var integer
+     * @var int
      * @Groups({"cover_read"})
      */
     private $size;

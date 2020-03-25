@@ -20,8 +20,6 @@ use Vich\UploaderBundle\Storage\StorageInterface;
 
 /**
  * Class ResolveCoverContentUrlSubscriber.
- *
- * @package App\EventSubscriber
  */
 final class ResolveCoverContentUrlSubscriber implements EventSubscriberInterface
 {

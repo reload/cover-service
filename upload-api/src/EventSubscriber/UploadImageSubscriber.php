@@ -4,12 +4,12 @@ namespace App\EventSubscriber;
 
 use ApiPlatform\Core\EventListener\EventPriorities;
 use App\Entity\Material;
+use App\Utils\Message\CoverUploadProcessMessage;
 use App\Utils\Types\VendorState;
 use Enqueue\Client\ProducerInterface;
-use App\Utils\Message\CoverUploadProcessMessage;
 use Enqueue\Util\JSON;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Event\ViewEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
 use Vich\UploaderBundle\Storage\StorageInterface;
@@ -34,6 +34,7 @@ final class UploadImageSubscriber implements EventSubscriberInterface
 
     public function uploadImage(ViewEvent $event)
     {
+        /** @var Material $material */
         $material = $event->getControllerResult();
         $method = $event->getRequest()->getMethod();
 
@@ -42,20 +43,18 @@ final class UploadImageSubscriber implements EventSubscriberInterface
         }
 
         $message = new CoverUploadProcessMessage();
+        $message->setIdentifierType($material->getIsType());
+        $message->setIdentifier($material->getIsIdentifier());
+        $message->setVendorId(11);
 
         switch ($method) {
             case Request::METHOD_POST:
                 $uri = $this->storage->resolveUri($material->cover, 'file');
-
-                $message->setIdentifier($material->getIsIdentifier());
-                $message->setVendorId(11);
                 $message->setOperation(VendorState::INSERT);
                 $message->setImageUrl($uri);
                 break;
 
             case Request::METHOD_DELETE:
-                $message->setIdentifier($material->getIsIdentifier());
-                $message->setVendorId(11);
                 $message->setOperation(VendorState::DELETE);
                 break;
 
@@ -63,12 +62,6 @@ final class UploadImageSubscriber implements EventSubscriberInterface
                 return;
         }
 
-        /**
-         * @TODO: fill in information about the job.
-         */
-
-
-        $this->producer->sendEvent('VendorImageTopic', JSON::encode($message));
-
+        $this->producer->sendEvent('UploadImageTopic', JSON::encode($message));
     }
 }
