@@ -45,13 +45,13 @@ final class UploadImageSubscriber implements EventSubscriberInterface
         $message = new CoverUploadProcessMessage();
         $message->setIdentifierType($material->getIsType());
         $message->setIdentifier($material->getIsIdentifier());
-        $message->setVendorId(11);
 
         switch ($method) {
             case Request::METHOD_POST:
-                $uri = $this->storage->resolveUri($material->cover, 'file');
+                $base = $event->getRequest()->getSchemeAndHttpHost();
+                $url = $base . $this->storage->resolveUri($material->cover, 'file');
                 $message->setOperation(VendorState::INSERT);
-                $message->setImageUrl($uri);
+                $message->setImageUrl($url);
                 break;
 
             case Request::METHOD_DELETE:
