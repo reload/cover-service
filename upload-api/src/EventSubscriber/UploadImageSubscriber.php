@@ -49,7 +49,7 @@ final class UploadImageSubscriber implements EventSubscriberInterface
         switch ($method) {
             case Request::METHOD_POST:
                 $base = $event->getRequest()->getSchemeAndHttpHost();
-                $url = $base . $this->storage->resolveUri($material->cover, 'file');
+                $url = $base.$this->storage->resolveUri($material->cover, 'file');
                 $message->setOperation(VendorState::INSERT);
                 $message->setImageUrl($url);
                 break;
