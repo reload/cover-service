@@ -20,7 +20,7 @@ app:
   db:
     server: "cover-service-prod-database.mariadb.database.azure.com"
     port: "3306"
-    database: "cover-service"
+    database: "upload"
   php:
     memory_limit: "128M"
     max_children: "80"
