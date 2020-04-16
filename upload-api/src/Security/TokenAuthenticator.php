@@ -15,15 +15,20 @@ use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
 use Symfony\Component\Security\Guard\AbstractGuardAuthenticator;
+use Symfony\Contracts\HttpClient\Exception\ExceptionInterface;
+use Symfony\Contracts\HttpClient\Exception\HttpExceptionInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 /**
- * Class TokenAuthenticator
+ * Class TokenAuthenticator.
  */
 class TokenAuthenticator extends AbstractGuardAuthenticator
 {
-    private $params;
     private $client;
+
+    private $clientId;
+    private $clientSecret;
+    private $endPoint;
 
     /**
      * TokenAuthenticator constructor.
@@ -33,12 +38,15 @@ class TokenAuthenticator extends AbstractGuardAuthenticator
      */
     public function __construct(ParameterBagInterface $params, HttpClientInterface $httpClient)
     {
-        $this->params = $params;
         $this->client = $httpClient;
+
+        $this->clientId = $params->get('openPlatform.id');
+        $this->clientSecret = $params->get('openPlatform.secret');
+        $this->endPoint = $params->get('openPlatform.introspection.url');
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function supports(Request $request)
     {
@@ -46,7 +54,7 @@ class TokenAuthenticator extends AbstractGuardAuthenticator
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getCredentials(Request $request)
     {
@@ -54,7 +62,7 @@ class TokenAuthenticator extends AbstractGuardAuthenticator
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getUser($credentials, UserProviderInterface $userProvider)
     {
@@ -71,20 +79,27 @@ class TokenAuthenticator extends AbstractGuardAuthenticator
         }
 
         $token = $matches[1];
-        $response = $this->client->request('POST', 'https://login.bib.dk/oauth/introspection?access_token='.$token, [
-            'auth_basic' => ['CLIENT_ID', 'SECRECT'],
-        ]);
 
-        if (200 !== $response->getStatusCode()) {
-            return null;
-        } else {
-            $content = $response->getContent();
-            $data = json_decode($content);
+        try {
+            $response = $this->client->request('POST', $this->endPoint.'?access_token='.$token, [
+                'auth_basic' => [$this->clientId, $this->clientSecret],
+            ]);
 
-            // Token not valid, hence not active at the introspection end-point.
-            if (true == !$data->active) {
+            if (200 !== $response->getStatusCode()) {
                 return null;
+            } else {
+                $content = $response->getContent();
+                $data = json_decode($content);
+
+                // Token not valid, hence not active at the introspection end-point.
+                if (true == !$data->active) {
+                    return null;
+                }
             }
+        } catch (HttpExceptionInterface $e) {
+            return null;
+        } catch (ExceptionInterface $e) {
+            return null;
         }
 
         // Create user object.
@@ -99,7 +114,7 @@ class TokenAuthenticator extends AbstractGuardAuthenticator
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function checkCredentials($credentials, UserInterface $user)
     {
@@ -109,7 +124,7 @@ class TokenAuthenticator extends AbstractGuardAuthenticator
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, $providerKey)
     {
@@ -117,7 +132,7 @@ class TokenAuthenticator extends AbstractGuardAuthenticator
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function onAuthenticationFailure(Request $request, AuthenticationException $exception)
     {
@@ -129,7 +144,7 @@ class TokenAuthenticator extends AbstractGuardAuthenticator
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function start(Request $request, AuthenticationException $authException = null)
     {
@@ -141,7 +156,7 @@ class TokenAuthenticator extends AbstractGuardAuthenticator
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function supportsRememberMe()
     {

@@ -4,6 +4,9 @@
 # Put parameters here that don't need to change on each machine where the app is deployed
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
+    openPlatform.id: '%env(OPENPLATFORM_ID)%'
+    openPlatform.secret: '%env(OPENPLATFORM_SECRET)%'
+    openPlatform.introspection.url: '%env(OPENPLATFORM_INTTOSPRECTION_URL)%'
 
 services:
     # default configuration for services in *this* file

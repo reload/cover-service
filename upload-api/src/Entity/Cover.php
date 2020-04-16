@@ -20,7 +20,7 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
  *     },
  *     collectionOperations={
  *         "post"={
- *             "security"="is_granted('ROLE_API_PLATFORM')"
+ *             "security"="is_granted('ROLE_API_PLATFORM')",
  *             "controller"=CreateCoverAction::class,
  *             "deserialize"=false,
  *             "validation_groups"={"Default", "cover_create"},

@@ -9,7 +9,7 @@ namespace App\Security;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
- * Class User
+ * Class User.
  */
 class User implements UserInterface
 {
@@ -22,7 +22,7 @@ class User implements UserInterface
     /**
      * Get this users "password" expire date.
      *
-     * @return null|\DateTime
+     * @return \DateTime|null
      */
     public function getExpires(): ?\DateTime
     {
@@ -42,7 +42,7 @@ class User implements UserInterface
     /**
      * Get the users agency.
      *
-     * @return null|string
+     * @return string|null
      */
     public function getAgency(): ?string
     {
