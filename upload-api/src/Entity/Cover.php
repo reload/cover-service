@@ -20,6 +20,7 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
  *     },
  *     collectionOperations={
  *         "post"={
+ *             "security"="is_granted('ROLE_API_PLATFORM')"
  *             "controller"=CreateCoverAction::class,
  *             "deserialize"=false,
  *             "validation_groups"={"Default", "cover_create"},
@@ -41,10 +42,10 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
  *                 }
  *             }
  *         },
- *         "get"
+ *         "get"={"security"="is_granted('ROLE_API_PLATFORM')"}
  *     },
  *     itemOperations={
- *         "get"
+ *         "get"={"security"="is_granted('ROLE_API_PLATFORM')"}
  *     }
  * )
  * @Vich\Uploadable

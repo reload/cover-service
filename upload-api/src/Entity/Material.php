@@ -8,8 +8,14 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ApiResource(
- *     collectionOperations={"get", "post"},
- *     itemOperations={"get", "delete"}
+ *     collectionOperations={
+ *          "get"={"security"="is_granted('ROLE_API_PLATFORM')"},
+ *          "post"={"security"="is_granted('ROLE_API_PLATFORM')"}
+ *      },
+ *     itemOperations={
+ *          "get"={"security"="is_granted('ROLE_API_PLATFORM')"},
+ *          "delete"={"security"="is_granted('ROLE_API_PLATFORM')"}
+ *     }
  * )
  * @ORM\Entity(repositoryClass="App\Repository\MaterialRepository")
  */
