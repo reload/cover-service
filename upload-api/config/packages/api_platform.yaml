@@ -17,9 +17,21 @@ api_platform:
             mime_types: ['application/json']
         html:
             mime_types: ['text/html']
+
     mapping:
         paths: ['%kernel.project_dir%/src/Entity']
+
     patch_formats:
         json: ['application/merge-patch+json']
+
     swagger:
-        versions: [3]
+        # For now this should be kept on version 2 as version 3 do not generate the correct configuration for oAuth
+        # in swagger.
+        versions: [2]
+
+    oauth:
+        enabled: true
+        type: 'oauth2'
+        flow: 'password'
+        tokenUrl: 'https://login.bib.dk/oauth/token'
+        scopes: []
