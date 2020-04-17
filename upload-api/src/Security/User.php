@@ -104,7 +104,7 @@ class User implements UserInterface
      */
     public function getRoles(): array
     {
-        return ['ROLE_API_PLATFORM'];
+        return ['ROLE_COVER_CRUD'];
     }
 
     /**
