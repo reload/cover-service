@@ -10,6 +10,23 @@ framework:
         cookie_secure: auto
         cookie_samesite: lax
 
+    cache:
+        # Put the unique name of your app here: the prefix seed
+        # is used to compute stable namespaces for cache keys.
+        prefix_seed: DDBCover
+
+        # Redis
+        system: cache.adapter.redis
+        app: cache.adapter.redis
+        default_redis_provider: '%env(REDIS_CACHE_DSN)%'
+
+        pools:
+            # Creates a "token.cache" service
+            token.cache:
+                adapter: cache.adapter.redis
+                # Default expire set to one day
+                default_lifetime: 86400
+
     #esi: true
     #fragments: true
     php_errors:
