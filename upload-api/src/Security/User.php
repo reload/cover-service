@@ -64,7 +64,7 @@ class User implements UserInterface
      *
      * @return mixed
      */
-    public function getAuthType()
+    public function getAuthType(): string
     {
         return $this->authType;
     }
@@ -84,7 +84,7 @@ class User implements UserInterface
      *
      * @return mixed
      */
-    public function getClientId()
+    public function getClientId(): string
     {
         return $this->clientId;
     }
@@ -126,7 +126,7 @@ class User implements UserInterface
     /**
      * {@inheritdoc}
      */
-    public function getSalt()
+    public function getSalt(): ?string
     {
     }
 
@@ -141,7 +141,8 @@ class User implements UserInterface
     /**
      * {@inheritdoc}
      */
-    public function eraseCredentials()
+    public function eraseCredentials(): ?string
     {
+        return null;
     }
 }
