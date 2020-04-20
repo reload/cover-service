@@ -13,6 +13,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
  */
 class User implements UserInterface
 {
+    private $username;
     private $password;
     private $expires;
     private $agency;
@@ -126,8 +127,9 @@ class User implements UserInterface
     /**
      * {@inheritdoc}
      */
-    public function getSalt(): ?string
+    public function getSalt(): string
     {
+        return '';
     }
 
     /**
@@ -135,7 +137,15 @@ class User implements UserInterface
      */
     public function getUsername(): string
     {
-        return $this->agency;
+        return $this->username;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setUsername($username): void
+    {
+        $this->username = $username;
     }
 
     /**
