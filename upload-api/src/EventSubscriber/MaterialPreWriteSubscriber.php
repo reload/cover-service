@@ -21,7 +21,7 @@ use Symfony\Component\Security\Core\Security;
 use Vich\UploaderBundle\Storage\StorageInterface;
 
 /**
- * Class MaterialPreWriteSubscriber
+ * Class MaterialPreWriteSubscriber.
  */
 final class MaterialPreWriteSubscriber implements EventSubscriberInterface
 {
@@ -47,7 +47,7 @@ final class MaterialPreWriteSubscriber implements EventSubscriberInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public static function getSubscribedEvents()
     {
@@ -66,26 +66,26 @@ final class MaterialPreWriteSubscriber implements EventSubscriberInterface
      */
     public function materialPreWrite(ViewEvent $event)
     {
-        /** @var Material $material */
-        $material = $event->getControllerResult();
-        if (!$material instanceof Material) {
-            return;
-        }
-
+        /** @var Material $item */
+        $item = $event->getControllerResult();
         $method = $event->getRequest()->getMethod();
 
         switch ($method) {
             case Request::METHOD_DELETE:
+                if (!$item instanceof Material) {
+                    return;
+                }
+
                 $message = new CoverUploadProcessMessage();
-                $message->setIdentifierType($material->getIsType());
-                $message->setIdentifier($material->getIsIdentifier());
+                $message->setIdentifierType($item->getIsType());
+                $message->setIdentifier($item->getIsIdentifier());
                 $message->setOperation(VendorState::DELETE);
 
                 $this->producer->sendEvent('UploadImageTopic', JSON::encode($message));
                 break;
 
             case Request::METHOD_POST:
-                $material->setAgencyId($this->user->getAgency());
+                $item->setAgencyId($this->user->getAgency());
                 break;
         }
     }

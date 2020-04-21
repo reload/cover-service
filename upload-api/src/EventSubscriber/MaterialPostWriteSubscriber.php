@@ -8,7 +8,6 @@ namespace App\EventSubscriber;
 
 use ApiPlatform\Core\EventListener\EventPriorities;
 use App\Entity\Material;
-use App\Security\User;
 use App\Utils\Message\CoverUploadProcessMessage;
 use App\Utils\Types\VendorState;
 use Enqueue\Client\ProducerInterface;
@@ -17,11 +16,10 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Event\ViewEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
-use Symfony\Component\Security\Core\Security;
 use Vich\UploaderBundle\Storage\StorageInterface;
 
 /**
- * Class MaterialPostWriteSubscriber
+ * Class MaterialPostWriteSubscriber.
  */
 final class MaterialPostWriteSubscriber implements EventSubscriberInterface
 {
@@ -41,7 +39,7 @@ final class MaterialPostWriteSubscriber implements EventSubscriberInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public static function getSubscribedEvents()
     {
