@@ -21,9 +21,9 @@ use Symfony\Component\Security\Core\Security;
 use Vich\UploaderBundle\Storage\StorageInterface;
 
 /**
- * Class UploadImageSubscriber
+ * Class MaterialPreWriteSubscriber
  */
-final class MaterialEventSubscriber implements EventSubscriberInterface
+final class MaterialPreWriteSubscriber implements EventSubscriberInterface
 {
     private $producer;
     private $storage;
@@ -32,7 +32,7 @@ final class MaterialEventSubscriber implements EventSubscriberInterface
     private $user;
 
     /**
-     * UploadImageSubscriber constructor.
+     * MaterialPreWriteSubscriber constructor.
      *
      * @param ProducerInterface $producer
      * @param StorageInterface $storage
@@ -54,7 +54,6 @@ final class MaterialEventSubscriber implements EventSubscriberInterface
         return [
             KernelEvents::VIEW => [
                 'materialPreWrite', EventPriorities::PRE_WRITE,
-                'materialPostWrite', EventPriorities::POST_WRITE,
             ],
         ];
     }
@@ -67,50 +66,27 @@ final class MaterialEventSubscriber implements EventSubscriberInterface
      */
     public function materialPreWrite(ViewEvent $event)
     {
-        $material = $event->getControllerResult();
-        if (!$material instanceof Material) {
-            return;
-        }
-
-        $material->setAgencyId($this->user->getAgency());
-    }
-
-    /**
-     * Send event into the queue system to trigger upload an indexing.
-     *
-     * @param ViewEvent $event
-     *   The event
-     */
-    public function materialPostWrite(ViewEvent $event)
-    {
         /** @var Material $material */
         $material = $event->getControllerResult();
-        $method = $event->getRequest()->getMethod();
-
         if (!$material instanceof Material) {
             return;
         }
 
-        $message = new CoverUploadProcessMessage();
-        $message->setIdentifierType($material->getIsType());
-        $message->setIdentifier($material->getIsIdentifier());
+        $method = $event->getRequest()->getMethod();
 
         switch ($method) {
-            case Request::METHOD_POST:
-                $base = $event->getRequest()->getSchemeAndHttpHost();
-                $url = $base.$this->storage->resolveUri($material->cover, 'file');
-                $message->setOperation(VendorState::INSERT);
-                $message->setImageUrl($url);
-                break;
-
             case Request::METHOD_DELETE:
+                $message = new CoverUploadProcessMessage();
+                $message->setIdentifierType($material->getIsType());
+                $message->setIdentifier($material->getIsIdentifier());
                 $message->setOperation(VendorState::DELETE);
+
+                $this->producer->sendEvent('UploadImageTopic', JSON::encode($message));
                 break;
 
-            default:
-                return;
+            case Request::METHOD_POST:
+                $material->setAgencyId($this->user->getAgency());
+                break;
         }
-
-        $this->producer->sendEvent('UploadImageTopic', JSON::encode($message));
     }
 }
