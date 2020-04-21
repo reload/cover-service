@@ -78,6 +78,7 @@ class Material
      * @ORM\ManyToOne(targetEntity=Cover::class)
      * @ORM\JoinColumn(nullable=true)
      * @ApiProperty(iri="http://schema.org/image")
+     * @Groups({"material:read", "material:write"})
      */
     public $cover;
 
