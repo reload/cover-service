@@ -5,16 +5,33 @@ namespace App\Entity;
 use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ApiResource(
+ *     normalizationContext={
+ *          "groups"={"material:read"},
+ *           "swagger_definition_name"="Read"
+ *     },
+ *     denormalizationContext={
+ *          "groups"={"material:write"},
+ *          "swagger_definition_name"="Write"
+ *     },
  *     collectionOperations={
- *          "get"={"security"="is_granted('ROLE_COVER_CRUD')"},
- *          "post"={"security"="is_granted('ROLE_COVER_CRUD')"}
+ *          "get"={
+ *              "security"="is_granted('ROLE_COVER_CRUD')"
+ *          },
+ *          "post"={
+ *              "security"="is_granted('ROLE_COVER_CRUD')"
+ *          }
  *      },
  *     itemOperations={
- *          "get"={"security"="is_granted('ROLE_COVER_CRUD')"},
- *          "delete"={"security"="is_granted('ROLE_COVER_CRUD')"}
+ *          "get"={
+ *              "security"="is_granted('ROLE_COVER_CRUD')"
+ *          },
+ *          "delete"={
+ *              "security"="is_granted('ROLE_COVER_CRUD')"
+ *          }
  *     }
  * )
  * @ORM\Entity(repositoryClass="App\Repository\MaterialRepository")
@@ -30,6 +47,7 @@ class Material
 
     /**
      * @ORM\Column(type="string", length=50)
+     * @Groups({"material:read", "material:write"})
      */
     private $isIdentifier;
 
@@ -44,11 +62,13 @@ class Material
      *     }
      * )
      * @ORM\Column(type="string", length=5)
+     * @Groups({"material:read", "material:write"})
      */
     private $isType;
 
     /**
      * @ORM\Column(type="string", length=16)
+     * @Groups({"material:read"})
      */
     private $agencyId;
 
