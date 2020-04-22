@@ -3,6 +3,7 @@
  * @file
  * Service to handle cover store.
  */
+
 namespace App\Service;
 
 use App\Entity\Cover;
@@ -13,10 +14,10 @@ use Symfony\Contracts\HttpClient\HttpClientInterface;
 use Vich\UploaderBundle\Storage\StorageInterface;
 
 /**
- * Class CoverStoreService
+ * Class CoverStoreService.
  */
-class CoverStoreService {
-
+class CoverStoreService
+{
     private $remoteUrlPath;
     private $client;
     private $storage;
@@ -55,6 +56,7 @@ class CoverStoreService {
         if (200 !== $indexExists) {
             return false;
         }
+
         return true;
     }
 
@@ -76,7 +78,7 @@ class CoverStoreService {
      * Remove the local file.
      *
      * @param $cover
-     *   The cover to remove the file for.
+     *   The cover to remove the file for
      */
     public function removeLocalFile($cover): void
     {

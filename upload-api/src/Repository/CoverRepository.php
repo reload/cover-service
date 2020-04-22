@@ -7,7 +7,7 @@ use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
 
 /**
- * Class CoverRepository
+ * Class CoverRepository.
  */
 class CoverRepository extends ServiceEntityRepository
 {
@@ -19,8 +19,8 @@ class CoverRepository extends ServiceEntityRepository
     /**
      * Find all covers that have not been uploaded.
      *
-     * @return CoverRepository[]
-     *   Array of Cover entities.
+     * @return coverRepository[]
+     *   Array of Cover entities
      */
     public function getIsNotUploaded(): array
     {

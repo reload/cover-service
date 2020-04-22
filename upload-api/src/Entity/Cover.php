@@ -137,6 +137,7 @@ class Cover
 
     /**
      * @param string $imageUrl
+     *
      * @return $this
      */
     public function setImageUrl(string $imageUrl): self
@@ -148,6 +149,7 @@ class Cover
 
     /**
      * @param File|null $file
+     *
      * @return $this
      */
     public function setFile(?File $file = null): self
@@ -173,6 +175,7 @@ class Cover
 
     /**
      * @param string|null $filePath
+     *
      * @return $this
      */
     public function setFilePath(?string $filePath): self
@@ -192,6 +195,7 @@ class Cover
 
     /**
      * @param int|null $size
+     *
      * @return $this
      */
     public function setSize(?int $size): self
@@ -219,6 +223,7 @@ class Cover
 
     /**
      * @param string $agencyId
+     *
      * @return $this
      */
     public function setAgencyId(string $agencyId): self
@@ -238,6 +243,7 @@ class Cover
 
     /**
      * @param bool $isUploaded
+     *
      * @return $this
      */
     public function setUploaded(bool $isUploaded): self
