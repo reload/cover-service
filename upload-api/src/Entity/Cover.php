@@ -160,11 +160,11 @@ class Cover
     }
 
     public function setSize(?int $size): self
-{
-    $this->size = $size;
+    {
+        $this->size = $size;
 
-    return $this;
-}
+        return $this;
+    }
 
     public function getSize(): ?int
     {
