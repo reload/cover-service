@@ -34,7 +34,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *          }
  *     }
  * )
- * @ORM\Entity(repositoryClass="App\Repository\MaterialRepository")
+ * @ORM\Entity(repositoryClass="App\Repository\CoverRepository")
  */
 class Material
 {

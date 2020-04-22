@@ -112,16 +112,33 @@ class Cover
      */
     private $agencyId;
 
+    /**
+     * @var bool
+     * @ORM\Column(type="boolean", options={"default":false})
+     * @Groups({"cover_read"})
+     */
+    private $isUploaded = false;
+
+    /**
+     * @return int|null
+     */
     public function getId(): ?int
     {
         return $this->id;
     }
 
+    /**
+     * @return string|null
+     */
     public function getImageUrl(): ?string
     {
         return $this->imageUrl;
     }
 
+    /**
+     * @param string $imageUrl
+     * @return $this
+     */
     public function setImageUrl(string $imageUrl): self
     {
         $this->imageUrl = $imageUrl;
@@ -129,6 +146,10 @@ class Cover
         return $this;
     }
 
+    /**
+     * @param File|null $file
+     * @return $this
+     */
     public function setFile(?File $file = null): self
     {
         $this->file = $file;
@@ -142,11 +163,18 @@ class Cover
         return $this;
     }
 
+    /**
+     * @return File|null
+     */
     public function getFile(): ?File
     {
         return $this->file;
     }
 
+    /**
+     * @param string|null $filePath
+     * @return $this
+     */
     public function setFilePath(?string $filePath): self
     {
         $this->filePath = $filePath;
@@ -154,11 +182,18 @@ class Cover
         return $this;
     }
 
+    /**
+     * @return string|null
+     */
     public function getFilePath(): ?string
     {
         return $this->filePath;
     }
 
+    /**
+     * @param int|null $size
+     * @return $this
+     */
     public function setSize(?int $size): self
     {
         $this->size = $size;
@@ -166,19 +201,48 @@ class Cover
         return $this;
     }
 
+    /**
+     * @return int|null
+     */
     public function getSize(): ?int
     {
         return $this->size;
     }
 
+    /**
+     * @return string|null
+     */
     public function getAgencyId(): ?string
     {
         return $this->agencyId;
     }
 
+    /**
+     * @param string $agencyId
+     * @return $this
+     */
     public function setAgencyId(string $agencyId): self
     {
         $this->agencyId = $agencyId;
+
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isUploaded(): bool
+    {
+        return $this->isUploaded;
+    }
+
+    /**
+     * @param bool $isUploaded
+     * @return $this
+     */
+    public function setIsUploaded(bool $isUploaded): self
+    {
+        $this->isUploaded = $isUploaded;
 
         return $this;
     }

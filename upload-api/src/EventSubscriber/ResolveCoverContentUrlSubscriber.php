@@ -12,6 +12,7 @@ namespace App\EventSubscriber;
 use ApiPlatform\Core\EventListener\EventPriorities;
 use ApiPlatform\Core\Util\RequestAttributesExtractor;
 use App\Entity\Cover;
+use App\Service\CoverStoreService;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event\ViewEvent;
@@ -24,10 +25,12 @@ use Vich\UploaderBundle\Storage\StorageInterface;
 final class ResolveCoverContentUrlSubscriber implements EventSubscriberInterface
 {
     private $storage;
+    private $coverStoreService;
 
-    public function __construct(StorageInterface $storage)
+    public function __construct(StorageInterface $storage, CoverStoreService $coverStoreService)
     {
         $this->storage = $storage;
+        $this->coverStoreService = $coverStoreService;
     }
 
     public static function getSubscribedEvents(): array
@@ -62,7 +65,13 @@ final class ResolveCoverContentUrlSubscriber implements EventSubscriberInterface
                 continue;
             }
 
-            $cover->setImageUrl($this->storage->resolveUri($cover, 'file'));
+            if ($cover->isUploaded()) {
+                // If the cover has been marked as uploaded use the cover store URL.
+                $cover->setImageUrl($this->coverStoreService->generateUrl($cover));
+            }
+            else {
+                $cover->setImageUrl($this->storage->resolveUri($cover, 'file'));
+            }
         }
     }
 }
