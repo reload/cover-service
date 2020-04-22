@@ -240,7 +240,7 @@ class Cover
      * @param bool $isUploaded
      * @return $this
      */
-    public function setIsUploaded(bool $isUploaded): self
+    public function setUploaded(bool $isUploaded): self
     {
         $this->isUploaded = $isUploaded;
 

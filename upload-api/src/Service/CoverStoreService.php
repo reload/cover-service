@@ -6,6 +6,7 @@
 namespace App\Service;
 
 use App\Entity\Cover;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
@@ -16,7 +17,7 @@ use Vich\UploaderBundle\Storage\StorageInterface;
  */
 class CoverStoreService {
 
-    private $removePath;
+    private $remoteUrlPath;
     private $client;
     private $storage;
     private $filesystem;
@@ -28,14 +29,13 @@ class CoverStoreService {
      * @param StorageInterface $storage
      * @param Filesystem $filesystem
      */
-    public function __construct(HttpClientInterface $httpClient, StorageInterface $storage, Filesystem $filesystem)
+    public function __construct(HttpClientInterface $httpClient, StorageInterface $storage, Filesystem $filesystem, ParameterBagInterface $params)
     {
         $this->client = $httpClient;
         $this->storage = $storage;
         $this->filesystem = $filesystem;
 
-        // @TODO: Move into config.
-        $this->removePath = 'https://res.cloudinary.com/itkdev/image/upload/v1587382972/UploadService/';
+        $this->remoteUrlPath = $params->get('coverstore.remote.url');
     }
 
     /**
@@ -51,7 +51,7 @@ class CoverStoreService {
      */
     public function exists(Cover $cover): bool
     {
-        $indexExists = $this->client->request('HEAD', $this->removePath.$cover->getFilePath())->getStatusCode();
+        $indexExists = $this->client->request('HEAD', $this->remoteUrlPath.$cover->getFilePath())->getStatusCode();
         if (200 !== $indexExists) {
             return false;
         }
@@ -69,7 +69,7 @@ class CoverStoreService {
      */
     public function generateUrl(Cover $cover): string
     {
-        return $this->removePath.$cover->getFilePath();
+        return $this->remoteUrlPath.$cover->getFilePath();
     }
 
     /**

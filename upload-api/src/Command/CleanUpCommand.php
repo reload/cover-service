@@ -9,6 +9,7 @@ namespace App\Command;
 use App\Entity\Cover;
 use App\Repository\CoverRepository;
 use App\Service\CoverStoreService;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -20,16 +21,18 @@ class CleanUpCommand extends Command
 {
     private $coverRepository;
     private $coverStoreService;
+    private $entityManager;
 
     protected static $defaultName = 'app:image:cleanup';
 
     /**
      * CleanUpCommand constructor.
      */
-    public function __construct(CoverRepository $coverRepository, CoverStoreService $coverStoreService)
+    public function __construct(CoverRepository $coverRepository, CoverStoreService $coverStoreService, EntityManagerInterface $entityManager)
     {
         $this->coverRepository = $coverRepository;
         $this->coverStoreService = $coverStoreService;
+        $this->entityManager = $entityManager;
 
         parent::__construct();
     }
@@ -52,6 +55,9 @@ class CleanUpCommand extends Command
             /** @var Cover $cover */
             if ($this->coverStoreService->exists($cover)) {
                 $this->coverStoreService->removeLocalFile($cover);
+
+                $cover->setUploaded(true);
+                $this->entityManager->flush();
             }
         }
 
