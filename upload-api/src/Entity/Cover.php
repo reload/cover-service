@@ -106,6 +106,12 @@ class Cover
      */
     private $updatedAt;
 
+    /**
+     * @ORM\Column(type="string", length=16)
+     * @Groups({"cover_read"})
+     */
+    private $agencyId;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -163,5 +169,17 @@ class Cover
     public function getSize(): ?int
     {
         return $this->size;
+    }
+
+    public function getAgencyId(): ?string
+    {
+        return $this->agencyId;
+    }
+
+    public function setAgencyId(string $agencyId): self
+    {
+        $this->agencyId = $agencyId;
+
+        return $this;
     }
 }

@@ -1,4 +1,8 @@
 <?php
+/**
+ * @file
+ * Make changes to API entities and add them to queue system.
+ */
 
 namespace App\EventSubscriber;
 
@@ -14,25 +18,45 @@ use Symfony\Component\HttpKernel\Event\ViewEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
 use Vich\UploaderBundle\Storage\StorageInterface;
 
-final class UploadImageSubscriber implements EventSubscriberInterface
+/**
+ * Class MaterialPostWriteSubscriber.
+ */
+final class MaterialPostWriteSubscriber implements EventSubscriberInterface
 {
     private $producer;
     private $storage;
 
+    /**
+     * MaterialPostWriteSubscriber constructor.
+     *
+     * @param ProducerInterface $producer
+     * @param StorageInterface $storage
+     */
     public function __construct(ProducerInterface $producer, StorageInterface $storage)
     {
         $this->producer = $producer;
         $this->storage = $storage;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public static function getSubscribedEvents()
     {
         return [
-            KernelEvents::VIEW => ['uploadImage', EventPriorities::POST_WRITE],
+            KernelEvents::VIEW => [
+                'materialPostWrite', EventPriorities::POST_WRITE,
+            ],
         ];
     }
 
-    public function uploadImage(ViewEvent $event)
+    /**
+     * Send event into the queue system to trigger upload an indexing.
+     *
+     * @param ViewEvent $event
+     *   The event
+     */
+    public function materialPostWrite(ViewEvent $event)
     {
         /** @var Material $material */
         $material = $event->getControllerResult();
@@ -42,20 +66,17 @@ final class UploadImageSubscriber implements EventSubscriberInterface
             return;
         }
 
-        $message = new CoverUploadProcessMessage();
-        $message->setIdentifierType($material->getIsType());
-        $message->setIdentifier($material->getIsIdentifier());
-
         switch ($method) {
             case Request::METHOD_POST:
                 $base = $event->getRequest()->getSchemeAndHttpHost();
                 $url = $base.$this->storage->resolveUri($material->cover, 'file');
+
+                $message = new CoverUploadProcessMessage();
+                $message->setIdentifierType($material->getIsType());
+                $message->setIdentifier($material->getIsIdentifier());
                 $message->setOperation(VendorState::INSERT);
                 $message->setImageUrl($url);
-                break;
-
-            case Request::METHOD_DELETE:
-                $message->setOperation(VendorState::DELETE);
+                $message->setAccrediting($material->getAgencyId());
                 break;
 
             default:

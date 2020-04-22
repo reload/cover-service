@@ -115,6 +115,9 @@ class TokenAuthenticator extends AbstractGuardAuthenticator
         // Create user object.
         $tokenExpireDataTime = new \DateTime($data->expires, new \DateTimeZone('Europe/Copenhagen'));
         $user = new User();
+        // Username and password is the same as the token is use as cache index and the UserProvider will use the
+        // username to look-up the cache.
+        $user->setUsername($token);
         $user->setPassword($token);
         $user->setExpires($tokenExpireDataTime);
         $user->setAgency($data->agency);
