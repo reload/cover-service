@@ -7,6 +7,7 @@ parameters:
     openPlatform.id: '%env(OPENPLATFORM_ID)%'
     openPlatform.secret: '%env(OPENPLATFORM_SECRET)%'
     openPlatform.introspection.url: '%env(OPENPLATFORM_INTTOSPRECTION_URL)%'
+    coverstore.remote.url: '%env(COVERSTORE_REMOTE_URL)%'
 
 services:
     # default configuration for services in *this* file
