@@ -1,6 +1,6 @@
 apiVersion: v2
-name: cover-service-cron-jobs
-description: Cover service vendors cron jobs
+name: cover-service-upload-clean-up-jobs
+description: Cover service upload clean up cron job
 
 type: application
 
