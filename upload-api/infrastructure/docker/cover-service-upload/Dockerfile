@@ -36,6 +36,7 @@ COPY --from=APP_BUILDER ${APP_PATH} ${APP_PATH}
 RUN chown -R www-data:www-data ${APP_PATH}/var \
     && mkdir -p ${APP_PATH}/config/secrets \
     && chown -R www-data:www-data ${APP_PATH}/config/secrets \
+    && chown -R www-data:www-data ${APP_PATH}/public \
     && rm -rf ${APP_PATH}/infrastructure
 
 # Download prometheus php-fpm export.
