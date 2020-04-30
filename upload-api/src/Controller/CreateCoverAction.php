@@ -22,7 +22,7 @@ final class CreateCoverAction
      */
     public function __invoke(Request $request): Cover
     {
-        $uploadedFile = $request->files->get('file');
+        $uploadedFile = $request->files->get('cover');
         if (!$uploadedFile) {
             throw new BadRequestHttpException('"file" is required');
         }

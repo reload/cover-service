@@ -24,23 +24,19 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
  *             "controller"=CreateCoverAction::class,
  *             "deserialize"=false,
  *             "validation_groups"={"Default", "cover_create"},
- *             "openapi_context"={
- *                 "requestBody"={
- *                     "content"={
- *                         "multipart/form-data"={
- *                             "schema"={
- *                                 "type"="object",
- *                                 "properties"={
- *                                     "file"={
- *                                         "type"="string",
- *                                         "format"="binary"
- *                                     }
- *                                 }
- *                             }
- *                         }
- *                     }
- *                 }
- *             }
+ *             "swagger_context"={
+ *                 "consumes"={
+ *                     "multipart/form-data",
+ *                 },
+ *                 "parameters"={
+ *                     {
+ *                         "in"="formData",
+ *                         "name"="cover",
+ *                         "type"="file",
+ *                         "description"="The cover to upload",
+ *                     },
+ *                 },
+ *             },
  *         },
  *         "get"={"security"="is_granted('ROLE_COVER_CRUD')"}
  *     },
