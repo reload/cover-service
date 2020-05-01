@@ -33,9 +33,24 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
  *                         "in"="formData",
  *                         "name"="cover",
  *                         "type"="file",
- *                         "description"="The cover to upload",
+ *                         "description"="The cover (image file) to upload",
  *                     },
  *                 },
+ *                 "requestBody"={
+ *                     "content"={
+ *                         "multipart/form-data"={
+ *                             "schema"={
+ *                                 "type"="object",
+ *                                 "properties"={
+ *                                     "file"={
+ *                                         "type"="string",
+ *                                         "format"="binary"
+ *                                     }
+ *                                 }
+ *                             }
+ *                         }
+ *                     }
+ *                 }
  *             },
  *         },
  *         "get"={"security"="is_granted('ROLE_COVER_CRUD')"}
