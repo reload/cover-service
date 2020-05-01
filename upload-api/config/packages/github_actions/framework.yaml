@@ -1,0 +1,7 @@
+imports:
+    - { resource: '../prod/' }
+
+framework:
+    cache:
+        system: cache.adapter.system
+        app: cache.adapter.filesystem
