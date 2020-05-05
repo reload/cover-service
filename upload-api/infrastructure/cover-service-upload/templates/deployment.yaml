@@ -46,6 +46,9 @@ spec:
                 - --accepted-conn=500000
             initialDelaySeconds: 0
             periodSeconds: 10
+          volumeMounts:
+            - mountPath: /var/www/html/public/cover
+              name: public-covers-data
           env:
             - name: APP_SECRET
               valueFrom:
@@ -98,6 +101,9 @@ spec:
               port: 80
             initialDelaySeconds: 5
             periodSeconds: 10
+          volumeMounts:
+            - mountPath: /var/www/html/public/cover
+              name: public-covers-data
           envFrom:
             - configMapRef:
                 name: {{ .Release.Name }}-nginx-config
@@ -125,3 +131,7 @@ spec:
             periodSeconds: 10
           ports:
             - containerPort: 9113
+      volumes:
+        - name: public-covers-data
+          persistentVolumeClaim:
+            claimName: uploaded-covers-managed-disk

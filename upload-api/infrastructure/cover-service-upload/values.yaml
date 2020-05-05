@@ -22,6 +22,9 @@ app:
     server: "cover-service-prod-database.mariadb.database.azure.com"
     port: "3306"
     database: "upload"
+  storage:
+    class: "managed-premium-retain"
+    size: "5Gi"
   php:
     memory_limit: "128M"
     max_children: "80"
