@@ -11,7 +11,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
  * @ApiResource(
  *     normalizationContext={
  *          "groups"={"material:read"},
- *           "swagger_definition_name"="Read"
+ *          "swagger_definition_name"="Read"
  *     },
  *     denormalizationContext={
  *          "groups"={"material:write"},
@@ -34,7 +34,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *          }
  *     }
  * )
- * @ORM\Entity(repositoryClass="App\Repository\CoverRepository")
+ * @ORM\Entity
  */
 class Material
 {
