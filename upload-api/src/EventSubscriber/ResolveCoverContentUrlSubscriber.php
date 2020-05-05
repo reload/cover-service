@@ -71,7 +71,7 @@ final class ResolveCoverContentUrlSubscriber implements EventSubscriberInterface
             } else {
                 $host = $request->getSchemeAndHttpHost();
                 $uri = $this->storage->resolveUri($cover, 'file');
-                $cover->setImageUrl($host.'/'.$uri);
+                $cover->setImageUrl($host.$uri);
             }
         }
     }
