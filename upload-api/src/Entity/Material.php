@@ -10,7 +10,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
 /**
  * @ApiResource(
  *     normalizationContext={
- *          "groups"={"upload:read"},
+ *          "groups"={"read"},
  *          "swagger_definition_name"="Read"
  *     },
  *     denormalizationContext={
@@ -42,13 +42,13 @@ class Material
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
-     * @Groups({"upload:read"})
+     * @Groups({"read"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=50)
-     * @Groups({"upload:read", "material:write"})
+     * @Groups({"read", "material:write"})
      */
     private $isIdentifier;
 
@@ -63,13 +63,13 @@ class Material
      *     }
      * )
      * @ORM\Column(type="string", length=5)
-     * @Groups({"upload:read", "material:write"})
+     * @Groups({"read", "material:write"})
      */
     private $isType;
 
     /**
      * @ORM\Column(type="string", length=16)
-     * @Groups({"upload:read"})
+     * @Groups({"read"})
      */
     private $agencyId;
 
@@ -79,7 +79,7 @@ class Material
      * @ORM\ManyToOne(targetEntity=Cover::class, fetch="EAGER")
      * @ORM\JoinColumn(nullable=true)
      * @ApiProperty(iri="http://schema.org/image")
-     * @Groups({"upload:read", "material:write"})
+     * @Groups({"read", "material:write"})
      */
     public $cover;
 
