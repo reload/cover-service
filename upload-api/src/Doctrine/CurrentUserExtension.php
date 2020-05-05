@@ -64,7 +64,7 @@ class CurrentUserExtension implements QueryCollectionExtensionInterface, QueryIt
         /** @var User $user */
         $user = $this->security->getUser();
 
-        if (in_array($resourceClass, [Material::class, Cover::class]) || null !== $user) {
+        if (in_array($resourceClass, [Material::class, Cover::class]) && null !== $user) {
             $rootAlias = $queryBuilder->getRootAliases()[0];
             $queryBuilder->andWhere(sprintf('%s.agencyId = :current_agency', $rootAlias));
             $queryBuilder->setParameter('current_agency', $user->getAgency());
