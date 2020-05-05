@@ -22,6 +22,9 @@ spec:
         # Ensure rolling updates on config changes.
         checksum/config: {{ include (print $.Template.BasePath "/configmap.yaml") . | sha256sum }}
     spec:
+      securityContext:
+        # The group id for www-data.
+        fsGroup: 82
       containers:
         - name: upload-service
           image: danskernesdigitalebibliotek/cover-service-upload:{{ .Values.app.image.version }}
