@@ -16,7 +16,7 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
  * @ApiResource(
  *     iri="http://schema.org/MediaObject",
  *     normalizationContext={
- *         "groups"={"cover_read"}
+ *         "groups"={"read"}
  *     },
  *     collectionOperations={
  *         "post"={
@@ -69,7 +69,7 @@ class Cover
      * @ORM\Column(type="integer")
      * @ORM\GeneratedValue
      * @ORM\Id
-     * @Groups({"cover_read"})
+     * @Groups({"read"})
      */
     protected $id;
 
@@ -77,7 +77,7 @@ class Cover
      * @var string|null
      *
      * @ApiProperty(iri="http://schema.org/contentUrl")
-     * @Groups({"cover_read"})
+     * @Groups({"read"})
      */
     private $imageUrl;
 
@@ -105,7 +105,7 @@ class Cover
      * @ORM\Column(type="integer")
      *
      * @var int
-     * @Groups({"cover_read"})
+     * @Groups({"read"})
      */
     private $size;
 
@@ -113,20 +113,20 @@ class Cover
      * @ORM\Column(type="datetime")
      *
      * @var \DateTime
-     * @Groups({"cover_read"})
+     * @Groups({"read"})
      */
     private $updatedAt;
 
     /**
      * @ORM\Column(type="string", length=16)
-     * @Groups({"cover_read"})
+     * @Groups({"read"})
      */
     private $agencyId;
 
     /**
      * @var bool
      * @ORM\Column(type="boolean", options={"default":false})
-     * @Groups({"cover_read"})
+     * @Groups({"read"})
      */
     private $isUploaded = false;
 
