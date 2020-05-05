@@ -42,6 +42,7 @@ class Material
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
+     * @Groups({"material:read"})
      */
     private $id;
 
