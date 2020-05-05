@@ -69,7 +69,9 @@ final class ResolveCoverContentUrlSubscriber implements EventSubscriberInterface
                 // If the cover has been marked as uploaded use the cover store URL.
                 $cover->setImageUrl($this->coverStoreService->generateUrl($cover));
             } else {
-                $cover->setImageUrl($this->storage->resolveUri($cover, 'file'));
+                $host = $request->getSchemeAndHttpHost();
+                $uri = $this->storage->resolveUri($cover, 'file');
+                $cover->setImageUrl($host.'/'.$uri);
             }
         }
     }
