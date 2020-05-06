@@ -17,6 +17,7 @@ WORKDIR ${APP_PATH}
 ## Install assets
 RUN APP_ENV=github_actions composer install --no-dev -o --no-scripts --classmap-authoritative \
     && APP_ENV=github_actions composer docker-build \
+    && rm -rf infrastructure \
     && composer clear-cache
 
 ####
@@ -32,8 +33,7 @@ COPY --from=APP_BUILDER ${APP_PATH} ${APP_PATH}
 RUN chown -R www-data:www-data ${APP_PATH}/var \
     && mkdir -p ${APP_PATH}/config/secrets \
     && chown -R www-data:www-data ${APP_PATH}/config/secrets \
-    && chown -R www-data:www-data ${APP_PATH}/public \
-    && rm -rf ${APP_PATH}/infrastructure
+    && chown -R www-data:www-data ${APP_PATH}/public
 
 # Download prometheus php-fpm export.
 COPY --from=hipages/php-fpm_exporter /php-fpm_exporter /usr/local/bin/php-fpm_exporter
