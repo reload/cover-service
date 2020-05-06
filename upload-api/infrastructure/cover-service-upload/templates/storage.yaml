@@ -6,7 +6,7 @@ metadata:
   name: uploaded-covers-managed-disk
 spec:
   accessModes:
-    - ReadWriteOnce
+    - {{ .Values.app.storage.access }}
   storageClassName: {{ .Values.app.storage.class }}
   resources:
     requests:

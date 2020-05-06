@@ -23,8 +23,9 @@ app:
     port: "3306"
     database: "upload"
   storage:
-    class: "managed-premium-retain"
-    size: "5Gi"
+    class: "azurefile-premium"
+    size: "100Gi"
+    access: "ReadWriteMany"
   php:
     memory_limit: "128M"
     max_children: "80"
