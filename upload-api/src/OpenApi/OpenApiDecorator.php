@@ -1,9 +1,16 @@
 <?php
+/**
+ * @file
+ * Decorator to correct the generated OpenApi/Swagger documentation
+ */
 
 namespace App\OpenApi;
 
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
+/**
+ * Class OpenApiDecorator.
+ */
 final class OpenApiDecorator implements NormalizerInterface
 {
     private $decorated;
