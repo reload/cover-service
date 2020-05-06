@@ -12,6 +12,7 @@ namespace App\EventSubscriber;
 use ApiPlatform\Core\EventListener\EventPriorities;
 use ApiPlatform\Core\Util\RequestAttributesExtractor;
 use App\Entity\Cover;
+use App\Entity\Material;
 use App\Service\CoverStoreService;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\Response;
@@ -50,20 +51,23 @@ final class ResolveCoverContentUrlSubscriber implements EventSubscriberInterface
         }
 
         if (!($attributes = RequestAttributesExtractor::extractAttributes($request)) ||
-            !\is_a($attributes['resource_class'], Cover::class, true)) {
+            (!\is_a($attributes['resource_class'], Cover::class, true) && !\is_a($attributes['resource_class'], Material::class, true))) {
             return;
         }
 
-        $covers = $controllerResult;
+        $entities = $controllerResult;
 
-        if (!is_iterable($covers)) {
-            $covers = [$covers];
+        if (!is_iterable($entities)) {
+            $entities = [$entities];
         }
 
-        foreach ($covers as $cover) {
-            if (!$cover instanceof Cover) {
+        foreach ($entities as $entity) {
+            if (!$entity instanceof Cover && !$entity instanceof Material) {
                 continue;
             }
+
+            /** @var Cover $cover */
+            $cover = $entity instanceof Cover ? $entity : $entity->cover;
 
             if ($cover->isUploaded()) {
                 // If the cover has been marked as uploaded use the cover store URL.
