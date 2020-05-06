@@ -63,12 +63,14 @@ class Material
      *     }
      * )
      * @ORM\Column(type="string", length=5)
+     *
      * @Groups({"read", "material:write"})
      */
     private $isType;
 
     /**
      * @ORM\Column(type="string", length=16)
+     *
      * @Groups({"read"})
      */
     private $agencyId;
@@ -78,7 +80,9 @@ class Material
      *
      * @ORM\ManyToOne(targetEntity=Cover::class, fetch="EAGER")
      * @ORM\JoinColumn(nullable=true)
+     *
      * @ApiProperty(iri="http://schema.org/image")
+     *
      * @Groups({"read", "material:write"})
      */
     public $cover;
