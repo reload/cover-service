@@ -16,7 +16,8 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
  * @ApiResource(
  *     iri="http://schema.org/MediaObject",
  *     normalizationContext={
- *         "groups"={"read"}
+ *         "groups"={"read"},
+ *         "swagger_definition_name"="Read"
  *     },
  *     collectionOperations={
  *         "post"={
