@@ -68,7 +68,10 @@ final class MaterialPostWriteSubscriber implements EventSubscriberInterface
 
         switch ($method) {
             case Request::METHOD_POST:
-                $base = $event->getRequest()->getSchemeAndHttpHost();
+                // @TODO: Find out telling symfony that it's ssl off loaded.
+                // We here assumes that the schema is https here. We do not use information from the request as this
+                // will be running in a pod behind ssl off-loading and the site thinks it's running http.
+                $base = 'https://'.$event->getRequest()->getHttpHost();
                 $url = $base.$this->storage->resolveUri($material->cover, 'file');
 
                 $message = new CoverUploadProcessMessage();
