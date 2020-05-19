@@ -13,7 +13,18 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 /**
  * @ORM\Entity
+ * @ORM\Table(
+ *     name="cover",
+ *     indexes={
+ *          @ORM\Index(name="agency_idx", columns={"agency_id"})
+ *     }
+ * )
  * @ApiResource(
+ *     attributes={
+ *          "order"={
+ *              "id": "DESC"
+ *          }
+ *     },
  *     iri="http://schema.org/MediaObject",
  *     normalizationContext={
  *         "groups"={"read"},
