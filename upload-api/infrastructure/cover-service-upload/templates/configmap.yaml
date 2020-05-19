@@ -19,6 +19,8 @@ data:
   PHP_PM_MIN_SPARE_SERVERS: {{ .Values.app.php.min_spare_servers | quote }}
   PHP_PM_MAX_SPARE_SERVERS: {{ .Values.app.php.max_spare_servers | quote }}
   PHP_REQUEST_SLOWLOG_TIMEOUT: {{ .Values.app.php.slowlog_timeout | quote }}
+  PHP_POST_MAX_SIZE: {{ .Values.app.php.post_max_size | quote }}
+  PHP_UPLOAD_MAX_FILESIZE: {{ .Values.app.php.upload_max_filesize | quote }}
 
 ---
 apiVersion: v1
@@ -29,3 +31,4 @@ metadata:
 data:
   PHP_FPM_SERVER: "127.0.0.1"
   PHP_FPM_SERVER_PORT: "9000"
+  PHP_FPM_CLIENT_MAX_BODY_SIZE: {{ .Values.app.php.upload_max_filesize | quote }}

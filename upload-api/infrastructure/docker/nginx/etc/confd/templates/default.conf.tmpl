@@ -4,6 +4,8 @@ server {
     server_name localhost;
     root /var/www/html/public;
 
+    client_max_body_size {{ getenv "PHP_FPM_CLIENT_MAX_BODY_SIZE" "56M" }};
+
     location / {
         # try to serve file directly, fallback to index.php
         try_files $uri /index.php$is_args$args;
