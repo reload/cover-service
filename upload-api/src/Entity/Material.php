@@ -2,13 +2,20 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ApiResource(
+ *     attributes={
+ *          "order"={
+ *              "id": "DESC"
+ *          }
+ *     },
  *     normalizationContext={
  *          "groups"={"read"},
  *          "swagger_definition_name"="Read"
@@ -34,7 +41,15 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *          }
  *     }
  * )
+ * @ApiFilter(SearchFilter::class, properties={"isIdentifier": "exact", "isType": "exact"})
  * @ORM\Entity
+ * @ORM\Table(
+ *     name="material",
+ *     indexes={
+ *          @ORM\Index(name="agency_idx", columns={"agency_id"}),
+ *          @ORM\Index(name="is_idx", columns={"agency_id", "is_identifier", "is_type"})
+ *     }
+ * )
  */
 class Material
 {
