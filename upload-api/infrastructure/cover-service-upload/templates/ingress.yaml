@@ -17,6 +17,7 @@ metadata:
     nginx.ingress.kubernetes.io/auth-secret: {{ .Release.Name }}-basic-auth
     nginx.ingress.kubernetes.io/auth-realm: 'Authentication Required'
     {{- end }}
+    nginx.ingress.kubernetes.io/proxy-body-size: {{ .Values.app.php.post_max_size | quote }}
 spec:
   {{- if .Values.ingress.enableTLS }}
   tls:
