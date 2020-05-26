@@ -41,7 +41,6 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *          }
  *     }
  * )
- * @ApiFilter(SearchFilter::class, properties={"isIdentifier": "exact", "isType": "exact"})
  * @ORM\Entity
  * @ORM\Table(
  *     name="material",
