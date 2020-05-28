@@ -5,5 +5,9 @@ imports:
 # Overwrite prod cache settings. Redis not available when building on Github.
 framework:
     cache:
-        system: cache.adapter.system
-        app: cache.adapter.filesystem
+        system: cache.adapter.filesystem
+        app: cache.adapter.system
+
+    pools:
+        token.cache:
+            adapter: cache.adapter.system
