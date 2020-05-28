@@ -93,7 +93,7 @@ class Material
      * @var Cover|null
      *
      * @ORM\ManyToOne(targetEntity=Cover::class, fetch="EAGER", cascade={"remove"})
-     * @ORM\JoinColumn(nullable=true)
+     * @ORM\JoinColumn(nullable=true, onDelete="CASCADE")
      *
      * @ApiProperty(iri="http://schema.org/image")
      *
