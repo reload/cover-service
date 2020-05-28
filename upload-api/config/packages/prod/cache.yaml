@@ -6,13 +6,13 @@ framework:
 
         # Default cache
         system: cache.adapter.redis
-        app: cache.adapter.system
+        app: cache.adapter.redis
 
         default_redis_provider: '%env(REDIS_CACHE_DSN)%'
 
         pools:
             # Creates a "token.cache" service
             token.cache:
-                adapter: cache.adapter.system
+                adapter: cache.adapter.redis
                 # Default expire set to one day
                 default_lifetime: 86400
