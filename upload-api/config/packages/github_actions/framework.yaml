@@ -7,3 +7,7 @@ framework:
     cache:
         system: cache.adapter.system
         app: cache.adapter.filesystem
+
+    pools:
+        token.cache:
+            adapter: cache.adapter.filesystem

@@ -16,6 +16,7 @@ app:
     pullPolicy: IfNotPresent
   redis:
     server: "redis"
+    prefix: "DDBCoverUpload"
     port: "6379"
     cache_db: "11"
   db:
