@@ -81,7 +81,7 @@ class Cover
      *     iri="http://schema.org/contentUrl",
      *     attributes={
      *         "openapi_context"={
-     *             "type"="sting",
+     *             "type"="string",
      *             "format"="url",
      *             "example"="https://upload.cover.dandigbib.org/cover/5ed65baa2b264_870970-basis%3A52890365.jpg"
      *         }
