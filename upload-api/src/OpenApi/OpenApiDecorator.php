@@ -32,8 +32,7 @@ final class OpenApiDecorator implements NormalizerInterface
     {
         $docs = $this->decorated->normalize($object, $format, $context);
 
-//        $this->correctMaterialWriteDefinition($docs);
-//        $this->removeCoverWriteDefinition($docs);
+        $this->correctMaterialWriteDefinition($docs);
         $this->correctSecurityDefinitions($docs);
 
         return $docs;
@@ -61,19 +60,9 @@ final class OpenApiDecorator implements NormalizerInterface
             ],
             'type' => 'string',
             'format' => 'iri-reference',
+            'example' => 'api/covers/1',
         ];
-        $docs['definitions']['Material-Write']['properties']['cover'] = $coverDefinition;
-    }
-
-    /**
-     * Remove unused write definition for "Cover".
-     *
-     * @param array $docs
-     */
-    private function removeCoverWriteDefinition(array &$docs): void
-    {
-        // Unset unused definition
-        unset($docs['definitions']['Cover-Write']);
+        $docs['components']['schemas']['Material-Write']['properties']['cover'] = $coverDefinition;
     }
 
     /**
