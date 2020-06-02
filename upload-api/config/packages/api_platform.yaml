@@ -1,0 +1,36 @@
+api_platform:
+    title: 'DDB Cover Service Upload'
+    version: '1.0.0'
+    description: >-
+        <p>The service is provided by <a href="https://www.danskernesdigitalebibliotek.dk/">Danskernes Digitale Bibliotek</a></p>
+        <p><a href="https://www.gnu.org/licenses/agpl-3.0.en.html">GNU Affero General Public License</a></p>
+
+    show_webby: false
+    enable_re_doc: false
+    formats:
+        json:
+            mime_types: ['application/json']
+        html:
+            mime_types: ['text/html']
+
+    mapping:
+        paths: ['%kernel.project_dir%/src/Entity']
+
+    collection:
+        pagination:
+            enabled: false
+
+    patch_formats:
+        json: ['application/merge-patch+json']
+
+    swagger:
+        # For now this should be kept on version 2 as version 3 do not generate the correct configuration for oAuth
+        # in swagger.
+        versions: [2]
+
+    oauth:
+        enabled: true
+        type: 'oauth2'
+        flow: 'password'
+        tokenUrl: 'https://login.bib.dk/oauth/token'
+        scopes: []
