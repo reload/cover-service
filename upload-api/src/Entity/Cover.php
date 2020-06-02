@@ -36,25 +36,14 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
  *             "controller"=CreateCoverAction::class,
  *             "deserialize"=false,
  *             "validation_groups"={"Default", "cover_create"},
- *             "swagger_context"={
- *                 "consumes"={
- *                     "multipart/form-data",
- *                 },
- *                 "parameters"={
- *                     {
- *                         "in"="formData",
- *                         "name"="cover",
- *                         "type"="file",
- *                         "description"="The cover (image file) to upload",
- *                     },
- *                 },
+ *             "openapi_context"={
  *                 "requestBody"={
  *                     "content"={
  *                         "multipart/form-data"={
  *                             "schema"={
  *                                 "type"="object",
  *                                 "properties"={
- *                                     "file"={
+ *                                     "cover"={
  *                                         "type"="string",
  *                                         "format"="binary"
  *                                     }
@@ -63,7 +52,7 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
  *                         }
  *                     }
  *                 }
- *             },
+ *             }
  *         },
  *         "get"={"security"="is_granted('ROLE_COVER_CRUD')"}
  *     },

@@ -32,8 +32,8 @@ final class OpenApiDecorator implements NormalizerInterface
     {
         $docs = $this->decorated->normalize($object, $format, $context);
 
-        $this->correctMaterialWriteDefinition($docs);
-        $this->removeCoverWriteDefinition($docs);
+//        $this->correctMaterialWriteDefinition($docs);
+//        $this->removeCoverWriteDefinition($docs);
         $this->correctSecurityDefinitions($docs);
 
         return $docs;
@@ -83,7 +83,10 @@ final class OpenApiDecorator implements NormalizerInterface
      */
     private function correctSecurityDefinitions(array &$docs): void
     {
-        // "Scopes" should be object, not array, according to the spec.
-        $docs['securityDefinitions']['oauth']['scopes'] = new \stdClass();
+        // Remove "authorizationUrl". Not allowed for "password grant"
+        unset($docs['components']['securitySchemes']['oauth']['flows']['password']['authorizationUrl']);
+
+        // "scopes" should be object, not array
+        $docs['components']['securitySchemes']['oauth']['flows']['password']['scopes'] = new \stdClass();
     }
 }

@@ -24,13 +24,10 @@ api_platform:
         json: ['application/merge-patch+json']
 
     swagger:
-        # For now this should be kept on version 2 as version 3 do not generate the correct configuration for oAuth
-        # in swagger.
-        versions: [2]
+        versions: [3]
 
     oauth:
         enabled: true
         type: 'oauth2'
         flow: 'password'
         tokenUrl: 'https://login.bib.dk/oauth/token'
-        scopes: []
