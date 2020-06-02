@@ -2,8 +2,17 @@ api_platform:
     title: 'DDB Cover Service Upload'
     version: '1.0.0'
     description: >-
-        <p>The service is provided by <a href="https://www.danskernesdigitalebibliotek.dk/">Danskernes Digitale Bibliotek</a></p>
-        <p><a href="https://www.gnu.org/licenses/agpl-3.0.en.html">GNU Affero General Public License</a></p>
+        This service allows for uploading covers for library materials indexed by isbn, issn, faust, pid. Uploaded
+        covers become available on [DDB Cover Service](https://cover.dandigbib.org/
+        )
+        The service is provided by [Danskernes Digitale Bibliotek](https://www.danskernesdigitalebibliotek.dk/)
+
+        ### Authentication notes
+
+        Authentication is done via OAuth2 against auth.dbc.dk. To obtain a valid token follow instructions in
+        [1.2. Password Grant](https://github.com/DBCDK/hejmdal/blob/master/docs/oauth2.md#12-password-grant).
+        To use the "Authorize" option in this tool use your 'client_id' and 'client_secret' and fill in '@' for
+        both username and password.
 
     show_webby: false
     enable_re_doc: false
