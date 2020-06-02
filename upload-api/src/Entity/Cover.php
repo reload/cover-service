@@ -77,7 +77,16 @@ class Cover
     /**
      * @var string|null
      *
-     * @ApiProperty(iri="http://schema.org/contentUrl")
+     * @ApiProperty(
+     *     iri="http://schema.org/contentUrl",
+     *     attributes={
+     *         "openapi_context"={
+     *             "type"="sting",
+     *             "format"="url",
+     *             "example"="https://upload.cover.dandigbib.org/cover/5ed65baa2b264_870970-basis%3A52890365.jpg"
+     *         }
+     *     }
+     * )
      * @Groups({"read"})
      */
     private $imageUrl;
@@ -103,6 +112,15 @@ class Cover
     private $filePath;
 
     /**
+     * @ApiProperty(
+     *     attributes={
+     *         "openapi_context"={
+     *             "type"="integer",
+     *             "example"=769822
+     *         }
+     *     }
+     * )
+     *
      * @ORM\Column(type="integer")
      *
      * @var int
@@ -119,6 +137,15 @@ class Cover
     private $updatedAt;
 
     /**
+     * @ApiProperty(
+     *     attributes={
+     *         "openapi_context"={
+     *             "type"="string",
+     *             "example"="870970"
+     *         }
+     *     }
+     * )
+     *
      * @ORM\Column(type="string", length=16)
      * @Groups({"read"})
      */
