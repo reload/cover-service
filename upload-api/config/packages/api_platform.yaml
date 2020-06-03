@@ -11,8 +11,8 @@ api_platform:
 
         Authentication is done via OAuth2 against auth.dbc.dk. To obtain a valid token follow the instructions
         here: [Open Platform](https://openplatform.dbc.dk/v3/).
-        To use the "Authorize" option in this tool use your 'client_id' and 'client_secret' and fill in '@' for
-        both username and password.
+        To use the "Authorize" option in this tool use your 'client_id' and 'client_secret' and fill in '@agency'
+        (e.g. '@123456') for both username and password.
 
     show_webby: false
     enable_re_doc: false
