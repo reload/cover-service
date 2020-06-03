@@ -33,7 +33,6 @@ final class OpenApiDecorator implements NormalizerInterface
         $docs = $this->decorated->normalize($object, $format, $context);
 
         $this->correctMaterialWriteDefinition($docs);
-        $this->removeCoverWriteDefinition($docs);
         $this->correctSecurityDefinitions($docs);
 
         return $docs;
@@ -56,24 +55,14 @@ final class OpenApiDecorator implements NormalizerInterface
     {
         // Correct material write definition for cover
         $coverDefinition = [
-            '"externalDocs' => [
+            'externalDocs' => [
                 'url' => 'http://schema.org/image',
             ],
             'type' => 'string',
             'format' => 'iri-reference',
+            'example' => 'api/covers/1',
         ];
-        $docs['definitions']['Material-Write']['properties']['cover'] = $coverDefinition;
-    }
-
-    /**
-     * Remove unused write definition for "Cover".
-     *
-     * @param array $docs
-     */
-    private function removeCoverWriteDefinition(array &$docs): void
-    {
-        // Unset unused definition
-        unset($docs['definitions']['Cover-Write']);
+        $docs['components']['schemas']['Material-Write']['properties']['cover'] = $coverDefinition;
     }
 
     /**
@@ -83,7 +72,10 @@ final class OpenApiDecorator implements NormalizerInterface
      */
     private function correctSecurityDefinitions(array &$docs): void
     {
-        // "Scopes" should be object, not array, according to the spec.
-        $docs['securityDefinitions']['oauth']['scopes'] = new \stdClass();
+        // Remove "authorizationUrl". Not allowed for "password grant"
+        unset($docs['components']['securitySchemes']['oauth']['flows']['password']['authorizationUrl']);
+
+        // "scopes" should be object, not array
+        $docs['components']['securitySchemes']['oauth']['flows']['password']['scopes'] = new \stdClass();
     }
 }

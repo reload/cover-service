@@ -59,6 +59,14 @@ class Material
     private $id;
 
     /**
+     * @ApiProperty(
+     *     attributes={
+     *         "openapi_context"={
+     *             "type"="string",
+     *             "example"="870970-basis:29862885"
+     *         }
+     *     }
+     * )
      * @ORM\Column(type="string", length=50)
      * @Groups({"read", "material:write"})
      */
@@ -81,6 +89,14 @@ class Material
     private $isType;
 
     /**
+     * @ApiProperty(
+     *     attributes={
+     *         "openapi_context"={
+     *             "type"="string",
+     *             "example"="123456"
+     *         }
+     *     }
+     * )
      * @ORM\Column(type="string", length=16)
      *
      * @Groups({"read"})
@@ -90,10 +106,23 @@ class Material
     /**
      * @var Cover|null
      *
+     * @ApiProperty(
+     *     iri="http://schema.org/image",
+     *     attributes={
+     *         "openapi_context"={
+     *             "type"="object",
+     *             "example"={
+     *                  "id": 1,
+     *                  "imageUrl": "https://upload.cover.dandigbib.org/cover/5ed65baa2b264_870970-basis%3A52890365.jpg",
+     *                  "size": 1478312,
+     *                  "agencyId": "123456"
+     *              }
+     *         }
+     *     }
+     * )
+     *
      * @ORM\ManyToOne(targetEntity=Cover::class, fetch="EAGER", cascade={"remove"})
      * @ORM\JoinColumn(nullable=true, onDelete="CASCADE")
-     *
-     * @ApiProperty(iri="http://schema.org/image")
      *
      * @Groups({"read", "material:write"})
      */
