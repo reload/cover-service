@@ -141,7 +141,7 @@ class Cover
      *     attributes={
      *         "openapi_context"={
      *             "type"="string",
-     *             "example"="870970"
+     *             "example"="123456"
      *         }
      *     }
      * )

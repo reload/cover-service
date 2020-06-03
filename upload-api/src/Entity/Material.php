@@ -93,7 +93,7 @@ class Material
      *     attributes={
      *         "openapi_context"={
      *             "type"="string",
-     *             "example"="870970"
+     *             "example"="123456"
      *         }
      *     }
      * )
@@ -115,7 +115,7 @@ class Material
      *                  "id": 1,
      *                  "imageUrl": "https://upload.cover.dandigbib.org/cover/5ed65baa2b264_870970-basis%3A52890365.jpg",
      *                  "size": 1478312,
-     *                  "agencyId": "870970"
+     *                  "agencyId": "123456"
      *              }
      *         }
      *     }
