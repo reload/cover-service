@@ -3,14 +3,14 @@ api_platform:
     version: '1.0.0'
     description: >-
         This service allows for uploading covers for library materials indexed by isbn, issn, faust, pid. Uploaded
-        covers become available on [DDB Cover Service](https://cover.dandigbib.org/
-        )
+        covers become available on [DDB Cover Service](https://cover.dandigbib.org/).
+
         The service is provided by [Danskernes Digitale Bibliotek](https://www.danskernesdigitalebibliotek.dk/)
 
         ### Authentication notes
 
-        Authentication is done via OAuth2 against auth.dbc.dk. To obtain a valid token follow instructions in
-        [1.2. Password Grant](https://github.com/DBCDK/hejmdal/blob/master/docs/oauth2.md#12-password-grant).
+        Authentication is done via OAuth2 against auth.dbc.dk. To obtain a valid token follow the instructions
+        here: [Open Platform](https://openplatform.dbc.dk/v3/).
         To use the "Authorize" option in this tool use your 'client_id' and 'client_secret' and fill in '@' for
         both username and password.
 
