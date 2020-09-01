@@ -15,12 +15,12 @@ app:
     version: latest
     pullPolicy: IfNotPresent
   redis:
-    server: "redis"
+    server: "redis-master.cover-service.svc.cluster.local"
     prefix: "DDBCoverUpload"
     port: "6379"
     cache_db: "11"
   db:
-    server: "cover-service-prod-database.mariadb.database.azure.com"
+    server: "cover-service-prod.mariadb.database.azure.com"
     port: "3306"
     database: "upload"
   php:
