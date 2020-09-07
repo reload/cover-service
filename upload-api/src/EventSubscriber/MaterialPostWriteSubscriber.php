@@ -86,6 +86,6 @@ final class MaterialPostWriteSubscriber implements EventSubscriberInterface
                 return;
         }
 
-        $this->producer->sendEvent('UploadImageTopic', JSON::encode($message));
+        $this->producer->sendEvent('UserUploadImageTopic', JSON::encode($message));
     }
 }

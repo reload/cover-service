@@ -28,7 +28,7 @@ final class MaterialPreWriteSubscriber implements EventSubscriberInterface
     private $producer;
     private $storage;
 
-    /** @var User */
+    /** @var User\ */
     private $user;
 
     /**
@@ -81,7 +81,7 @@ final class MaterialPreWriteSubscriber implements EventSubscriberInterface
                 $message->setIdentifier($item->getIsIdentifier());
                 $message->setOperation(VendorState::DELETE);
 
-                $this->producer->sendEvent('UploadImageTopic', JSON::encode($message));
+                $this->producer->sendEvent('UserUploadImageTopic', JSON::encode($message));
                 break;
 
             case Request::METHOD_POST:
