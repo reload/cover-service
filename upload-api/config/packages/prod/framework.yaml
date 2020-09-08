@@ -1,4 +1,0 @@
-# Use redis to share cache between pods.
-framework:
-    cache:
-        system: cache.adapter.redis

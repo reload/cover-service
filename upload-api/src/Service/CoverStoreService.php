@@ -7,7 +7,6 @@
 namespace App\Service;
 
 use App\Entity\Cover;
-use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
@@ -29,14 +28,15 @@ class CoverStoreService
      * @param HttpClientInterface $httpClient
      * @param StorageInterface $storage
      * @param Filesystem $filesystem
+     * @param string $bindCoverStoreRemoteURL
      */
-    public function __construct(HttpClientInterface $httpClient, StorageInterface $storage, Filesystem $filesystem, ParameterBagInterface $params)
+    public function __construct(HttpClientInterface $httpClient, StorageInterface $storage, Filesystem $filesystem, $bindCoverStoreRemoteURL)
     {
         $this->client = $httpClient;
         $this->storage = $storage;
         $this->filesystem = $filesystem;
 
-        $this->remoteUrlPath = $params->get('coverstore.remote.url');
+        $this->remoteUrlPath = $bindCoverStoreRemoteURL;
     }
 
     /**
