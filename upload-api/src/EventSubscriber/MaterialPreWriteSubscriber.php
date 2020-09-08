@@ -8,9 +8,9 @@ namespace App\EventSubscriber;
 
 use ApiPlatform\Core\EventListener\EventPriorities;
 use App\Entity\Material;
-use App\Security\User;
 use App\Utils\Message\CoverUploadProcessMessage;
 use App\Utils\Types\VendorState;
+use DanskernesDigitaleBibliotek\AgencyAuthBundle\Security\User;
 use Enqueue\Client\ProducerInterface;
 use Enqueue\Util\JSON;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -28,7 +28,7 @@ final class MaterialPreWriteSubscriber implements EventSubscriberInterface
     private $producer;
     private $storage;
 
-    /** @var User\ */
+    /** @var User */
     private $user;
 
     /**
