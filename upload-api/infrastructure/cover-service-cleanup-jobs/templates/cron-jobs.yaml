@@ -24,6 +24,9 @@ spec:
                 - "bin/console"
                 - "app:image:cleanup"
                 - "--no-debug"
+              volumeMounts:
+                - mountPath: /var/www/html/public/cover
+                  name: public-covers-data
               env:
                 - name: APP_SECRET
                   valueFrom:
@@ -53,4 +56,8 @@ spec:
               envFrom:
                 - configMapRef:
                     name: {{ .Release.Name }}-configmap
+          volumes:
+            - name: public-covers-data
+              persistentVolumeClaim:
+                claimName: uploaded-covers-managed-disk
           restartPolicy: OnFailure

@@ -11,7 +11,7 @@ security:
             anonymous: lazy
             guard:
                 authenticators:
-                    - App\Security\TokenAuthenticator
+                    - DanskernesDigitaleBibliotek\AgencyAuthBundle\Security\TokenAuthenticator
 
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#firewalls-authentication
@@ -24,3 +24,6 @@ security:
     access_control:
         # - { path: ^/admin, roles: ROLE_ADMIN }
         # - { path: ^/profile, roles: ROLE_USER }
+
+    role_hierarchy:
+        ROLE_OPENPLATFORM_AGENCY: [ROLE_COVER_CRUD]

@@ -36,25 +36,14 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
  *             "controller"=CreateCoverAction::class,
  *             "deserialize"=false,
  *             "validation_groups"={"Default", "cover_create"},
- *             "swagger_context"={
- *                 "consumes"={
- *                     "multipart/form-data",
- *                 },
- *                 "parameters"={
- *                     {
- *                         "in"="formData",
- *                         "name"="cover",
- *                         "type"="file",
- *                         "description"="The cover (image file) to upload",
- *                     },
- *                 },
+ *             "openapi_context"={
  *                 "requestBody"={
  *                     "content"={
  *                         "multipart/form-data"={
  *                             "schema"={
  *                                 "type"="object",
  *                                 "properties"={
- *                                     "file"={
+ *                                     "cover"={
  *                                         "type"="string",
  *                                         "format"="binary"
  *                                     }
@@ -63,7 +52,7 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
  *                         }
  *                     }
  *                 }
- *             },
+ *             }
  *         },
  *         "get"={"security"="is_granted('ROLE_COVER_CRUD')"}
  *     },
@@ -88,7 +77,16 @@ class Cover
     /**
      * @var string|null
      *
-     * @ApiProperty(iri="http://schema.org/contentUrl")
+     * @ApiProperty(
+     *     iri="http://schema.org/contentUrl",
+     *     attributes={
+     *         "openapi_context"={
+     *             "type"="string",
+     *             "format"="url",
+     *             "example"="https://upload.cover.dandigbib.org/cover/5ed65baa2b264_870970-basis%3A52890365.jpg"
+     *         }
+     *     }
+     * )
      * @Groups({"read"})
      */
     private $imageUrl;
@@ -114,6 +112,15 @@ class Cover
     private $filePath;
 
     /**
+     * @ApiProperty(
+     *     attributes={
+     *         "openapi_context"={
+     *             "type"="integer",
+     *             "example"=769822
+     *         }
+     *     }
+     * )
+     *
      * @ORM\Column(type="integer")
      *
      * @var int
@@ -130,6 +137,15 @@ class Cover
     private $updatedAt;
 
     /**
+     * @ApiProperty(
+     *     attributes={
+     *         "openapi_context"={
+     *             "type"="string",
+     *             "example"="123456"
+     *         }
+     *     }
+     * )
+     *
      * @ORM\Column(type="string", length=16)
      * @Groups({"read"})
      */

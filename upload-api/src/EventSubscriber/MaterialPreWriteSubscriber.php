@@ -8,9 +8,9 @@ namespace App\EventSubscriber;
 
 use ApiPlatform\Core\EventListener\EventPriorities;
 use App\Entity\Material;
-use App\Security\User;
 use App\Utils\Message\CoverUploadProcessMessage;
 use App\Utils\Types\VendorState;
+use DanskernesDigitaleBibliotek\AgencyAuthBundle\Security\User;
 use Enqueue\Client\ProducerInterface;
 use Enqueue\Util\JSON;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -81,7 +81,7 @@ final class MaterialPreWriteSubscriber implements EventSubscriberInterface
                 $message->setIdentifier($item->getIsIdentifier());
                 $message->setOperation(VendorState::DELETE);
 
-                $this->producer->sendEvent('UploadImageTopic', JSON::encode($message));
+                $this->producer->sendEvent('UserUploadImageTopic', JSON::encode($message));
                 break;
 
             case Request::METHOD_POST:
