@@ -104,37 +104,6 @@
     "doctrine/reflection": {
         "version": "v1.1.0"
     },
-    "enqueue/dsn": {
-        "version": "0.10.0"
-    },
-    "enqueue/enqueue": {
-        "version": "0.10.0"
-    },
-    "enqueue/enqueue-bundle": {
-        "version": "0.9",
-        "recipe": {
-            "repo": "github.com/symfony/recipes-contrib",
-            "branch": "master",
-            "version": "0.9",
-            "ref": "c6ec89b63f963d10ad0d7a7bea170359c119c8bc"
-        },
-        "files": [
-            "config/packages/enqueue.yaml",
-            "config/packages/test/enqueue.yaml"
-        ]
-    },
-    "enqueue/null": {
-        "version": "0.10.0"
-    },
-    "enqueue/redis": {
-        "version": "0.7",
-        "recipe": {
-            "repo": "github.com/symfony/recipes-contrib",
-            "branch": "master",
-            "version": "0.7",
-            "ref": "363580d4f5959a70a53468f94634fca654d94296"
-        }
-    },
     "escapestudios/symfony2-coding-standard": {
         "version": "3.11.0"
     },
@@ -230,15 +199,6 @@
     },
     "psr/log": {
         "version": "1.1.2"
-    },
-    "queue-interop/amqp-interop": {
-        "version": "0.8.1"
-    },
-    "queue-interop/queue-interop": {
-        "version": "0.8.0"
-    },
-    "ramsey/uuid": {
-        "version": "3.9.2"
     },
     "sabre/event": {
         "version": "5.0.3"
@@ -392,6 +352,18 @@
             "version": "1.0",
             "ref": "fadbfe33303a76e25cb63401050439aa9b1a9c7f"
         }
+    },
+    "symfony/messenger": {
+        "version": "4.3",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "master",
+            "version": "4.3",
+            "ref": "8a2675c061737658bed85102e9241c752620e575"
+        },
+        "files": [
+            "config/packages/messenger.yaml"
+        ]
     },
     "symfony/mime": {
         "version": "v4.4.2"
