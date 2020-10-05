@@ -5,13 +5,25 @@ framework:
 
         transports:
             # Should match queue name in cover service importers.
-            cover-store-queue:
+            async_priority_high:
                 dsn: '%env(MESSENGER_TRANSPORT_DSN)%'
                 options:
                     exchange:
-                        name: coverstore
+                        name: high
+
+                async_priority_normal:
+                    dsn: '%env(MESSENGER_TRANSPORT_DSN)%'
+                    options:
+                        exchange:
+                            name: normal
+
+                async_priority_low:
+                    dsn: '%env(MESSENGER_TRANSPORT_DSN)%'
+                    options:
+                        exchange:
+                            name: low
 
             #failed: 'doctrine://default?queue_name=failed'
 
         routing:
-            'App\Message\CoverUserUploadMessage': cover-store-queue
+            'App\Message\CoverUserUploadMessage': async_priority_high
