@@ -11,17 +11,17 @@ framework:
                     exchange:
                         name: high
 
-                async_priority_normal:
-                    dsn: '%env(MESSENGER_TRANSPORT_DSN)%'
-                    options:
-                        exchange:
-                            name: normal
+            async_priority_normal:
+                dsn: '%env(MESSENGER_TRANSPORT_DSN)%'
+                options:
+                    exchange:
+                        name: normal
 
-                async_priority_low:
-                    dsn: '%env(MESSENGER_TRANSPORT_DSN)%'
-                    options:
-                        exchange:
-                            name: low
+            async_priority_low:
+                dsn: '%env(MESSENGER_TRANSPORT_DSN)%'
+                options:
+                    exchange:
+                        name: low
 
             #failed: 'doctrine://default?queue_name=failed'
 
