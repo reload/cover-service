@@ -4,24 +4,13 @@ framework:
         # failure_transport: failed
 
         transports:
-            # Should match queue name in cover service importers.
             async_priority_high:
                 dsn: '%env(MESSENGER_TRANSPORT_DSN)%'
                 options:
                     exchange:
                         name: high
-
-            async_priority_normal:
-                dsn: '%env(MESSENGER_TRANSPORT_DSN)%'
-                options:
-                    exchange:
-                        name: normal
-
-            async_priority_low:
-                dsn: '%env(MESSENGER_TRANSPORT_DSN)%'
-                options:
-                    exchange:
-                        name: low
+                    queues:
+                        cs_high: ~
 
             #failed: 'doctrine://default?queue_name=failed'
 
