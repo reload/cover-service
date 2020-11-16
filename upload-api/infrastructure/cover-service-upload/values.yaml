@@ -7,13 +7,14 @@ env: "prod"
 ingress:
   enabled: true
   enableAuth: false
-  enableTLS: false
+  enableTLS: true
+  cert: "letsencrypt"
   path: "/"
 
 app:
   image:
     version: latest
-    pullPolicy: IfNotPresent
+    imagePullPolicy: IfNotPresent
   redis:
     server: "redis-master.cover-service.svc.cluster.local"
     prefix: "DDBCoverUpload"
