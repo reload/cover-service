@@ -18,7 +18,10 @@ app:
     server: "redis-master.cover-service.svc.cluster.local"
     prefix: "DDBCoverUpload"
     port: "6379"
-    cache_db: "11"
+    cache_db: "8"
+  amqp:
+    server: "mq-rabbitmq.cover-service.svc.cluster.local"
+    port: "5672"
   db:
     server: "cover-service-prod.mariadb.database.azure.com"
     port: "3306"

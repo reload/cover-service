@@ -8,15 +8,14 @@ namespace App\EventSubscriber;
 
 use ApiPlatform\Core\EventListener\EventPriorities;
 use App\Entity\Material;
-use App\Utils\Message\CoverUploadProcessMessage;
+use App\Message\CoverUserUploadMessage;
 use App\Utils\Types\VendorState;
 use DanskernesDigitaleBibliotek\AgencyAuthBundle\Security\User;
-use Enqueue\Client\ProducerInterface;
-use Enqueue\Util\JSON;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Event\ViewEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
+use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Security\Core\Security;
 use Vich\UploaderBundle\Storage\StorageInterface;
 
@@ -25,7 +24,7 @@ use Vich\UploaderBundle\Storage\StorageInterface;
  */
 final class MaterialPreWriteSubscriber implements EventSubscriberInterface
 {
-    private $producer;
+    private $bus;
     private $storage;
 
     /** @var User */
@@ -34,13 +33,13 @@ final class MaterialPreWriteSubscriber implements EventSubscriberInterface
     /**
      * MaterialPreWriteSubscriber constructor.
      *
-     * @param ProducerInterface $producer
+     * @param MessageBusInterface $bus
      * @param StorageInterface $storage
      * @param Security $security
      */
-    public function __construct(ProducerInterface $producer, StorageInterface $storage, Security $security)
+    public function __construct(MessageBusInterface $bus, StorageInterface $storage, Security $security)
     {
-        $this->producer = $producer;
+        $this->bus = $bus;
         $this->storage = $storage;
 
         $this->user = $security->getUser();
@@ -76,12 +75,12 @@ final class MaterialPreWriteSubscriber implements EventSubscriberInterface
                     return;
                 }
 
-                $message = new CoverUploadProcessMessage();
+                $message = new CoverUserUploadMessage();
                 $message->setIdentifierType($item->getIsType());
                 $message->setIdentifier($item->getIsIdentifier());
                 $message->setOperation(VendorState::DELETE);
 
-                $this->producer->sendEvent('UserUploadImageTopic', JSON::encode($message));
+                $this->bus->dispatch($message);
                 break;
 
             case Request::METHOD_POST:
