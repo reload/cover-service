@@ -4,7 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Cover;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Symfony\Bridge\Doctrine\ManagerRegistry;
+use Doctrine\Persistence\ManagerRegistry;
 
 /**
  * Class CoverRepository.
