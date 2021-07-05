@@ -4,7 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Cover;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\Common\Persistence\ManagerRegistry;
+use Symfony\Bridge\Doctrine\ManagerRegistry;
 
 /**
  * Class CoverRepository.
@@ -19,7 +19,7 @@ class CoverRepository extends ServiceEntityRepository
     /**
      * Find all covers that have not been uploaded.
      *
-     * @return coverRepository[]
+     * @return CoverRepository[]
      *   Array of Cover entities
      */
     public function getIsNotUploaded(): array

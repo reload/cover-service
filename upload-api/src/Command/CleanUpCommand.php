@@ -39,6 +39,8 @@ class CleanUpCommand extends Command
 
     /**
      * {@inheritdoc}
+     *
+     * @return void
      */
     protected function configure()
     {
