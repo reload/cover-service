@@ -35,10 +35,6 @@ docker compose exec phpfpm composer install
 docker compose exec phpfpm ./vendor/bin/simple-phpunit
 ```
 
-The test suite uses [Mockery](https://github.com/mockery/mockery) in order mock
-[public static methods](http://docs.mockery.io/en/latest/reference/public_static_properties.html?highlight=static)
-in 3rd party libraries like the `JWT::decode` method from `firebase/jwt`.
-
 ### Psalm static analysis
 
 We are using [Psalm](https://psalm.dev/) for static analysis. To run
