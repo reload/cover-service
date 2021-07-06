@@ -62,6 +62,8 @@ final class MaterialPreWriteSubscriber implements EventSubscriberInterface
      *
      * @param ViewEvent $event
      *   The event
+     *
+     * @return void
      */
     public function materialPreWrite(ViewEvent $event)
     {

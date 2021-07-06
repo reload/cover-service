@@ -54,6 +54,8 @@ final class MaterialPostWriteSubscriber implements EventSubscriberInterface
      *
      * @param ViewEvent $event
      *   The event
+     *
+     * @return void
      */
     public function materialPostWrite(ViewEvent $event)
     {
