@@ -9,7 +9,7 @@
         "ext-iconv": "*",
         "ext-json": "*",
         "api-platform/api-pack": "^1.2",
-        "danskernesdigitalebibliotek/agency-auth-bundle": "^1.0",
+        "danskernesdigitalebibliotek/agency-auth-bundle": "^2.0",
         "doctrine/annotations": "^1.10",
         "doctrine/doctrine-migrations-bundle": "^2.0",
         "predis/predis": "^1.1",
