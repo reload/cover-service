@@ -32,7 +32,7 @@ A PhpUnit/Mockery setup is included in this library. To run the unit tests:
 
 ```shell
 docker compose exec phpfpm composer install
-docker compose exec phpfpm ./vendor/bin/simple-phpunit
+docker compose exec phpfpm ./vendor/bin/phpunit
 ```
 
 ### Psalm static analysis
