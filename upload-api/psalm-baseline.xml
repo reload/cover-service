@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<files psalm-version="4.8.1@f73f2299dbc59a3e6c4d66cff4605176e728ee69">
+  <file src="src/Entity/Cover.php">
+    <PossiblyNullPropertyAssignmentValue occurrences="1">
+      <code>$size</code>
+    </PossiblyNullPropertyAssignmentValue>
+  </file>
+  <file src="src/EventSubscriber/MaterialPostWriteSubscriber.php">
+    <PossiblyNullArgument occurrences="4">
+      <code>$material-&gt;cover</code>
+      <code>$material-&gt;getAgencyId()</code>
+      <code>$material-&gt;getIsIdentifier()</code>
+      <code>$material-&gt;getIsType()</code>
+    </PossiblyNullArgument>
+  </file>
+  <file src="src/EventSubscriber/MaterialPreWriteSubscriber.php">
+    <PossiblyNullArgument occurrences="3">
+      <code>$item-&gt;getIsIdentifier()</code>
+      <code>$item-&gt;getIsType()</code>
+      <code>$this-&gt;user-&gt;getAgency()</code>
+    </PossiblyNullArgument>
+    <PropertyTypeCoercion occurrences="1">
+      <code>$security-&gt;getUser()</code>
+    </PropertyTypeCoercion>
+  </file>
+  <file src="src/OpenApi/OpenApiDecorator.php">
+    <PossiblyInvalidArgument occurrences="1">
+      <code>$docs</code>
+    </PossiblyInvalidArgument>
+  </file>
+  <file src="src/Service/CoverStoreService.php">
+    <PossiblyNullArgument occurrences="2">
+      <code>$file</code>
+      <code>$file</code>
+    </PossiblyNullArgument>
+  </file>
+</files>

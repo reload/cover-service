@@ -1,7 +1,7 @@
 #!/bin/sh
 
 APP_VERSION=develop
-VERSION=latest
+VERSION=alpha
 
 docker build --no-cache --build-arg APP_VERSION=${APP_VERSION} --tag=danskernesdigitalebibliotek/cover-service-upload:${VERSION} --file="cover-service-upload/Dockerfile" cover-service-upload
 docker build --no-cache --build-arg VERSION=${VERSION} --tag=danskernesdigitalebibliotek/cover-service-upload-nginx:${VERSION} --file="nginx/Dockerfile" nginx

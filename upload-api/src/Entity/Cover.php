@@ -131,7 +131,7 @@ class Cover
     /**
      * @ORM\Column(type="datetime")
      *
-     * @var \DateTime
+     * @var \DateTimeImmutable
      * @Groups({"read"})
      */
     private $updatedAt;
