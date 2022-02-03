@@ -168,4 +168,9 @@ class Material
 
         return $this;
     }
+
+    public function getCover(): ?Cover
+    {
+        return $this->cover;
+    }
 }

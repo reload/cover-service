@@ -8,7 +8,7 @@ namespace App\Command;
 
 use App\Entity\Cover;
 use App\Repository\CoverRepository;
-use App\Service\CoverStoreService;
+use App\Service\CoverService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -20,7 +20,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 class CleanUpCommand extends Command
 {
     private CoverRepository $coverRepository;
-    private CoverStoreService $coverStoreService;
+    private CoverService $coverStoreService;
     private EntityManagerInterface $entityManager;
 
     protected static $defaultName = 'app:image:cleanup';
@@ -28,7 +28,7 @@ class CleanUpCommand extends Command
     /**
      * CleanUpCommand constructor.
      */
-    public function __construct(CoverRepository $coverRepository, CoverStoreService $coverStoreService, EntityManagerInterface $entityManager)
+    public function __construct(CoverRepository $coverRepository, CoverService $coverStoreService, EntityManagerInterface $entityManager)
     {
         $this->coverRepository = $coverRepository;
         $this->coverStoreService = $coverStoreService;

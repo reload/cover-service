@@ -22,6 +22,9 @@
     "behat/transliterator": {
         "version": "v1.2.0"
     },
+    "cloudinary/cloudinary_php": {
+        "version": "2.6.1"
+    },
     "composer/package-versions-deprecated": {
         "version": "1.11.99.5"
     },

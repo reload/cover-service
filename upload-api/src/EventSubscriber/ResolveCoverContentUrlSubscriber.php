@@ -13,7 +13,7 @@ use ApiPlatform\Core\EventListener\EventPriorities;
 use ApiPlatform\Core\Util\RequestAttributesExtractor;
 use App\Entity\Cover;
 use App\Entity\Material;
-use App\Service\CoverStoreService;
+use App\Service\CoverService;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event\ViewEvent;
@@ -26,9 +26,9 @@ use Vich\UploaderBundle\Storage\StorageInterface;
 final class ResolveCoverContentUrlSubscriber implements EventSubscriberInterface
 {
     private StorageInterface $storage;
-    private CoverStoreService $coverStoreService;
+    private CoverService $coverStoreService;
 
-    public function __construct(StorageInterface $storage, CoverStoreService $coverStoreService)
+    public function __construct(StorageInterface $storage, CoverService $coverStoreService)
     {
         $this->storage = $storage;
         $this->coverStoreService = $coverStoreService;
@@ -71,6 +71,9 @@ final class ResolveCoverContentUrlSubscriber implements EventSubscriberInterface
 
             if ($cover->isUploaded()) {
                 // If the cover has been marked as uploaded use the cover store URL.
+
+                // @TODO: link cover <==> material both ways to get identifier.
+
                 $cover->setImageUrl($this->coverStoreService->generateUrl($cover));
             } else {
                 $host = $request->getSchemeAndHttpHost();

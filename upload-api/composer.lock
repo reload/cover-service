@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "87d797712f89fa3a2335e77570bf1316",
+    "content-hash": "0142e92044733e13d01a9f7d5bb068b9",
     "packages": [
         {
             "name": "api-platform/core",
@@ -166,6 +166,63 @@
                 }
             ],
             "time": "2022-01-11T10:29:54+00:00"
+        },
+        {
+            "name": "cloudinary/cloudinary_php",
+            "version": "1.12.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/cloudinary/cloudinary_php.git",
+                "reference": "d7db89b53e7ddbfdcd7a0946b963b7878e7ca9c7"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/cloudinary/cloudinary_php/zipball/d7db89b53e7ddbfdcd7a0946b963b7878e7ca9c7",
+                "reference": "d7db89b53e7ddbfdcd7a0946b963b7878e7ca9c7",
+                "shasum": ""
+            },
+            "require": {
+                "ext-curl": "*",
+                "ext-json": "*",
+                "php": ">=5.4.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "4.8.*"
+            },
+            "type": "library",
+            "autoload": {
+                "classmap": [
+                    "src"
+                ],
+                "files": [
+                    "src/Helpers.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Cloudinary",
+                    "homepage": "https://github.com/cloudinary/cloudinary_php/graphs/contributors"
+                }
+            ],
+            "description": "Cloudinary PHP SDK",
+            "homepage": "https://github.com/cloudinary/cloudinary_php",
+            "keywords": [
+                "cdn",
+                "cloud",
+                "cloudinary",
+                "image management",
+                "sdk"
+            ],
+            "support": {
+                "email": "info@cloudinary.com",
+                "issues": "https://github.com/cloudinary/cloudinary_php/issues",
+                "source": "https://github.com/cloudinary/cloudinary_php/tree/master"
+            },
+            "time": "2018-10-11T13:21:48+00:00"
         },
         {
             "name": "composer/package-versions-deprecated",

@@ -72,7 +72,7 @@ final class MaterialPostWriteSubscriber implements EventSubscriberInterface
         // will be running in a pod behind ssl off-loading and the site thinks it's running http.
         if (Request::METHOD_POST == $method) {
             $base = 'https://'.$event->getRequest()->getHttpHost();
-            $url = $base.$this->storage->resolveUri($material->cover, 'file');
+            $url = $base.$this->storage->resolveUri($material->getCover(), 'file');
 
             $message = new CoverUserUploadMessage();
             $message->setIdentifierType($material->getIsType());
