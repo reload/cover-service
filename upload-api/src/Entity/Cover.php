@@ -148,6 +148,11 @@ class Cover
     private bool $isUploaded = false;
 
     /**
+     * @ORM\OneToOne(targetEntity=Material::class, mappedBy="cover", cascade={"persist", "remove"})
+     */
+    private ?Material $material;
+
+    /**
      * @return int|null
      */
     public function getId(): ?int
@@ -277,6 +282,28 @@ class Cover
     public function setUploaded(bool $isUploaded): self
     {
         $this->isUploaded = $isUploaded;
+
+        return $this;
+    }
+
+    public function getMaterial(): ?Material
+    {
+        return $this->material;
+    }
+
+    public function setMaterial(?Material $material): self
+    {
+        // unset the owning side of the relation if necessary
+        if ($material === null && $this->material !== null) {
+            $this->material->setCover2(null);
+        }
+
+        // set the owning side of the relation if necessary
+        if ($material !== null && $material->getCover2() !== $this) {
+            $material->setCover2($this);
+        }
+
+        $this->material = $material;
 
         return $this;
     }

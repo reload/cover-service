@@ -121,8 +121,7 @@ class Material
      *     }
      * )
      *
-     * @ORM\ManyToOne(targetEntity=Cover::class, fetch="EAGER", cascade={"remove"})
-     * @ORM\JoinColumn(nullable=true, onDelete="CASCADE")
+     * @ORM\OneToOne(targetEntity=Cover::class, inversedBy="material", cascade={"persist", "remove"})
      *
      * @Groups({"read", "material:write"})
      */
