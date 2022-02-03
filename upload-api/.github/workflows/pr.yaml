@@ -9,7 +9,10 @@ jobs:
         php: [ '7.4' ]
     name: Validate composer (${{ matrix.php}})
     steps:
-      - uses: actions/checkout@master
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 2
 
       - name: Setup PHP, with composer and extensions
         uses: shivammathur/setup-php@v2
@@ -44,7 +47,10 @@ jobs:
       matrix:
         php: ['7.4' ]
     steps:
-      - uses: actions/checkout@master
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 2
 
       - name: Setup PHP, with composer and extensions
         uses: shivammathur/setup-php@v2
@@ -86,7 +92,10 @@ jobs:
         php: [ '7.4' ]
     name: PHP Coding Standards Fixer (${{ matrix.php}})
     steps:
-      - uses: actions/checkout@master
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 2
 
       - name: Setup PHP, with composer and extensions
         uses: shivammathur/setup-php@v2
@@ -120,7 +129,10 @@ jobs:
         php: [ '7.4' ]
     name: Psalm static analysis (${{ matrix.php}})
     steps:
-      - uses: actions/checkout@master
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 2
 
       - name: Setup PHP, with composer and extensions
         uses: shivammathur/setup-php@v2
@@ -152,9 +164,13 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
+        with:
+          fetch-depth: 2
+
       - name: Get yarn cache directory path
         id: yarn-cache-dir-path
         run: echo "::set-output name=dir::$(yarn cache dir)"
+
       - name: Cache yarn packages
         uses: actions/cache@v2
         id: yarn-cache
@@ -163,13 +179,55 @@ jobs:
           key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
           restore-keys: |
             ${{ runner.os }}-yarn-
+
       - name: Yarn install
         uses: actions/setup-node@v2
         with:
           node-version: '14'
       - run: yarn install
+
       - name: markdownlint
         run: yarn markdownlint README.md
+
+  apispec:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        php: ['7.4']
+    name: API Specification validation
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 2
+
+      - name: Setup PHP, with composer and extensions
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php}}
+          extensions: ctype, iconv, imagick, json, redis, soap, xmlreader, zip
+          coverage: none
+
+      - name: Get composer cache directory
+        id: composer-cache
+        run: echo "::set-output name=dir::$(composer config cache-files-dir)"
+
+      - name: Cache dependencies
+        uses: actions/cache@v2
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.json') }}-${{ matrix.dependency-version }}-
+          restore-keys: ${{ runner.os }}-composer-${{ matrix.dependency-version }}-
+
+      - name: Install Dependencies
+        run: composer install -q --no-ansi --no-interaction --no-scripts --no-suggest --no-progress --prefer-dist
+
+      - name: Export specifications (yaml)
+        run: bin/console api:openapi:export --yaml --output=public/api-spec-v1.yaml --no-interaction
+
+      - name: Check for changes in specifications (yaml)
+        run: git diff --diff-filter=ACMRT --exit-code public/api-spec-v1.yaml
 
   helm:
     name: Helm
