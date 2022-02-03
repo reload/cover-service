@@ -17,7 +17,6 @@ use Symfony\Component\HttpKernel\Event\ViewEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
 use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Security\Core\Security;
-use Vich\UploaderBundle\Storage\StorageInterface;
 
 /**
  * Class MaterialPreWriteSubscriber.

@@ -29,3 +29,4 @@
 .phpunit.result.cache
 ###< phpunit/phpunit ###
 node_modules
+.php_cs.cache
