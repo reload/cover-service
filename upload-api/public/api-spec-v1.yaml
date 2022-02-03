@@ -1,28 +1,44 @@
-openapi: 3.0.2
+openapi: 3.0.3
 info:
   title: 'DDF Cover Service Upload'
-  version: 1.0.0
-  description: |
+  description: |-
     This service allows for uploading covers for library materials indexed by isbn, issn, faust, pid. Uploaded covers become available on [DDB Cover Service](https://cover.dandigbib.org/).
     The service is provided by [Det Digitale Folkebibliotek](https://detdigitalefolkebibliotek.dk/section/i-brug-paa-biblioteket/cover-service)
     ### Authentication notes
     Authentication is done via OAuth2 against auth.dbc.dk. To obtain a valid token follow the instructions here: [Open Platform](https://openplatform.dbc.dk/v3/). To use the "Authorize" option in this tool use your 'client_id' and 'client_secret' and fill in '@agency' (e.g. '@123456') for both username and password.
+  version: 1.0.0
+servers:
+  -
+    url: /
+    description: ''
 paths:
   /api/covers:
-    post:
-      requestBody:
-        content:
-          multipart/form-data:
-            schema:
-              type: object
-              properties:
-                cover:
-                  type: string
-                  format: binary
+    get:
+      operationId: getCoverCollection
       tags:
         - Cover
+      responses:
+        200:
+          description: 'Cover collection'
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Cover-Read'
+            text/html:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Cover-Read'
+      summary: 'Retrieves the collection of Cover resources.'
+      description: 'Retrieves the collection of Cover resources.'
+      parameters: []
+      deprecated: false
+    post:
       operationId: postCoverCollection
-      summary: 'Creates a Cover resource.'
+      tags:
+        - Cover
       responses:
         201:
           description: 'Cover resource created'
@@ -35,68 +51,72 @@ paths:
                 $ref: '#/components/schemas/Cover-Read'
           links:
             GetCoverItem:
+              operationId: getCoverItem
               parameters:
                 id: '$response.body#/id'
-              operationId: getCoverItem
               description: 'The `id` value returned in the response can be used as the `id` parameter in `GET /api/covers/{id}`.'
         400:
           description: 'Invalid input'
-        404:
-          description: 'Resource not found'
+        422:
+          description: 'Unprocessable entity'
+      summary: 'Creates a Cover resource.'
+      description: 'Creates a Cover resource.'
+      parameters: []
+      requestBody:
+        description: ''
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                cover:
+                  type: string
+                  format: binary
+        required: false
+      deprecated: false
+    parameters: []
+  '/api/covers/{id}':
     get:
+      operationId: getCoverItem
       tags:
         - Cover
-      operationId: getCoverCollection
-      summary: 'Retrieves the collection of Cover resources.'
       responses:
         200:
-          description: 'Cover collection response'
+          description: 'Cover resource'
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Cover-Read'
+                $ref: '#/components/schemas/Cover-Read'
             text/html:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Cover-Read'
-      parameters: []
-  '/api/covers/{id}':
-    get:
-      tags:
-        - Cover
-      operationId: getCoverItem
+                $ref: '#/components/schemas/Cover-Read'
+        404:
+          description: 'Resource not found'
       summary: 'Retrieves a Cover resource.'
+      description: 'Retrieves a Cover resource.'
       parameters:
         -
           name: id
           in: path
+          description: 'Resource identifier'
           required: true
+          deprecated: false
+          allowEmptyValue: false
           schema:
             type: string
-      responses:
-        200:
-          description: 'Cover resource response'
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Cover-Read'
-            text/html:
-              schema:
-                $ref: '#/components/schemas/Cover-Read'
-        404:
-          description: 'Resource not found'
+          style: simple
+          explode: false
+          allowReserved: false
+      deprecated: false
+    parameters: []
   /api/materials:
     get:
+      operationId: getMaterialCollection
       tags:
         - Material
-      operationId: getMaterialCollection
-      summary: 'Retrieves the collection of Material resources.'
       responses:
         200:
-          description: 'Material collection response'
+          description: 'Material collection'
           content:
             application/json:
               schema:
@@ -108,12 +128,14 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Material-Read'
+      summary: 'Retrieves the collection of Material resources.'
+      description: 'Retrieves the collection of Material resources.'
       parameters: []
+      deprecated: false
     post:
+      operationId: postMaterialCollection
       tags:
         - Material
-      operationId: postMaterialCollection
-      summary: 'Creates a Material resource.'
       responses:
         201:
           description: 'Material resource created'
@@ -126,15 +148,19 @@ paths:
                 $ref: '#/components/schemas/Material-Read'
           links:
             GetMaterialItem:
+              operationId: getMaterialItem
               parameters:
                 id: '$response.body#/id'
-              operationId: getMaterialItem
               description: 'The `id` value returned in the response can be used as the `id` parameter in `GET /api/materials/{id}`.'
         400:
           description: 'Invalid input'
-        404:
-          description: 'Resource not found'
+        422:
+          description: 'Unprocessable entity'
+      summary: 'Creates a Material resource.'
+      description: 'Creates a Material resource.'
+      parameters: []
       requestBody:
+        description: 'The new Material resource'
         content:
           application/json:
             schema:
@@ -142,23 +168,17 @@ paths:
           text/html:
             schema:
               $ref: '#/components/schemas/Material-Write'
-        description: 'The new Material resource'
+        required: true
+      deprecated: false
+    parameters: []
   '/api/materials/{id}':
     get:
+      operationId: getMaterialItem
       tags:
         - Material
-      operationId: getMaterialItem
-      summary: 'Retrieves a Material resource.'
-      parameters:
-        -
-          name: id
-          in: path
-          required: true
-          schema:
-            type: string
       responses:
         200:
-          description: 'Material resource response'
+          description: 'Material resource'
           content:
             application/json:
               schema:
@@ -168,26 +188,48 @@ paths:
                 $ref: '#/components/schemas/Material-Read'
         404:
           description: 'Resource not found'
+      summary: 'Retrieves a Material resource.'
+      description: 'Retrieves a Material resource.'
+      parameters:
+        -
+          name: id
+          in: path
+          description: 'Resource identifier'
+          required: true
+          deprecated: false
+          allowEmptyValue: false
+          schema:
+            type: string
+          style: simple
+          explode: false
+          allowReserved: false
+      deprecated: false
     delete:
+      operationId: deleteMaterialItem
       tags:
         - Material
-      operationId: deleteMaterialItem
-      summary: 'Removes the Material resource.'
       responses:
         204:
           description: 'Material resource deleted'
         404:
           description: 'Resource not found'
+      summary: 'Removes the Material resource.'
+      description: 'Removes the Material resource.'
       parameters:
         -
           name: id
           in: path
+          description: 'Resource identifier'
           required: true
+          deprecated: false
+          allowEmptyValue: false
           schema:
             type: string
-security:
-  -
-    oauth: []
+          style: simple
+          explode: false
+          allowReserved: false
+      deprecated: false
+    parameters: []
 components:
   schemas:
     Cover-Read:
@@ -262,11 +304,21 @@ components:
             - pid
           example: pid
         cover:
+          type: object
+          example:
+            id: 1
+            imageUrl: 'https://upload.cover.dandigbib.org/cover/5ed65baa2b264_870970-basis%3A52890365.jpg'
+            size: 1478312
+            agencyId: '123456'
           externalDocs:
             url: 'http://schema.org/image'
-          type: string
           format: iri-reference
-          example: api/covers/1
+          nullable: true
+  responses: {  }
+  parameters: {  }
+  examples: {  }
+  requestBodies: {  }
+  headers: {  }
   securitySchemes:
     oauth:
       type: oauth2
@@ -275,3 +327,7 @@ components:
         password:
           tokenUrl: 'https://login.bib.dk/oauth/token'
           scopes: {  }
+security:
+  -
+    oauth: []
+tags: []
