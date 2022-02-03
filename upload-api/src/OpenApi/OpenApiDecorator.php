@@ -33,7 +33,7 @@ final class OpenApiDecorator implements NormalizerInterface
         $docs = $this->decorated->normalize($object, $format, $context);
 
         $this->correctMaterialWriteDefinition($docs);
-//        $this->correctSecurityDefinitions($docs);
+        $this->correctSecurityDefinitions($docs);
 
         return $docs;
     }

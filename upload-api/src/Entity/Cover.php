@@ -144,7 +144,6 @@ class Cover
     /**
      * @var bool
      * @ORM\Column(type="boolean", options={"default":false})
-     * @Groups({"read"})
      */
     private bool $isUploaded = false;
 
