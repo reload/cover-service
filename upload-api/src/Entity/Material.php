@@ -56,7 +56,7 @@ class Material
      * @ORM\Column(type="integer")
      * @Groups({"read"})
      */
-    private $id;
+    private int $id;
 
     /**
      * @ApiProperty(
@@ -70,7 +70,7 @@ class Material
      * @ORM\Column(type="string", length=50)
      * @Groups({"read", "material:write"})
      */
-    private $isIdentifier;
+    private ?string $isIdentifier;
 
     /**
      * @ApiProperty(
@@ -86,7 +86,7 @@ class Material
      *
      * @Groups({"read", "material:write"})
      */
-    private $isType;
+    private ?string $isType;
 
     /**
      * @ApiProperty(
@@ -101,7 +101,7 @@ class Material
      *
      * @Groups({"read"})
      */
-    private $agencyId;
+    private ?string $agencyId;
 
     /**
      * @var Cover|null
@@ -126,7 +126,7 @@ class Material
      *
      * @Groups({"read", "material:write"})
      */
-    public $cover;
+    public ?Cover $cover;
 
     public function getId(): ?int
     {

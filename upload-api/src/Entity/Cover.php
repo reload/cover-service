@@ -65,18 +65,14 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
 class Cover
 {
     /**
-     * @var int|null
-     *
      * @ORM\Column(type="integer")
      * @ORM\GeneratedValue
      * @ORM\Id
      * @Groups({"read"})
      */
-    protected $id;
+    protected int $id;
 
     /**
-     * @var string|null
-     *
      * @ApiProperty(
      *     iri="http://schema.org/contentUrl",
      *     attributes={
@@ -89,11 +85,9 @@ class Cover
      * )
      * @Groups({"read"})
      */
-    private $imageUrl;
+    private ?string $imageUrl;
 
     /**
-     * @var File|null
-     *
      * @Assert\File(
      *     maxSize = "6144k",
      *     mimeTypes = {"image/jpeg", "image/png"},
@@ -102,14 +96,12 @@ class Cover
      * @Assert\NotNull(groups={"cover_create"})
      * @Vich\UploadableField(mapping="cover", fileNameProperty="filePath", size="size")
      */
-    private $file;
+    private ?File $file;
 
     /**
-     * @var string|null
-     *
      * @ORM\Column(nullable=true)
      */
-    private $filePath;
+    private ?string $filePath;
 
     /**
      * @ApiProperty(
@@ -123,18 +115,16 @@ class Cover
      *
      * @ORM\Column(type="integer")
      *
-     * @var int
      * @Groups({"read"})
      */
-    private $size;
+    private int $size;
 
     /**
      * @ORM\Column(type="datetime")
      *
-     * @var \DateTimeImmutable
      * @Groups({"read"})
      */
-    private $updatedAt;
+    private \DateTimeImmutable $updatedAt;
 
     /**
      * @ApiProperty(
@@ -149,14 +139,14 @@ class Cover
      * @ORM\Column(type="string", length=16)
      * @Groups({"read"})
      */
-    private $agencyId;
+    private ?string $agencyId;
 
     /**
      * @var bool
      * @ORM\Column(type="boolean", options={"default":false})
      * @Groups({"read"})
      */
-    private $isUploaded = false;
+    private bool $isUploaded = false;
 
     /**
      * @return int|null

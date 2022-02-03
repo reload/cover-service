@@ -19,9 +19,9 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 class CleanUpCommand extends Command
 {
-    private $coverRepository;
-    private $coverStoreService;
-    private $entityManager;
+    private CoverRepository $coverRepository;
+    private CoverStoreService $coverStoreService;
+    private EntityManagerInterface $entityManager;
 
     protected static $defaultName = 'app:image:cleanup';
 
@@ -42,7 +42,7 @@ class CleanUpCommand extends Command
      *
      * @return void
      */
-    protected function configure()
+    protected function configure(): void
     {
         $this->setDescription('Clean up local stored images after upload detected');
     }

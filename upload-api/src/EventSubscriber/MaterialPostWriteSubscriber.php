@@ -22,8 +22,8 @@ use Vich\UploaderBundle\Storage\StorageInterface;
  */
 final class MaterialPostWriteSubscriber implements EventSubscriberInterface
 {
-    private $bus;
-    private $storage;
+    private MessageBusInterface $bus;
+    private StorageInterface $storage;
 
     /**
      * MaterialPostWriteSubscriber constructor.
@@ -67,22 +67,20 @@ final class MaterialPostWriteSubscriber implements EventSubscriberInterface
             return;
         }
 
-        switch ($method) {
-            case Request::METHOD_POST:
-                // @TODO: Find out telling symfony that it's ssl off loaded.
-                // We here assumes that the schema is https here. We do not use information from the request as this
-                // will be running in a pod behind ssl off-loading and the site thinks it's running http.
-                $base = 'https://'.$event->getRequest()->getHttpHost();
-                $url = $base.$this->storage->resolveUri($material->cover, 'file');
+        // @TODO: Find out telling symfony that it's ssl off loaded.
+        // We here assumes that the schema is https here. We do not use information from the request as this
+        // will be running in a pod behind ssl off-loading and the site thinks it's running http.
+        if ($method == Request::METHOD_POST) {
+            $base = 'https://'.$event->getRequest()->getHttpHost();
+            $url = $base.$this->storage->resolveUri($material->cover, 'file');
 
-                $message = new CoverUserUploadMessage();
-                $message->setIdentifierType($material->getIsType());
-                $message->setIdentifier($material->getIsIdentifier());
-                $message->setOperation(VendorState::INSERT);
-                $message->setImageUrl($url);
-                $message->setAccrediting($material->getAgencyId());
-                $this->bus->dispatch($message);
-                break;
+            $message = new CoverUserUploadMessage();
+            $message->setIdentifierType($material->getIsType());
+            $message->setIdentifier($material->getIsIdentifier());
+            $message->setOperation(VendorState::INSERT);
+            $message->setImageUrl($url);
+            $message->setAccrediting($material->getAgencyId());
+            $this->bus->dispatch($message);
         }
     }
 }

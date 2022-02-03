@@ -17,10 +17,10 @@ use Vich\UploaderBundle\Storage\StorageInterface;
  */
 class CoverStoreService
 {
-    private $remoteUrlPath;
-    private $client;
-    private $storage;
-    private $filesystem;
+    private string $remoteUrlPath;
+    private HttpClientInterface $client;
+    private StorageInterface $storage;
+    private Filesystem $filesystem;
 
     /**
      * CoverStoreService constructor.

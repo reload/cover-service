@@ -33,7 +33,7 @@ final class OpenApiDecorator implements NormalizerInterface
         $docs = $this->decorated->normalize($object, $format, $context);
 
         $this->correctMaterialWriteDefinition($docs);
-        $this->correctSecurityDefinitions($docs);
+//        $this->correctSecurityDefinitions($docs);
 
         return $docs;
     }
@@ -41,13 +41,13 @@ final class OpenApiDecorator implements NormalizerInterface
     /**
      * {@inheritdoc}
      */
-    public function supportsNormalization($data, $format = null)
+    public function supportsNormalization($data, $format = null): bool
     {
         return $this->decorated->supportsNormalization($data, $format);
     }
 
     /**
-     * Correct documentation definition for "Materiel" write operation.
+     * Correct documentation definition for "Material" write operation.
      *
      * @param array $docs
      */

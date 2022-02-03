@@ -14,11 +14,11 @@ namespace App\Message;
  */
 class CoverUserUploadMessage
 {
-    private $operation;
-    private $identifierType;
-    private $identifier;
-    private $imageUrl;
-    private $accrediting;
+    private string $operation;
+    private string $identifierType;
+    private string $identifier;
+    private string $imageUrl;
+    private string $accrediting;
     private $vendorId;
 
     /**
