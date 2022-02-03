@@ -67,20 +67,22 @@ final class MaterialPostWriteSubscriber implements EventSubscriberInterface
             return;
         }
 
-        // @TODO: Find out telling symfony that it's ssl off loaded.
-        // We here assumes that the schema is https here. We do not use information from the request as this
-        // will be running in a pod behind ssl off-loading and the site thinks it's running http.
-        if (Request::METHOD_POST == $method) {
-            $base = 'https://'.$event->getRequest()->getHttpHost();
-            $url = $base.$this->storage->resolveUri($material->getCover(), 'file');
+        switch ($method) {
+            case Request::METHOD_POST:
+                // @TODO: Find out telling symfony that it's ssl off loaded.
+                // We here assumes that the schema is https here. We do not use information from the request as this
+                // will be running in a pod behind ssl off-loading and the site thinks it's running http.
+                $base = 'https://'.$event->getRequest()->getHttpHost();
+                $url = $base.$this->storage->resolveUri($material->getCover(), 'file');
 
-            $message = new CoverUserUploadMessage();
-            $message->setIdentifierType($material->getIsType());
-            $message->setIdentifier($material->getIsIdentifier());
-            $message->setOperation(VendorState::INSERT);
-            $message->setImageUrl($url);
-            $message->setAccrediting($material->getAgencyId());
-            $this->bus->dispatch($message);
+                $message = new CoverUserUploadMessage();
+                $message->setIdentifierType($material->getIsType());
+                $message->setIdentifier($material->getIsIdentifier());
+                $message->setOperation(VendorState::INSERT);
+                $message->setImageUrl($url);
+                $message->setAccrediting($material->getAgencyId());
+                $this->bus->dispatch($message);
+                break;
         }
     }
 }

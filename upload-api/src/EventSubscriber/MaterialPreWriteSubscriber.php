@@ -37,7 +37,6 @@ final class MaterialPreWriteSubscriber implements EventSubscriberInterface
     public function __construct(MessageBusInterface $bus, Security $security)
     {
         $this->bus = $bus;
-
         $this->user = $security->getUser();
     }
 
