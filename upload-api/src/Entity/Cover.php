@@ -294,12 +294,12 @@ class Cover
     public function setMaterial(?Material $material): self
     {
         // unset the owning side of the relation if necessary
-        if ($material === null && $this->material !== null) {
+        if (null === $material && null !== $this->material) {
             $this->material->setCover2(null);
         }
 
         // set the owning side of the relation if necessary
-        if ($material !== null && $material->getCover2() !== $this) {
+        if (null !== $material && $material->getCover2() !== $this) {
             $material->setCover2($this);
         }
 
