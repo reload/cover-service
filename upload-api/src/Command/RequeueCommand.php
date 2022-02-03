@@ -6,10 +6,8 @@
 
 namespace App\Command;
 
-use App\Entity\Cover;
 use App\Entity\Material;
 use App\Message\CoverUserUploadMessage;
-use App\Repository\CoverRepository;
 use App\Repository\MaterialRepository;
 use App\Service\CoverService;
 use App\Utils\Types\VendorState;
@@ -17,7 +15,6 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Routing\RouterInterface;
 use Vich\UploaderBundle\Storage\StorageInterface;
@@ -75,7 +72,6 @@ class RequeueCommand extends Command
         foreach ($materials as $material) {
             /** @var Material $material */
             if (!$this->coverStoreService->exists($material->getIsIdentifier())) {
-
                 $base = 'https://'.rtrim($this->router->generate('homepage'), '/');
                 $url = $base.$this->storage->resolveUri($material->getCover(), 'file');
 

@@ -49,7 +49,6 @@ class CloudinaryCoverStoreService implements CoverStoreInterface
             'api_key' => $bindCloudinaryApiKey,
             'api_secret' => $bindCloudinaryApiSecret,
             'secure' => true, ]);
-
     }
 
     /**

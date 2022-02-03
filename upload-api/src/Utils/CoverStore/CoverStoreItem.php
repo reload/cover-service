@@ -153,7 +153,6 @@ class CoverStoreItem
         return $this;
     }
 
-
     /**
      * @return string
      */

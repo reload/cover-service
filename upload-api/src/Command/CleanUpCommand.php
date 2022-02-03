@@ -55,7 +55,7 @@ class CleanUpCommand extends Command
         $covers = $this->coverRepository->getIsNotUploaded();
         foreach ($covers as $cover) {
             /** @var Cover $cover */
-            if ($this->coverStoreService->exists($cover)) {
+            if ($this->coverStoreService->exists($cover->getMaterial()->getIsIdentifier())) {
                 $this->coverStoreService->removeLocalFile($cover);
 
                 $cover->setUploaded(true);

@@ -74,7 +74,7 @@ final class ResolveCoverContentUrlSubscriber implements EventSubscriberInterface
 
                 // @TODO: link cover <==> material both ways to get identifier.
 
-                $cover->setImageUrl($this->coverStoreService->generateUrl($cover));
+                $cover->setImageUrl($this->coverStoreService->generateUrl($cover->geMaterial()->getIsIdentifier()));
             } else {
                 $host = $request->getSchemeAndHttpHost();
                 $uri = $this->storage->resolveUri($cover, 'file');

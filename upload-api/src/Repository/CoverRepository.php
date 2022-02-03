@@ -31,5 +31,4 @@ class CoverRepository extends ServiceEntityRepository
 
         return $query->execute();
     }
-
 }

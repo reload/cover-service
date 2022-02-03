@@ -8,8 +8,8 @@ namespace App\Service;
 
 use App\Entity\Cover;
 use App\Service\CoverStore\CoverStoreInterface;
+use App\Utils\CoverStore\CoverStoreItem;
 use Symfony\Component\Filesystem\Filesystem;
-use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 use Vich\UploaderBundle\Storage\StorageInterface;
 
@@ -40,7 +40,7 @@ class CoverService
      * Check if the file exists at the cover store.
      *
      * @param string $identifier
-     *   The cover to checking for.
+     *   The cover to checking for
      *
      * @return bool
      *   True if it exists remotely else false
@@ -54,16 +54,17 @@ class CoverService
      * Create URL that matches cover store.
      *
      * @param string $identifier
-     *   The cover entity to generate url for.
+     *   The cover entity to generate url for
      *
      * @return string
-     *   The remote url for the cover if found else the empty string.
+     *   The remote url for the cover if found else the empty string
      */
     public function generateUrl(string $identifier): string
     {
+        /** @var CoverStoreItem $item */
         $item = $this->coverStore->search($identifier);
 
-        return !empty($item) ? $item['url'] : '';
+        return !empty($item) ? $item->getUrl() : '';
     }
 
     /**

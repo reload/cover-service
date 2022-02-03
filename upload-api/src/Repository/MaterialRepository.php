@@ -16,7 +16,6 @@ class MaterialRepository extends ServiceEntityRepository
         parent::__construct($registry, Material::class);
     }
 
-
     /**
      * @param int $agencyId
      *
@@ -25,11 +24,9 @@ class MaterialRepository extends ServiceEntityRepository
     public function getByAgencyId(int $agencyId): array
     {
         $query = $this->createQueryBuilder('m')
-            ->where('m.agencyId = ' . $agencyId)
+            ->where('m.agencyId = '.$agencyId)
             ->getQuery();
 
         return $query->execute();
     }
-
-
 }

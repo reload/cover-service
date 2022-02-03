@@ -18,11 +18,10 @@ interface CoverStoreInterface
      * Search in the cover store.
      *
      * @param string|null $identifier
-     *   Identifier to search for in user upload.
+     *   Identifier to search for in user upload
      *
      * @return CoverStoreItem[]
      *   Array with the found items or empty if non found
      */
     public function search(string $identifier = null): array;
-
 }
