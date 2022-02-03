@@ -120,7 +120,7 @@ class Cover
     private int $size;
 
     /**
-     * @ORM\Column(type="datetime")
+     * @ORM\Column(type="datetime_immutable")
      *
      * @Groups({"read"})
      */
