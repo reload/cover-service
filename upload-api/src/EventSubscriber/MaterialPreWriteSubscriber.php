@@ -17,15 +17,13 @@ use Symfony\Component\HttpKernel\Event\ViewEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
 use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Security\Core\Security;
-use Vich\UploaderBundle\Storage\StorageInterface;
 
 /**
  * Class MaterialPreWriteSubscriber.
  */
 final class MaterialPreWriteSubscriber implements EventSubscriberInterface
 {
-    private $bus;
-    private $storage;
+    private MessageBusInterface $bus;
 
     /** @var User */
     private $user;
@@ -34,21 +32,18 @@ final class MaterialPreWriteSubscriber implements EventSubscriberInterface
      * MaterialPreWriteSubscriber constructor.
      *
      * @param MessageBusInterface $bus
-     * @param StorageInterface $storage
      * @param Security $security
      */
-    public function __construct(MessageBusInterface $bus, StorageInterface $storage, Security $security)
+    public function __construct(MessageBusInterface $bus, Security $security)
     {
         $this->bus = $bus;
-        $this->storage = $storage;
-
         $this->user = $security->getUser();
     }
 
     /**
      * {@inheritdoc}
      */
-    public static function getSubscribedEvents()
+    public static function getSubscribedEvents(): array
     {
         return [
             KernelEvents::VIEW => [
@@ -65,7 +60,7 @@ final class MaterialPreWriteSubscriber implements EventSubscriberInterface
      *
      * @return void
      */
-    public function materialPreWrite(ViewEvent $event)
+    public function materialPreWrite(ViewEvent $event): void
     {
         /** @var Material $item */
         $item = $event->getControllerResult();

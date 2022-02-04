@@ -65,18 +65,14 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
 class Cover
 {
     /**
-     * @var int|null
-     *
      * @ORM\Column(type="integer")
      * @ORM\GeneratedValue
      * @ORM\Id
      * @Groups({"read"})
      */
-    protected $id;
+    protected int $id;
 
     /**
-     * @var string|null
-     *
      * @ApiProperty(
      *     iri="http://schema.org/contentUrl",
      *     attributes={
@@ -89,11 +85,9 @@ class Cover
      * )
      * @Groups({"read"})
      */
-    private $imageUrl;
+    private ?string $imageUrl;
 
     /**
-     * @var File|null
-     *
      * @Assert\File(
      *     maxSize = "6144k",
      *     mimeTypes = {"image/jpeg", "image/png"},
@@ -102,14 +96,12 @@ class Cover
      * @Assert\NotNull(groups={"cover_create"})
      * @Vich\UploadableField(mapping="cover", fileNameProperty="filePath", size="size")
      */
-    private $file;
+    private ?File $file;
 
     /**
-     * @var string|null
-     *
      * @ORM\Column(nullable=true)
      */
-    private $filePath;
+    private ?string $filePath;
 
     /**
      * @ApiProperty(
@@ -121,20 +113,18 @@ class Cover
      *     }
      * )
      *
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="integer", nullable="true")
      *
-     * @var int
      * @Groups({"read"})
      */
-    private $size;
+    private ?int $size;
 
     /**
-     * @ORM\Column(type="datetime")
+     * @ORM\Column(type="datetime_immutable")
      *
-     * @var \DateTimeImmutable
      * @Groups({"read"})
      */
-    private $updatedAt;
+    private \DateTimeImmutable $updatedAt;
 
     /**
      * @ApiProperty(
@@ -149,14 +139,18 @@ class Cover
      * @ORM\Column(type="string", length=16)
      * @Groups({"read"})
      */
-    private $agencyId;
+    private ?string $agencyId;
 
     /**
      * @var bool
      * @ORM\Column(type="boolean", options={"default":false})
-     * @Groups({"read"})
      */
-    private $isUploaded = false;
+    private bool $isUploaded = false;
+
+    /**
+     * @ORM\OneToOne(targetEntity=Material::class, mappedBy="cover", cascade={"persist", "remove"})
+     */
+    private ?Material $material;
 
     /**
      * @return int|null
@@ -288,6 +282,28 @@ class Cover
     public function setUploaded(bool $isUploaded): self
     {
         $this->isUploaded = $isUploaded;
+
+        return $this;
+    }
+
+    public function getMaterial(): ?Material
+    {
+        return $this->material;
+    }
+
+    public function setMaterial(?Material $material): self
+    {
+        // unset the owning side of the relation if necessary
+        if (null === $material && null !== $this->material) {
+            $this->material->setCover(null);
+        }
+
+        // set the owning side of the relation if necessary
+        if (null !== $material && $material->getCover() !== $this) {
+            $material->setCover($this);
+        }
+
+        $this->material = $material;
 
         return $this;
     }

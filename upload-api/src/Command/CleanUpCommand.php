@@ -8,7 +8,7 @@ namespace App\Command;
 
 use App\Entity\Cover;
 use App\Repository\CoverRepository;
-use App\Service\CoverStoreService;
+use App\Service\CoverService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -19,16 +19,16 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 class CleanUpCommand extends Command
 {
-    private $coverRepository;
-    private $coverStoreService;
-    private $entityManager;
+    private CoverRepository $coverRepository;
+    private CoverService $coverStoreService;
+    private EntityManagerInterface $entityManager;
 
     protected static $defaultName = 'app:image:cleanup';
 
     /**
      * CleanUpCommand constructor.
      */
-    public function __construct(CoverRepository $coverRepository, CoverStoreService $coverStoreService, EntityManagerInterface $entityManager)
+    public function __construct(CoverRepository $coverRepository, CoverService $coverStoreService, EntityManagerInterface $entityManager)
     {
         $this->coverRepository = $coverRepository;
         $this->coverStoreService = $coverStoreService;
@@ -42,7 +42,7 @@ class CleanUpCommand extends Command
      *
      * @return void
      */
-    protected function configure()
+    protected function configure(): void
     {
         $this->setDescription('Clean up local stored images after upload detected');
     }
@@ -55,7 +55,7 @@ class CleanUpCommand extends Command
         $covers = $this->coverRepository->getIsNotUploaded();
         foreach ($covers as $cover) {
             /** @var Cover $cover */
-            if ($this->coverStoreService->exists($cover)) {
+            if ($this->coverStoreService->exists($cover->getMaterial()->getIsIdentifier())) {
                 $this->coverStoreService->removeLocalFile($cover);
 
                 $cover->setUploaded(true);

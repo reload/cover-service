@@ -22,8 +22,8 @@ use Vich\UploaderBundle\Storage\StorageInterface;
  */
 final class MaterialPostWriteSubscriber implements EventSubscriberInterface
 {
-    private $bus;
-    private $storage;
+    private MessageBusInterface $bus;
+    private StorageInterface $storage;
 
     /**
      * MaterialPostWriteSubscriber constructor.
@@ -73,7 +73,7 @@ final class MaterialPostWriteSubscriber implements EventSubscriberInterface
                 // We here assumes that the schema is https here. We do not use information from the request as this
                 // will be running in a pod behind ssl off-loading and the site thinks it's running http.
                 $base = 'https://'.$event->getRequest()->getHttpHost();
-                $url = $base.$this->storage->resolveUri($material->cover, 'file');
+                $url = $base.$this->storage->resolveUri($material->getCover(), 'file');
 
                 $message = new CoverUserUploadMessage();
                 $message->setIdentifierType($material->getIsType());
