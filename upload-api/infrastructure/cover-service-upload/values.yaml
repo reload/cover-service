@@ -40,6 +40,8 @@ app:
     slowlog_timeout: "1"
     post_max_size: "40M"
     upload_max_filesize: "32M"
+  coverstore:
+    folder: "UserUpload"
 
 nginx:
   exporter:
