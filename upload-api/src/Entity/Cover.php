@@ -117,7 +117,7 @@ class Cover
      *
      * @Groups({"read"})
      */
-    private int $size;
+    private ?int $size;
 
     /**
      * @ORM\Column(type="datetime_immutable")
