@@ -113,7 +113,7 @@ class Cover
      *     }
      * )
      *
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="integer", nullable="true")
      *
      * @Groups({"read"})
      */
