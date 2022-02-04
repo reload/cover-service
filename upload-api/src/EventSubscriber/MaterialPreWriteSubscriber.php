@@ -8,25 +8,22 @@ namespace App\EventSubscriber;
 
 use ApiPlatform\Core\EventListener\EventPriorities;
 use App\Entity\Material;
-use App\Utils\Message\CoverUploadProcessMessage;
+use App\Message\CoverUserUploadMessage;
 use App\Utils\Types\VendorState;
 use DanskernesDigitaleBibliotek\AgencyAuthBundle\Security\User;
-use Enqueue\Client\ProducerInterface;
-use Enqueue\Util\JSON;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Event\ViewEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
+use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Security\Core\Security;
-use Vich\UploaderBundle\Storage\StorageInterface;
 
 /**
  * Class MaterialPreWriteSubscriber.
  */
 final class MaterialPreWriteSubscriber implements EventSubscriberInterface
 {
-    private $producer;
-    private $storage;
+    private MessageBusInterface $bus;
 
     /** @var User */
     private $user;
@@ -34,22 +31,19 @@ final class MaterialPreWriteSubscriber implements EventSubscriberInterface
     /**
      * MaterialPreWriteSubscriber constructor.
      *
-     * @param ProducerInterface $producer
-     * @param StorageInterface $storage
+     * @param MessageBusInterface $bus
      * @param Security $security
      */
-    public function __construct(ProducerInterface $producer, StorageInterface $storage, Security $security)
+    public function __construct(MessageBusInterface $bus, Security $security)
     {
-        $this->producer = $producer;
-        $this->storage = $storage;
-
+        $this->bus = $bus;
         $this->user = $security->getUser();
     }
 
     /**
      * {@inheritdoc}
      */
-    public static function getSubscribedEvents()
+    public static function getSubscribedEvents(): array
     {
         return [
             KernelEvents::VIEW => [
@@ -63,8 +57,10 @@ final class MaterialPreWriteSubscriber implements EventSubscriberInterface
      *
      * @param ViewEvent $event
      *   The event
+     *
+     * @return void
      */
-    public function materialPreWrite(ViewEvent $event)
+    public function materialPreWrite(ViewEvent $event): void
     {
         /** @var Material $item */
         $item = $event->getControllerResult();
@@ -76,12 +72,12 @@ final class MaterialPreWriteSubscriber implements EventSubscriberInterface
                     return;
                 }
 
-                $message = new CoverUploadProcessMessage();
+                $message = new CoverUserUploadMessage();
                 $message->setIdentifierType($item->getIsType());
                 $message->setIdentifier($item->getIsIdentifier());
                 $message->setOperation(VendorState::DELETE);
 
-                $this->producer->sendEvent('UserUploadImageTopic', JSON::encode($message));
+                $this->bus->dispatch($message);
                 break;
 
             case Request::METHOD_POST:

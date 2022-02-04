@@ -1,11 +1,11 @@
 api_platform:
-    title: 'DDB Cover Service Upload'
+    title: 'DDF Cover Service Upload'
     version: '1.0.0'
     description: >-
-        This service allows for uploading covers for library materials indexed by isbn, issn, faust, pid. Uploaded
-        covers become available on [DDB Cover Service](https://cover.dandigbib.org/).
+        This service allows for uploading covers for library materials indexed by isbn, issn, faust, pid.
+        Uploaded covers become available on [DDB Cover Service](https://cover.dandigbib.org/).
 
-        The service is provided by [Danskernes Digitale Bibliotek](https://www.danskernesdigitalebibliotek.dk/)
+        The service is provided by [Det Digitale Folkebibliotek](https://detdigitalefolkebibliotek.dk/section/i-brug-paa-biblioteket/cover-service)
 
         ### Authentication notes
 

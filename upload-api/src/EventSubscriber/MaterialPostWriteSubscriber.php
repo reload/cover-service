@@ -8,14 +8,13 @@ namespace App\EventSubscriber;
 
 use ApiPlatform\Core\EventListener\EventPriorities;
 use App\Entity\Material;
-use App\Utils\Message\CoverUploadProcessMessage;
+use App\Message\CoverUserUploadMessage;
 use App\Utils\Types\VendorState;
-use Enqueue\Client\ProducerInterface;
-use Enqueue\Util\JSON;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Event\ViewEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
+use Symfony\Component\Messenger\MessageBusInterface;
 use Vich\UploaderBundle\Storage\StorageInterface;
 
 /**
@@ -23,18 +22,18 @@ use Vich\UploaderBundle\Storage\StorageInterface;
  */
 final class MaterialPostWriteSubscriber implements EventSubscriberInterface
 {
-    private $producer;
-    private $storage;
+    private MessageBusInterface $bus;
+    private StorageInterface $storage;
 
     /**
      * MaterialPostWriteSubscriber constructor.
      *
-     * @param ProducerInterface $producer
+     * @param MessageBusInterface $bus
      * @param StorageInterface $storage
      */
-    public function __construct(ProducerInterface $producer, StorageInterface $storage)
+    public function __construct(MessageBusInterface $bus, StorageInterface $storage)
     {
-        $this->producer = $producer;
+        $this->bus = $bus;
         $this->storage = $storage;
     }
 
@@ -55,6 +54,8 @@ final class MaterialPostWriteSubscriber implements EventSubscriberInterface
      *
      * @param ViewEvent $event
      *   The event
+     *
+     * @return void
      */
     public function materialPostWrite(ViewEvent $event)
     {
@@ -72,20 +73,16 @@ final class MaterialPostWriteSubscriber implements EventSubscriberInterface
                 // We here assumes that the schema is https here. We do not use information from the request as this
                 // will be running in a pod behind ssl off-loading and the site thinks it's running http.
                 $base = 'https://'.$event->getRequest()->getHttpHost();
-                $url = $base.$this->storage->resolveUri($material->cover, 'file');
+                $url = $base.$this->storage->resolveUri($material->getCover(), 'file');
 
-                $message = new CoverUploadProcessMessage();
+                $message = new CoverUserUploadMessage();
                 $message->setIdentifierType($material->getIsType());
                 $message->setIdentifier($material->getIsIdentifier());
                 $message->setOperation(VendorState::INSERT);
                 $message->setImageUrl($url);
                 $message->setAccrediting($material->getAgencyId());
+                $this->bus->dispatch($message);
                 break;
-
-            default:
-                return;
         }
-
-        $this->producer->sendEvent('UserUploadImageTopic', JSON::encode($message));
     }
 }

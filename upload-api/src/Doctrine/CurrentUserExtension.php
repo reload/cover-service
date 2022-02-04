@@ -20,7 +20,7 @@ use Symfony\Component\Security\Core\Security;
  */
 class CurrentUserExtension implements QueryCollectionExtensionInterface, QueryItemExtensionInterface
 {
-    private $security;
+    private Security $security;
 
     /**
      * CurrentUserExtension constructor.
