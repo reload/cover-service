@@ -172,4 +172,11 @@ class Material
     {
         return $this->cover;
     }
+
+    public function setCover(?Cover $cover): self
+    {
+        $this->cover = $cover;
+
+        return $this;
+    }
 }
