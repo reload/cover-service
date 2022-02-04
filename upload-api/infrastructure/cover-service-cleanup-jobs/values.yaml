@@ -33,3 +33,5 @@ app:
     min_spare_servers: "15"
     max_spare_servers: "30"
     slowlog_timeout: "1"
+  coverstore:
+    folder: "UserUpload"
