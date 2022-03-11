@@ -54,7 +54,8 @@ class RequeueCommand extends Command
     {
         $this->setDescription('Clean up local stored images after upload detected')
             ->addOption('agency-id', null, InputOption::VALUE_OPTIONAL, 'Limit by agency id')
-            ->addOption('identifier', null, InputOption::VALUE_OPTIONAL, 'Only for this identifier');
+            ->addOption('identifier', null, InputOption::VALUE_OPTIONAL, 'Only for this identifier')
+            ->addOption('force', null, InputOption::VALUE_NONE, 'Force re-upload of image even if it exists in the cover store');
     }
 
     /**
@@ -64,6 +65,7 @@ class RequeueCommand extends Command
     {
         $agencyId = $input->getOption('agency-id');
         $identifier = $input->getOption('identifier');
+        $force = $input->getOption('force');
 
         $materials = [];
         if (is_null($identifier)) {
@@ -81,7 +83,7 @@ class RequeueCommand extends Command
 
         foreach ($materials as $material) {
             /** @var Material $material */
-            if (!$this->coverStoreService->exists($material->getIsIdentifier())) {
+            if (!$this->coverStoreService->exists($material->getIsIdentifier()) || $force) {
                 $base = 'https://'.rtrim($this->router->generate('homepage'), '/');
                 $url = $base.$this->storage->resolveUri($material->getCover(), 'file');
 
