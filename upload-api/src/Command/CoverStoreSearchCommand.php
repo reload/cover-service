@@ -54,6 +54,6 @@ class CoverStoreSearchCommand extends Command
 
         $output->writeln($items);
 
-        return 0;
+        return Command::SUCCESS;
     }
 }
