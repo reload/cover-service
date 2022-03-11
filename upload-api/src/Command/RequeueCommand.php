@@ -65,9 +65,19 @@ class RequeueCommand extends Command
         $agencyId = $input->getOption('agency-id');
         $identifier = $input->getOption('identifier');
 
-        // @TODO: load single record.
+        $materials = [];
+        if (is_null($identifier)) {
+            $materials = $this->materialRepository->getByAgencyId($agencyId);
+        } else {
+            $material = $this->materialRepository->findOneBy(['isIdentifier' => $identifier]);
+            if (isset($material)) {
+                $materials[] = $material;
+            } else {
+                $output->writeln('<error>Material not found</error>');
 
-        $materials = $this->materialRepository->getByAgencyId($agencyId);
+                return Command::FAILURE;
+            }
+        }
 
         foreach ($materials as $material) {
             /** @var Material $material */
@@ -86,6 +96,6 @@ class RequeueCommand extends Command
             }
         }
 
-        return 0;
+        return Command::SUCCESS;
     }
 }
