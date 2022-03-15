@@ -9,18 +9,12 @@
     </PossiblyNullReference>
   </file>
   <file src="src/Command/RequeueCommand.php">
-    <PossiblyNullArgument occurrences="5">
-      <code>$material-&gt;getAgencyId()</code>
-      <code>$material-&gt;getCover()</code>
+    <PossiblyNullArgument occurrences="1">
       <code>$material-&gt;getIsIdentifier()</code>
-      <code>$material-&gt;getIsIdentifier()</code>
-      <code>$material-&gt;getIsType()</code>
     </PossiblyNullArgument>
-  </file>
-  <file src="src/Entity/Cover.php">
-    <PossiblyNullPropertyAssignmentValue occurrences="1">
-      <code>$size</code>
-    </PossiblyNullPropertyAssignmentValue>
+    <UndefinedInterfaceMethod occurrences="1">
+      <code>section</code>
+    </UndefinedInterfaceMethod>
   </file>
   <file src="src/EventSubscriber/MaterialPostWriteSubscriber.php">
     <PossiblyNullArgument occurrences="4">
@@ -57,5 +51,17 @@
       <code>$file</code>
       <code>$file</code>
     </PossiblyNullArgument>
+  </file>
+  <file src="src/Service/ProgressBarTrait.php">
+    <RedundantCondition occurrences="8">
+      <code>$this-&gt;progressBar</code>
+      <code>$this-&gt;progressBar</code>
+      <code>$this-&gt;progressBar</code>
+      <code>$this-&gt;progressBar</code>
+      <code>$this-&gt;progressBar</code>
+      <code>$this-&gt;progressBar</code>
+      <code>$this-&gt;progressBar</code>
+      <code>$this-&gt;progressBar</code>
+    </RedundantCondition>
   </file>
 </files>

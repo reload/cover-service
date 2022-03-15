@@ -10,8 +10,11 @@ use App\Entity\Material;
 use App\Message\CoverUserUploadMessage;
 use App\Repository\MaterialRepository;
 use App\Service\CoverService;
+use App\Service\ProgressBarTrait;
 use App\Utils\Types\VendorState;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -24,18 +27,21 @@ use Vich\UploaderBundle\Storage\StorageInterface;
  */
 class RequeueCommand extends Command
 {
+    use ProgressBarTrait;
+
     private CoverService $coverStoreService;
     private MaterialRepository $materialRepository;
     private StorageInterface $storage;
     private MessageBusInterface $bus;
     private RouterInterface $router;
+    private EntityManagerInterface $em;
 
     protected static $defaultName = 'app:image:requeue';
 
     /**
      * CleanUpCommand constructor.
      */
-    public function __construct(MaterialRepository $materialRepository, CoverService $coverStoreService, StorageInterface $storage, MessageBusInterface $bus, RouterInterface $router)
+    public function __construct(MaterialRepository $materialRepository, CoverService $coverStoreService, StorageInterface $storage, MessageBusInterface $bus, RouterInterface $router, EntityManagerInterface $entityManager)
     {
         parent::__construct();
         $this->materialRepository = $materialRepository;
@@ -43,6 +49,7 @@ class RequeueCommand extends Command
         $this->storage = $storage;
         $this->bus = $bus;
         $this->router = $router;
+        $this->em = $entityManager;
     }
 
     /**
@@ -67,13 +74,25 @@ class RequeueCommand extends Command
         $identifier = $input->getOption('identifier');
         $force = $input->getOption('force');
 
-        $materials = [];
+        $section = $output->section('Sheet');
+        $progressBarSheet = new ProgressBar($section);
+        $progressBarSheet->setFormat('[%bar%] %elapsed% (%memory%) - %message%');
+        $this->setProgressBar($progressBarSheet);
+        $this->progressStart('Loading data from the database');
+        $batchSize = 200;
+        $i = 1;
+
         if (is_null($identifier)) {
-            $materials = $this->materialRepository->getByAgencyId($agencyId);
+            $query = $this->materialRepository->getByAgencyId($agencyId);
         } else {
             $material = $this->materialRepository->findOneBy(['isIdentifier' => $identifier]);
             if (isset($material)) {
-                $materials[] = $material;
+                $this->sendMessage($material);
+                $this->progressAdvance();
+                $this->progressMessage($i.' material found in DB');
+                $this->progressFinish();
+
+                return Command::SUCCESS;
             } else {
                 $output->writeln('<error>Material not found</error>');
 
@@ -81,23 +100,40 @@ class RequeueCommand extends Command
             }
         }
 
-        foreach ($materials as $material) {
-            /** @var Material $material */
+        /** @var Material $material */
+        foreach ($query->toIterable() as $material) {
             if (!$this->coverStoreService->exists($material->getIsIdentifier()) || $force) {
-                $base = 'https://'.rtrim($this->router->generate('homepage'), '/');
-                $url = $base.$this->storage->resolveUri($material->getCover(), 'file');
+                $this->sendMessage($material);
 
-                $message = new CoverUserUploadMessage();
-                $message->setIdentifierType($material->getIsType());
-                $message->setIdentifier($material->getIsIdentifier());
-                $message->setOperation(VendorState::INSERT);
-                $message->setImageUrl($url);
-                $message->setAccrediting($material->getAgencyId());
+                // Free memory when batch size is reached.
+                if (0 === ($i % $batchSize)) {
+                    $this->em->clear();
+                    gc_collect_cycles();
+                }
 
-                $this->bus->dispatch($message);
+                $this->progressAdvance();
+                $this->progressMessage($i.' material(s) found in DB');
+                ++$i;
             }
         }
 
+        $this->progressFinish();
+
         return Command::SUCCESS;
+    }
+
+    private function sendMessage($material)
+    {
+        $base = 'https://'.rtrim($this->router->generate('homepage'), '/');
+        $url = $base.$this->storage->resolveUri($material->getCover(), 'file');
+
+        $message = new CoverUserUploadMessage();
+        $message->setIdentifierType($material->getIsType());
+        $message->setIdentifier($material->getIsIdentifier());
+        $message->setOperation(VendorState::INSERT);
+        $message->setImageUrl($url);
+        $message->setAccrediting($material->getAgencyId());
+
+        $this->bus->dispatch($message);
     }
 }
