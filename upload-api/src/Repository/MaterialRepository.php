@@ -34,4 +34,17 @@ class MaterialRepository extends ServiceEntityRepository
 
         return $queryBuilder->getQuery();
     }
+
+    /**
+     * Get all materials.
+     *
+     * @return Query
+     *   The query build
+     */
+    public function getAll(): Query
+    {
+        $queryBuilder = $this->createQueryBuilder('m');
+
+        return $queryBuilder->getQuery();
+    }
 }
