@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Material;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Query;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -17,16 +18,20 @@ class MaterialRepository extends ServiceEntityRepository
     }
 
     /**
-     * @param int $agencyId
+     * Get query to load materials based on agency id.
      *
-     * @return array
+     * @param int $agencyId
+     *   Agency ID
+     *
+     * @return Query
+     *   The query build
      */
-    public function getByAgencyId(int $agencyId): array
+    public function getByAgencyId(int $agencyId): Query
     {
-        $query = $this->createQueryBuilder('m')
-            ->where('m.agencyId = '.$agencyId)
-            ->getQuery();
+        $queryBuilder = $this->createQueryBuilder('m')
+            ->where('m.agencyId = :agencyId')
+            ->setParameter(':agencyId', $agencyId);
 
-        return $query->execute();
+        return $queryBuilder->getQuery();
     }
 }
