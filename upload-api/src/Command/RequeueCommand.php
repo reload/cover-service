@@ -83,7 +83,11 @@ class RequeueCommand extends Command
         $i = 1;
 
         if (is_null($identifier)) {
-            $query = $this->materialRepository->getByAgencyId($agencyId);
+            if (is_null($agencyId)) {
+                $query = $this->materialRepository->getAll();
+            } else {
+                $query = $this->materialRepository->getByAgencyId($agencyId);
+            }
         } else {
             $material = $this->materialRepository->findOneBy(['isIdentifier' => $identifier]);
             if (isset($material)) {
