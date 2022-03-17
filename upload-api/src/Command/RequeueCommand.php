@@ -106,7 +106,7 @@ class RequeueCommand extends Command
 
         /** @var Material $material */
         foreach ($query->toIterable() as $material) {
-            if (!$this->coverStoreService->exists($material->getIsIdentifier()) || $force) {
+            if ($force || !$this->coverStoreService->exists($material->getIsIdentifier())) {
                 $this->sendMessage($material);
 
                 // Free memory when batch size is reached.
