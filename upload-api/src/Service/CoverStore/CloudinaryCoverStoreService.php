@@ -9,6 +9,8 @@ namespace App\Service\CoverStore;
 
 use App\Exception\CoverStoreCredentialException;
 use App\Utils\CoverStore\CoverStoreItem;
+use Cloudinary\Api\Search\SearchApi;
+use Cloudinary\Configuration\Configuration;
 
 /**
  * Class CloudinaryCoverStoreService.
@@ -44,23 +46,27 @@ class CloudinaryCoverStoreService implements CoverStoreInterface
         $this->folder = $bindCloudinaryFolder;
 
         // Set global Cloudinary configuration.
-        \Cloudinary::config([
-            'cloud_name' => $bindCloudinaryCloudName,
-            'api_key' => $bindCloudinaryApiKey,
-            'api_secret' => $bindCloudinaryApiSecret,
-            'secure' => true, ]);
+        Configuration::instance([
+            'cloud' => [
+                'cloud_name' => $bindCloudinaryCloudName,
+                'api_key' => $bindCloudinaryApiKey,
+                'api_secret' => $bindCloudinaryApiSecret,
+                'secure' => true,
+            ],
+        ]);
     }
 
     /**
      * {@inheritdoc}
+
+     * @throws \Cloudinary\Api\Exception\GeneralError
      */
     public function search(string $identifier = null): array
     {
-        $search = new \Cloudinary\Search();
-        $search
-            ->expression('folder='.$this->folder)
-            ->sort_by('public_id', 'desc')
-            ->max_results(100);
+        $search = new SearchApi();
+        $search->expression('folder='.$this->folder)
+            ->sortBy('public_id', 'desc')
+            ->maxResults(100);
 
         if (!is_null($identifier)) {
             $query = 'public_id:'.$this->folder.'/'.addcslashes($identifier, ':');
