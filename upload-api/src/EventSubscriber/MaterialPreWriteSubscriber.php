@@ -17,6 +17,7 @@ use Symfony\Component\HttpKernel\Event\ViewEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
 use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Security\Core\Security;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * Class MaterialPreWriteSubscriber.
@@ -24,9 +25,7 @@ use Symfony\Component\Security\Core\Security;
 final class MaterialPreWriteSubscriber implements EventSubscriberInterface
 {
     private MessageBusInterface $bus;
-
-    /** @var User */
-    private $user;
+    private UserInterface $user;
 
     /**
      * MaterialPreWriteSubscriber constructor.

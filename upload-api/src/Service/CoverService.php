@@ -25,9 +25,9 @@ class CoverService
     /**
      * CoverStoreService constructor.
      *
-     * @param HttpClientInterface $httpClient
      * @param StorageInterface $storage
      * @param Filesystem $filesystem
+     * @param CoverStoreInterface $coverStore
      */
     public function __construct(StorageInterface $storage, Filesystem $filesystem, CoverStoreInterface $coverStore)
     {
@@ -70,14 +70,31 @@ class CoverService
     /**
      * Remove the local file.
      *
-     * @param $cover
+     * @param Cover $cover
      *   The cover to remove the file for
      */
-    public function removeLocalFile($cover): void
+    public function removeLocalFile(Cover $cover): void
     {
         $file = $this->storage->resolvePath($cover, 'file');
         if ($this->filesystem->exists($file)) {
             $this->filesystem->remove($file);
         }
     }
+
+    /**
+     * Check if file exits in the file system.
+     *
+     * @param Cover $cover
+     *   The cover entity to check file for.
+     *
+     * @return bool
+     *   If found ture else false.
+     */
+    public function existsLocalFile(Cover $cover): bool
+    {
+        $file = $this->storage->resolvePath($cover, 'file');
+
+        return $this->filesystem->exists($file);
+    }
+
 }
