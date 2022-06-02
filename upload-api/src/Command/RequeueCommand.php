@@ -131,8 +131,8 @@ class RequeueCommand extends Command
     /**
      * Send upload message into queue system.
      *
-     * @param Material $material
-     *   The material to upload to cover service.
+     * @param material $material
+     *   The material to upload to cover service
      */
     private function sendMessage(Material $material)
     {

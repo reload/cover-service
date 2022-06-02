@@ -41,7 +41,8 @@ class CleanUpDatabaseCommand extends Command
      */
     protected function configure(): void
     {
-        $this->addOption('dry-run', null,  InputOption::VALUE_NONE, 'Only show what would have been removed.')
+        $this->addOption('dry-run', null, InputOption::VALUE_NONE, 'Only show what would have been removed.')
+            ->addOption('limit', null, InputOption::VALUE_OPTIONAL, 'Limit number of records to load.', 0)
             ->setDescription('Try to clean out invalid entities and make cover as upload if so.');
     }
 
@@ -50,6 +51,8 @@ class CleanUpDatabaseCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
+        $limit = $input->getOption('limit');
+
         $dryRun = $input->getOption('dry-run');
         if ($dryRun) {
             $output->writeln('Dry-run mode...');
@@ -60,7 +63,7 @@ class CleanUpDatabaseCommand extends Command
         $fileExists = 0;
         $noMaterial = 0;
 
-        $query = $this->coverRepository->getIsNotUploaded();
+        $query = $this->coverRepository->getIsNotUploaded($limit);
         /** @var Cover $cover */
         foreach ($query->toIterable() as $cover) {
             $output->write('.');
@@ -70,7 +73,7 @@ class CleanUpDatabaseCommand extends Command
                     $this->em->remove($cover);
                     $this->em->flush();
                 }
-                $noMaterial++;
+                ++$noMaterial;
                 continue;
             }
 
@@ -84,25 +87,22 @@ class CleanUpDatabaseCommand extends Command
                         $this->em->flush();
                     }
 
-                    $removed++;
-                }
-                else {
-                    $fileExists++;
+                    ++$removed;
+                } else {
+                    ++$fileExists;
                     $cover->setUploaded(true);
                     $this->em->flush();
                 }
-            }
-            else {
-                $existsInCS++;
+            } else {
+                ++$existsInCS;
             }
         }
 
         $output->writeln('');
-        $output->writeln('Removed: ' .  $removed);
-        $output->writeln('Exists in CS: ' . $existsInCS);
-        $output->writeln('File exists: ' . $fileExists);
-        $output->writeln('No material: ' . $noMaterial);
-
+        $output->writeln('Removed: '.$removed);
+        $output->writeln('Exists in CS: '.$existsInCS);
+        $output->writeln('File exists: '.$fileExists);
+        $output->writeln('No material: '.$noMaterial);
 
         return Command::SUCCESS;
     }

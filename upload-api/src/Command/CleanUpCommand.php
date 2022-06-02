@@ -12,6 +12,7 @@ use App\Service\CoverService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
@@ -44,7 +45,8 @@ class CleanUpCommand extends Command
      */
     protected function configure(): void
     {
-        $this->setDescription('Clean up local stored images after upload detected');
+        $this->addOption('limit', null, InputOption::VALUE_OPTIONAL, 'Limit number of records to load.', 0)
+            ->setDescription('Clean up local stored images after upload detected');
     }
 
     /**
@@ -52,9 +54,11 @@ class CleanUpCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $covers = $this->coverRepository->getIsNotUploaded();
-        foreach ($covers as $cover) {
-            /** @var Cover $cover */
+        $limit = $input->getOption('limit');
+
+        $query = $this->coverRepository->getIsNotUploaded($limit);
+        /** @var Cover $cover */
+        foreach ($query->toIterable() as $cover) {
             if ($this->coverStoreService->exists($cover->getMaterial()->getIsIdentifier())) {
                 $this->coverStoreService->removeLocalFile($cover);
 

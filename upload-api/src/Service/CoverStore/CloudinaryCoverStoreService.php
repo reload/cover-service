@@ -59,6 +59,7 @@ class CloudinaryCoverStoreService implements CoverStoreInterface
     /**
      * {@inheritdoc}
 
+     *
      * @throws \Cloudinary\Api\Exception\GeneralError
      */
     public function search(string $identifier = null): array

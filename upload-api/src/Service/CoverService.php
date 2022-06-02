@@ -10,7 +10,6 @@ use App\Entity\Cover;
 use App\Service\CoverStore\CoverStoreInterface;
 use App\Utils\CoverStore\CoverStoreItem;
 use Symfony\Component\Filesystem\Filesystem;
-use Symfony\Contracts\HttpClient\HttpClientInterface;
 use Vich\UploaderBundle\Storage\StorageInterface;
 
 /**
@@ -84,11 +83,11 @@ class CoverService
     /**
      * Check if file exits in the file system.
      *
-     * @param Cover $cover
-     *   The cover entity to check file for.
+     * @param cover $cover
+     *   The cover entity to check file for
      *
      * @return bool
-     *   If found ture else false.
+     *   If found ture else false
      */
     public function existsLocalFile(Cover $cover): bool
     {
@@ -96,5 +95,4 @@ class CoverService
 
         return $this->filesystem->exists($file);
     }
-
 }

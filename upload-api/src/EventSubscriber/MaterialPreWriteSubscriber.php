@@ -10,7 +10,6 @@ use ApiPlatform\Core\EventListener\EventPriorities;
 use App\Entity\Material;
 use App\Message\CoverUserUploadMessage;
 use App\Utils\Types\VendorState;
-use DanskernesDigitaleBibliotek\AgencyAuthBundle\Security\User;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Event\ViewEvent;

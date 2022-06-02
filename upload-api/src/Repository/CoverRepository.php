@@ -20,14 +20,22 @@ class CoverRepository extends ServiceEntityRepository
     /**
      * Find all covers that have not been marked as uploaded.
      *
+     * @param int $limit
+     *   Limit the number of records
+     *
      * @return Query
      *   DQL query
      */
-    public function getIsNotUploaded(): Query
+    public function getIsNotUploaded(int $limit = 0): Query
     {
-        return $this->createQueryBuilder('c')
+        $queryBuilder = $this->createQueryBuilder('c')
             ->where('c.isUploaded = false')
-            ->orderBy('c.updatedAt', 'ASC')
-            ->getQuery();
+            ->orderBy('c.updatedAt', 'ASC');
+
+        if (0 !== $limit) {
+            $queryBuilder->setMaxResults($limit);
+        }
+
+        return $queryBuilder->getQuery();
     }
 }
