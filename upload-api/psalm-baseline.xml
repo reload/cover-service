@@ -8,9 +8,28 @@
       <code>getIsIdentifier</code>
     </PossiblyNullReference>
   </file>
-  <file src="src/Command/RequeueCommand.php">
+  <file src="src/Command/CleanUpDatabaseCommand.php">
+    <PossiblyNullArgument occurrences="2">
+      <code>$cover-&gt;getMaterial()-&gt;getIsIdentifier()</code>
+      <code>$material</code>
+    </PossiblyNullArgument>
+    <PossiblyNullReference occurrences="1">
+      <code>getIsIdentifier</code>
+    </PossiblyNullReference>
+  </file>
+  <file src="src/Command/ExistsCommand.php">
     <PossiblyNullArgument occurrences="1">
       <code>$material-&gt;getIsIdentifier()</code>
+    </PossiblyNullArgument>
+  </file>
+  <file src="src/Command/RequeueCommand.php">
+    <PossiblyNullArgument occurrences="6">
+      <code>$material-&gt;getAgencyId()</code>
+      <code>$material-&gt;getCover()</code>
+      <code>$material-&gt;getCover()</code>
+      <code>$material-&gt;getIsIdentifier()</code>
+      <code>$material-&gt;getIsIdentifier()</code>
+      <code>$material-&gt;getIsType()</code>
     </PossiblyNullArgument>
     <UndefinedInterfaceMethod occurrences="1">
       <code>section</code>
@@ -29,9 +48,12 @@
       <code>$item-&gt;getIsIdentifier()</code>
       <code>$item-&gt;getIsType()</code>
     </PossiblyNullArgument>
-    <PropertyTypeCoercion occurrences="1">
+    <PossiblyNullPropertyAssignmentValue occurrences="1">
       <code>$security-&gt;getUser()</code>
-    </PropertyTypeCoercion>
+    </PossiblyNullPropertyAssignmentValue>
+    <UndefinedInterfaceMethod occurrences="1">
+      <code>getAgency</code>
+    </UndefinedInterfaceMethod>
   </file>
   <file src="src/EventSubscriber/ResolveCoverContentUrlSubscriber.php">
     <PossiblyNullArgument occurrences="1">
@@ -47,7 +69,8 @@
     </PossiblyInvalidArgument>
   </file>
   <file src="src/Service/CoverService.php">
-    <PossiblyNullArgument occurrences="2">
+    <PossiblyNullArgument occurrences="3">
+      <code>$file</code>
       <code>$file</code>
       <code>$file</code>
     </PossiblyNullArgument>
