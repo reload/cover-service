@@ -91,10 +91,11 @@ class RequeueCommand extends Command
         } else {
             $material = $this->materialRepository->findOneBy(['isIdentifier' => $identifier]);
             if (isset($material)) {
-                $this->sendMessage($material);
                 $this->progressAdvance();
                 $this->progressMessage($i.' material found in DB');
                 $this->progressFinish();
+
+                $this->sendMessage($material);
 
                 return Command::SUCCESS;
             } else {
@@ -107,17 +108,18 @@ class RequeueCommand extends Command
         /** @var Material $material */
         foreach ($query->toIterable() as $material) {
             if ($force || !$this->coverStoreService->exists($material->getIsIdentifier())) {
-                $this->sendMessage($material);
-
-                // Free memory when batch size is reached.
-                if (0 === ($i % $batchSize)) {
-                    $this->em->clear();
-                    gc_collect_cycles();
+                if ($this->coverStoreService->existsLocalFile($material->getCover())) {
+                    $this->sendMessage($material);
                 }
 
                 $this->progressAdvance();
                 $this->progressMessage($i.' material(s) found in DB');
                 ++$i;
+
+                // Free memory when batch size is reached.
+                if (0 === ($i % $batchSize)) {
+                    gc_collect_cycles();
+                }
             }
         }
 
@@ -126,7 +128,13 @@ class RequeueCommand extends Command
         return Command::SUCCESS;
     }
 
-    private function sendMessage($material)
+    /**
+     * Send upload message into queue system.
+     *
+     * @param material $material
+     *   The material to upload to cover service
+     */
+    private function sendMessage(Material $material)
     {
         $base = 'https://'.rtrim($this->router->generate('homepage'), '/');
         $url = $base.$this->storage->resolveUri($material->getCover(), 'file');

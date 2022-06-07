@@ -9,7 +9,7 @@
         "ext-iconv": "*",
         "ext-json": "*",
         "api-platform/core": "^2.6",
-        "cloudinary/cloudinary_php": "^1.12",
+        "cloudinary/cloudinary_php": "^2.7",
         "danskernesdigitalebibliotek/agency-auth-bundle": "^2.0",
         "doctrine/annotations": "^1.10",
         "doctrine/doctrine-bundle": "^2.5",
