@@ -15,8 +15,10 @@ See [keep a changelog](https://keepachangelog.com/en/1.0.0/) for information abo
 - New command to clean up database (app:database:cleanup)
 - New command to to check database records (app:cs:exists)
 
+### Fixed
+- Issues with re-queue command hangs-
+
 ### Changed
-- Fixed issues with re-queue command hangs-
 - Switched Cloudinary API to version 2.
 
 ## [2.2.6] - 2022-03-17
