@@ -307,4 +307,18 @@ class Cover
 
         return $this;
     }
+
+    public function __toString()
+    {
+        $str = [];
+        $str[] = str_repeat('-', 16).' Cover '.str_repeat('-', 16);
+        $str[] = "Id:\t\t$this->id";
+        $str[] = "Agency ID:\t$this->agencyId";
+        $str[] = "Is uploaded:\t$this->isUploaded";
+        $str[] = "File:\t$this->file";
+        $str[] = "Size:\t$this->size";
+        $str[] = str_repeat('-', 39);
+
+        return implode("\n", $str)."\n";
+    }
 }

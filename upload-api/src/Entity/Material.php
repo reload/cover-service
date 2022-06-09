@@ -179,4 +179,17 @@ class Material
 
         return $this;
     }
+
+    public function __toString()
+    {
+        $str = [];
+        $str[] = str_repeat('-', 14).' Material '.str_repeat('-', 14);
+        $str[] = "Id:\t\t$this->id";
+        $str[] = "Type:\t\t$this->isType";
+        $str[] = "Identifier:\t$this->isIdentifier";
+        $str[] = "Agency ID:\t$this->agencyId";
+        $str[] = str_repeat('-', 38);
+
+        return implode("\n", $str)."\n";
+    }
 }

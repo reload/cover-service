@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Cover;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Query;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -17,18 +18,24 @@ class CoverRepository extends ServiceEntityRepository
     }
 
     /**
-     * Find all covers that have not been uploaded.
+     * Find all covers that have not been marked as uploaded.
      *
-     * @return CoverRepository[]
-     *   Array of Cover entities
+     * @param int $limit
+     *   Limit the number of records
+     *
+     * @return Query
+     *   DQL query
      */
-    public function getIsNotUploaded(): array
+    public function getIsNotUploaded(int $limit = 0): Query
     {
-        $query = $this->createQueryBuilder('c')
+        $queryBuilder = $this->createQueryBuilder('c')
             ->where('c.isUploaded = false')
-            ->orderBy('c.updatedAt', 'ASC')
-            ->getQuery();
+            ->orderBy('c.updatedAt', 'ASC');
 
-        return $query->execute();
+        if (0 !== $limit) {
+            $queryBuilder->setMaxResults($limit);
+        }
+
+        return $queryBuilder->getQuery();
     }
 }

@@ -250,6 +250,7 @@ components:
         size:
           type: integer
           example: 769822
+          nullable: true
         agencyId:
           type: string
           example: '123456'
