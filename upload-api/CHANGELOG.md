@@ -11,6 +11,8 @@ See [keep a changelog](https://keepachangelog.com/en/1.0.0/) for information abo
 
 ## [Unreleased]
 
+## [2.2.7] - 2022-06-09
+
 ### Added
 - New command to clean up database (app:database:cleanup)
 - New command to to check database records (app:cs:exists)
