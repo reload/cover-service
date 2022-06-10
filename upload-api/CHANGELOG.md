@@ -11,10 +11,13 @@ See [keep a changelog](https://keepachangelog.com/en/1.0.0/) for information abo
 
 ## [Unreleased]
 
+### Changed
+- Updated minor version of symfony.
+
 ## [2.2.8] - 2022-06-10
 
 ### Changed
-- Updated app:database:cleanup command to mark uploaded correctly. 
+- Updated app:database:cleanup command to mark uploaded correctly.
 
 ## [2.2.7] - 2022-06-09
 
