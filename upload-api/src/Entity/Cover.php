@@ -203,7 +203,7 @@ class Cover
      */
     public function getFile(): ?File
     {
-        return $this->file;
+        return $this->file ?? null;
     }
 
     /**
