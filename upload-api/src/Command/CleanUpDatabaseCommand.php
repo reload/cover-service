@@ -59,7 +59,7 @@ class CleanUpDatabaseCommand extends Command
         }
 
         $removed = 0;
-        $existsInCS = 0;
+        $existsInCoverStore = 0;
         $fileExists = 0;
         $noMaterial = 0;
 
@@ -78,7 +78,7 @@ class CleanUpDatabaseCommand extends Command
             }
 
             if (!$this->coverStoreService->exists($cover->getMaterial()->getIsIdentifier())) {
-                // Check if local file exists as it may not do to service moving installation.
+                // Check if local file exists as it may not do so do to service have been moved around.
                 if (!$this->coverStoreService->existsLocalFile($cover)) {
                     if (!$dryRun) {
                         $material = $cover->getMaterial();
@@ -89,18 +89,19 @@ class CleanUpDatabaseCommand extends Command
 
                     ++$removed;
                 } else {
+                    // Local exists but not in cover storage.
                     ++$fileExists;
-                    $cover->setUploaded(true);
-                    $this->em->flush();
                 }
             } else {
-                ++$existsInCS;
+                ++$existsInCoverStore;
+                $cover->setUploaded(true);
+                $this->em->flush();
             }
         }
 
         $output->writeln('');
         $output->writeln('Removed: '.$removed);
-        $output->writeln('Exists in CS: '.$existsInCS);
+        $output->writeln('Exists in CS: '.$existsInCoverStore);
         $output->writeln('File exists: '.$fileExists);
         $output->writeln('No material: '.$noMaterial);
 
