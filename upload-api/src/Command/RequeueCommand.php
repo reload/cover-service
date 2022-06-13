@@ -62,6 +62,7 @@ class RequeueCommand extends Command
         $this->setDescription('Clean up local stored images after upload detected')
             ->addOption('agency-id', null, InputOption::VALUE_OPTIONAL, 'Limit by agency id')
             ->addOption('identifier', null, InputOption::VALUE_OPTIONAL, 'Only for this identifier')
+            ->addOption('is-not-uploaded', null, InputOption::VALUE_NONE, 'Only look at records that is not marked as uploaded')
             ->addOption('force', null, InputOption::VALUE_NONE, 'Force re-upload of image even if it exists in the cover store');
     }
 
@@ -72,6 +73,7 @@ class RequeueCommand extends Command
     {
         $agencyId = $input->getOption('agency-id');
         $identifier = $input->getOption('identifier');
+        $isNotUploaded = $input->getOption('is-not-uploaded');
         $force = $input->getOption('force');
 
         $section = $output->section('Sheet');
@@ -84,9 +86,9 @@ class RequeueCommand extends Command
 
         if (is_null($identifier)) {
             if (is_null($agencyId)) {
-                $query = $this->materialRepository->getAll();
+                $query = $this->materialRepository->getAll($isNotUploaded);
             } else {
-                $query = $this->materialRepository->getByAgencyId($agencyId);
+                $query = $this->materialRepository->getByAgencyId($agencyId, $isNotUploaded);
             }
         } else {
             $material = $this->materialRepository->findOneBy(['isIdentifier' => $identifier]);
