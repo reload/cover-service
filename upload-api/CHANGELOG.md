@@ -11,9 +11,11 @@ See [keep a changelog](https://keepachangelog.com/en/1.0.0/) for information abo
 
 ## [Unreleased]
 
+## [2.2.9] - 2022-06-13
+
 ### Changed
-- Updated minor version of symfony.
-- Added support for filtering on isUpload on requeue command.
+- Updated minor version of Symfony.
+- Added support for filtering on isUploaded on re-queue command.
 
 ## [2.2.8] - 2022-06-10
 
