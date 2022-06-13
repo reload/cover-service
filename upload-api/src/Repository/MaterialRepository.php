@@ -22,19 +22,19 @@ class MaterialRepository extends ServiceEntityRepository
      *
      * @param int $agencyId
      *   Agency ID
-     * @param bool $isNotUpload
-     *   Filter base on those that do not have covers marked as uploaded.
+     * @param bool $isNotUploaded
+     *   Filter base on those that do not have covers marked as uploaded
      *
      * @return Query
      *   The query build
      */
-    public function getByAgencyId(int $agencyId, bool $isNotUpload): Query
+    public function getByAgencyId(int $agencyId, bool $isNotUploaded): Query
     {
         $queryBuilder = $this->createQueryBuilder('m')
             ->where('m.agencyId = :agencyId')
             ->setParameter(':agencyId', $agencyId);
 
-        if ($isNotUpload) {
+        if ($isNotUploaded) {
             $queryBuilder->join('m.cover', 'c')
                 ->where('c.isUploaded = 0');
         }
@@ -45,17 +45,17 @@ class MaterialRepository extends ServiceEntityRepository
     /**
      * Get all materials.
      *
-     * @param bool $isNotUpload
-     *   Filter base on those that do not have covers marked as uploaded.
+     * @param bool $isNotUploaded
+     *   Filter base on those that do not have covers marked as uploaded
      *
      * @return Query
      *   The query build
      */
-    public function getAll(bool $isNotUpload): Query
+    public function getAll(bool $isNotUploaded): Query
     {
         $queryBuilder = $this->createQueryBuilder('m');
 
-        if ($isNotUpload) {
+        if ($isNotUploaded) {
             $queryBuilder->join('m.cover', 'c')
                 ->where('c.isUploaded = 0');
         }
