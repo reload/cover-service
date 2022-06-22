@@ -9,8 +9,11 @@ namespace App\Service\CoverStore;
 
 use App\Exception\CoverStoreCredentialException;
 use App\Utils\CoverStore\CoverStoreItem;
+use Cloudinary\Api\Exception\GeneralError;
 use Cloudinary\Api\Search\SearchApi;
 use Cloudinary\Configuration\Configuration;
+use Symfony\Component\Cache\Adapter\AdapterInterface;
+use Psr\Cache\InvalidArgumentException;
 
 /**
  * Class CloudinaryCoverStoreService.
@@ -18,6 +21,8 @@ use Cloudinary\Configuration\Configuration;
 class CloudinaryCoverStoreService implements CoverStoreInterface
 {
     private string $folder;
+    private AdapterInterface $cache;
+    private int $cacheTTL;
 
     /**
      * CloudinaryCoverStoreService constructor.
@@ -31,7 +36,7 @@ class CloudinaryCoverStoreService implements CoverStoreInterface
      *
      * @throws CoverStoreCredentialException
      */
-    public function __construct(string $bindCloudinaryCloudName, string $bindCloudinaryApiKey, string $bindCloudinaryApiSecret, string $bindCloudinaryFolder)
+    public function __construct(string $bindCloudinaryCloudName, string $bindCloudinaryApiKey, string $bindCloudinaryApiSecret, string $bindCloudinaryFolder, int $bindCloudinarySearchTTL, AdapterInterface $cache)
     {
         if (empty($bindCloudinaryCloudName)) {
             throw new CoverStoreCredentialException('Missing Cloudinary configuration in environment: CLOUDINARY_CLOUD_NAME');
@@ -54,38 +59,57 @@ class CloudinaryCoverStoreService implements CoverStoreInterface
                 'secure' => true,
             ],
         ]);
+
+        $this->cache = $cache;
+        $this->cacheTTL = $bindCloudinarySearchTTL;
     }
 
     /**
      * {@inheritdoc}
-
      *
      * @throws \Cloudinary\Api\Exception\GeneralError
      */
-    public function search(string $identifier = null): array
+    public function search(string $identifier = null, bool $refresh = false): array
     {
-        $search = new SearchApi();
-        $search->expression('folder='.$this->folder)
-            ->sortBy('public_id', 'desc')
-            ->maxResults(100);
-
-        if (!is_null($identifier)) {
-            $query = 'public_id:'.$this->folder.'/'.addcslashes($identifier, ':');
-            $search->expression($query);
+        try {
+            // Try getting item from cache.
+            $item = $this->cache->getItem('coverstore.search_query'.str_replace(':', '', $identifier));
+        } catch (InvalidArgumentException $exception) {
+            throw new GeneralError('Invalid cache argument');
         }
-        $result = $search->execute()->getArrayCopy();
 
-        $items = [];
-        foreach ($result['resources'] as $resources) {
-            $item = new CoverStoreItem();
-            $item->setId($resources['public_id'])
-                ->setUrl($resources['secure_url'])
-                ->setVendor($this->folder)
-                ->setSize($resources['bytes'])
-                ->setWidth((int) $resources['width'])
-                ->setHeight((int) $resources['height'])
-                ->setImageFormat($resources['format']);
-            $items[] = $item;
+        // Check if cache should be used if item have been located.
+        if ($refresh || !$item->isHit()) {
+            $search = new SearchApi();
+            $search->expression('folder='.$this->folder)
+                ->sortBy('public_id', 'desc')
+                ->maxResults(100);
+
+            if (!is_null($identifier)) {
+                $query = 'public_id:'.$this->folder.'/'.addcslashes($identifier, ':');
+                $search->expression($query);
+            }
+            $result = $search->execute()->getArrayCopy();
+
+            $items = [];
+            foreach ($result['resources'] as $resources) {
+                $item = new CoverStoreItem();
+                $item->setId($resources['public_id'])
+                    ->setUrl($resources['secure_url'])
+                    ->setVendor($this->folder)
+                    ->setSize($resources['bytes'])
+                    ->setWidth((int) $resources['width'])
+                    ->setHeight((int) $resources['height'])
+                    ->setImageFormat($resources['format']);
+                $items[] = $item;
+            }
+
+            $item->expiresAfter($this->cacheTTL);
+            $item->set($items);
+            $this->cache->save($item);
+        }
+        else {
+            $items = $item->get();
         }
 
         return $items;
