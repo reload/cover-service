@@ -61,9 +61,9 @@ class CoverService
     public function generateUrl(string $identifier): string
     {
         /** @var CoverStoreItem $item */
-        $item = $this->coverStore->search($identifier);
+        $items = $this->coverStore->search($identifier);
 
-        return !empty($item) ? $item->getUrl() : '';
+        return !empty($items) ? reset($items)->getUrl() : '';
     }
 
     /**
