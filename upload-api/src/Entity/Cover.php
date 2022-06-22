@@ -148,6 +148,12 @@ class Cover
     private bool $isUploaded = false;
 
     /**
+     * @var ?string
+     * @ORM\Column(type="string", nullable="true", options={"default":null})
+     */
+    private ?string $remoteUrl;
+
+    /**
      * @ORM\OneToOne(targetEntity=Material::class, mappedBy="cover", cascade={"persist", "remove"})
      */
     private ?Material $material;
@@ -282,6 +288,18 @@ class Cover
     public function setUploaded(bool $isUploaded): self
     {
         $this->isUploaded = $isUploaded;
+
+        return $this;
+    }
+
+    public function getRemoteUrl(): ?string
+    {
+        return $this->remoteUrl;
+    }
+
+    public function setRemoteUrl(string $url): self
+    {
+        $this->remoteUrl = $url;
 
         return $this;
     }

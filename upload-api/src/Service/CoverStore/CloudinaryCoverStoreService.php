@@ -12,8 +12,8 @@ use App\Utils\CoverStore\CoverStoreItem;
 use Cloudinary\Api\Exception\GeneralError;
 use Cloudinary\Api\Search\SearchApi;
 use Cloudinary\Configuration\Configuration;
-use Symfony\Component\Cache\Adapter\AdapterInterface;
 use Psr\Cache\InvalidArgumentException;
+use Symfony\Component\Cache\Adapter\AdapterInterface;
 
 /**
  * Class CloudinaryCoverStoreService.
@@ -73,13 +73,13 @@ class CloudinaryCoverStoreService implements CoverStoreInterface
     {
         try {
             // Try getting item from cache.
-            $item = $this->cache->getItem('coverstore.search_query'.str_replace(':', '', $identifier));
+            $cacheItem = $this->cache->getItem('coverstore.search_query'.str_replace(':', '', $identifier));
         } catch (InvalidArgumentException $exception) {
             throw new GeneralError('Invalid cache argument');
         }
 
         // Check if cache should be used if item have been located.
-        if ($refresh || !$item->isHit()) {
+        if ($refresh || !$cacheItem->isHit()) {
             $search = new SearchApi();
             $search->expression('folder='.$this->folder)
                 ->sortBy('public_id', 'desc')
@@ -104,12 +104,11 @@ class CloudinaryCoverStoreService implements CoverStoreInterface
                 $items[] = $item;
             }
 
-            $item->expiresAfter($this->cacheTTL);
-            $item->set($items);
-            $this->cache->save($item);
-        }
-        else {
-            $items = $item->get();
+            $cacheItem->expiresAfter($this->cacheTTL);
+            $cacheItem->set($items);
+            $this->cache->save($cacheItem);
+        } else {
+            $items = $cacheItem->get();
         }
 
         return $items;

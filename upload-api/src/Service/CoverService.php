@@ -9,6 +9,7 @@ namespace App\Service;
 use App\Entity\Cover;
 use App\Service\CoverStore\CoverStoreInterface;
 use App\Utils\CoverStore\CoverStoreItem;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Filesystem\Filesystem;
 use Vich\UploaderBundle\Storage\StorageInterface;
 
@@ -20,6 +21,7 @@ class CoverService
     private StorageInterface $storage;
     private Filesystem $filesystem;
     private CoverStoreInterface $coverStore;
+    private EntityManagerInterface $em;
 
     /**
      * CoverStoreService constructor.
@@ -28,11 +30,12 @@ class CoverService
      * @param Filesystem $filesystem
      * @param CoverStoreInterface $coverStore
      */
-    public function __construct(StorageInterface $storage, Filesystem $filesystem, CoverStoreInterface $coverStore)
+    public function __construct(StorageInterface $storage, Filesystem $filesystem, CoverStoreInterface $coverStore, EntityManagerInterface $entityManager)
     {
         $this->storage = $storage;
         $this->filesystem = $filesystem;
         $this->coverStore = $coverStore;
+        $this->em = $entityManager;
     }
 
     /**
@@ -50,20 +53,43 @@ class CoverService
     }
 
     /**
-     * Create URL that matches cover store.
+     * Search the cover store.
      *
      * @param string $identifier
+     *   Identifier to search for in the cover store
+     *
+     * @return CoverStoreItem
+     */
+    public function search(string $identifier): ?CoverStoreItem
+    {
+        $items = $this->coverStore->search($identifier);
+
+        return reset($items);
+    }
+
+    /**
+     * Create URL that matches cover store.
+     *
+     * @param Cover $cover
      *   The cover entity to generate url for
      *
      * @return string
      *   The remote url for the cover if found else the empty string
      */
-    public function generateUrl(string $identifier): string
+    public function generateUrl(Cover $cover): string
     {
-        /** @var CoverStoreItem $item */
-        $items = $this->coverStore->search($identifier);
+        $url = $cover->getRemoteUrl();
+        if (is_null($url)) {
+            /** @var CoverStoreItem $item */
+            $items = $this->coverStore->search($cover->getMaterial()->getIsIdentifier());
+            $url = !empty($items) ? reset($items)->getUrl() : '';
 
-        return !empty($items) ? reset($items)->getUrl() : '';
+            // This is a side effect, but it's the best of all evils at the moment.
+            $cover->setRemoteUrl($url);
+            $this->em->flush();
+        }
+
+        return $url;
     }
 
     /**
