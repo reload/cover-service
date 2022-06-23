@@ -38,4 +38,26 @@ class CoverRepository extends ServiceEntityRepository
 
         return $queryBuilder->getQuery();
     }
+
+    /**
+     * Find all covers that do not have remote url defined.
+     *
+     * @param int $limit
+     *   Limit the number of records
+     *
+     * @return Query
+     *   DQL query
+     */
+    public function getNoRemoteUrl(int $limit = 0): Query
+    {
+        $queryBuilder = $this->createQueryBuilder('c')
+            ->where('c.remoteUrl is null')
+            ->orderBy('c.updatedAt', 'ASC');
+
+        if (0 !== $limit) {
+            $queryBuilder->setMaxResults($limit);
+        }
+
+        return $queryBuilder->getQuery();
+    }
 }

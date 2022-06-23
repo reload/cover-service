@@ -32,11 +32,9 @@ trait ProgressBarTrait
      */
     private function progressStart(string $message): void
     {
-        if ($this->progressBar) {
-            $this->progressMessage($message);
-            $this->progressBar->start();
-            $this->progressBar->advance();
-        }
+        $this->progressMessage($message);
+        $this->progressBar->start();
+        $this->progressBar->advance();
     }
 
     /**
@@ -44,9 +42,7 @@ trait ProgressBarTrait
      */
     private function progressAdvance(): void
     {
-        if ($this->progressBar) {
-            $this->progressBar->advance();
-        }
+        $this->progressBar->advance();
     }
 
     /**
@@ -56,9 +52,7 @@ trait ProgressBarTrait
      */
     private function progressMessage(string $message): void
     {
-        if ($this->progressBar) {
-            $this->progressBar->setMessage($message);
-        }
+        $this->progressBar->setMessage($message);
     }
 
     /**
@@ -66,8 +60,6 @@ trait ProgressBarTrait
      */
     private function progressFinish(): void
     {
-        if ($this->progressBar) {
-            $this->progressBar->finish();
-        }
+        $this->progressBar->finish();
     }
 }

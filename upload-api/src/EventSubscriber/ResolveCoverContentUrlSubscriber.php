@@ -70,7 +70,7 @@ final class ResolveCoverContentUrlSubscriber implements EventSubscriberInterface
             $cover = $entity instanceof Cover ? $entity : $entity->cover;
 
             if ($cover->isUploaded()) {
-                $cover->setImageUrl($this->coverStoreService->generateUrl($cover->getMaterial()->getIsIdentifier()));
+                $cover->setImageUrl($this->coverStoreService->generateUrl($cover));
             } else {
                 $host = $request->getSchemeAndHttpHost();
                 $uri = $this->storage->resolveUri($cover, 'file');

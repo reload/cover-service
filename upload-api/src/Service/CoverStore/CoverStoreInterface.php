@@ -17,11 +17,13 @@ interface CoverStoreInterface
     /**
      * Search in the cover store.
      *
-     * @param string|null $identifier
+     * @param string $identifier
      *   Identifier to search for in user upload
+     * @param bool $refresh
+     *   By-pass search cache
      *
      * @return CoverStoreItem[]
      *   Array with the found items or empty if non found
      */
-    public function search(string $identifier = null): array;
+    public function search(string $identifier, bool $refresh = false): array;
 }

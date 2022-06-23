@@ -7,6 +7,7 @@ use ApiPlatform\Core\Annotation\ApiResource;
 use App\Controller\CreateCoverAction;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\File;
+use Symfony\Component\PropertyAccess\Exception\UninitializedPropertyException;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
@@ -148,6 +149,12 @@ class Cover
     private bool $isUploaded = false;
 
     /**
+     * @var ?string
+     * @ORM\Column(type="string", nullable="true", options={"default":null})
+     */
+    private ?string $remoteUrl;
+
+    /**
      * @ORM\OneToOne(targetEntity=Material::class, mappedBy="cover", cascade={"persist", "remove"})
      */
     private ?Material $material;
@@ -286,8 +293,24 @@ class Cover
         return $this;
     }
 
-    public function getMaterial(): ?Material
+    public function getRemoteUrl(): ?string
     {
+        return $this->remoteUrl;
+    }
+
+    public function setRemoteUrl(string $url): self
+    {
+        $this->remoteUrl = $url;
+
+        return $this;
+    }
+
+    public function getMaterial(): Material
+    {
+        if (null === $this->material) {
+            throw new UninitializedPropertyException();
+        }
+
         return $this->material;
     }
 

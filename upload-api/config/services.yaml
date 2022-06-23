@@ -15,6 +15,7 @@ services:
             $bindCloudinaryApiKey: '%env(string:CLOUDINARY_API_KEY)%'
             $bindCloudinaryApiSecret: '%env(string:CLOUDINARY_API_SECRET)%'
             $bindCloudinaryFolder: '%env(string:CLOUDINARY_FOLDER)%'
+            $bindCloudinarySearchTTL: '%env(int:CLOUDINARY_SEARCH_TTL)%'
 
     # makes classes in src/ available to be used as services
     # this creates a service per class whose id is the fully-qualified class name

@@ -1,53 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <files psalm-version="4.19.0@a2ad69ae4f5ab1f7d225a8dc4e2ec2d9415ed599">
-  <file src="src/Command/CleanUpCommand.php">
-    <PossiblyNullArgument occurrences="1">
-      <code>$cover-&gt;getMaterial()-&gt;getIsIdentifier()</code>
-    </PossiblyNullArgument>
-    <PossiblyNullReference occurrences="1">
-      <code>getIsIdentifier</code>
-    </PossiblyNullReference>
-  </file>
-  <file src="src/Command/CleanUpDatabaseCommand.php">
-    <PossiblyNullArgument occurrences="2">
-      <code>$cover-&gt;getMaterial()-&gt;getIsIdentifier()</code>
-      <code>$material</code>
-    </PossiblyNullArgument>
-    <PossiblyNullReference occurrences="1">
-      <code>getIsIdentifier</code>
-    </PossiblyNullReference>
-  </file>
-  <file src="src/Command/ExistsCommand.php">
-    <PossiblyNullArgument occurrences="1">
-      <code>$material-&gt;getIsIdentifier()</code>
-    </PossiblyNullArgument>
-  </file>
   <file src="src/Command/RequeueCommand.php">
-    <PossiblyNullArgument occurrences="6">
-      <code>$material-&gt;getAgencyId()</code>
-      <code>$material-&gt;getCover()</code>
-      <code>$material-&gt;getCover()</code>
-      <code>$material-&gt;getIsIdentifier()</code>
-      <code>$material-&gt;getIsIdentifier()</code>
-      <code>$material-&gt;getIsType()</code>
-    </PossiblyNullArgument>
     <UndefinedInterfaceMethod occurrences="1">
       <code>section</code>
     </UndefinedInterfaceMethod>
   </file>
-  <file src="src/EventSubscriber/MaterialPostWriteSubscriber.php">
-    <PossiblyNullArgument occurrences="4">
-      <code>$material-&gt;getAgencyId()</code>
-      <code>$material-&gt;getCover()</code>
-      <code>$material-&gt;getIsIdentifier()</code>
-      <code>$material-&gt;getIsType()</code>
-    </PossiblyNullArgument>
-  </file>
   <file src="src/EventSubscriber/MaterialPreWriteSubscriber.php">
-    <PossiblyNullArgument occurrences="2">
-      <code>$item-&gt;getIsIdentifier()</code>
-      <code>$item-&gt;getIsType()</code>
-    </PossiblyNullArgument>
     <PossiblyNullPropertyAssignmentValue occurrences="1">
       <code>$security-&gt;getUser()</code>
     </PossiblyNullPropertyAssignmentValue>
@@ -55,36 +13,12 @@
       <code>getAgency</code>
     </UndefinedInterfaceMethod>
   </file>
-  <file src="src/EventSubscriber/ResolveCoverContentUrlSubscriber.php">
-    <PossiblyNullArgument occurrences="1">
-      <code>$cover-&gt;getMaterial()-&gt;getIsIdentifier()</code>
-    </PossiblyNullArgument>
-    <PossiblyNullReference occurrences="1">
-      <code>getIsIdentifier</code>
-    </PossiblyNullReference>
-  </file>
   <file src="src/OpenApi/OpenApiDecorator.php">
     <PossiblyInvalidArgument occurrences="1">
       <code>$docs</code>
     </PossiblyInvalidArgument>
   </file>
-  <file src="src/Service/CoverService.php">
-    <PossiblyNullArgument occurrences="3">
-      <code>$file</code>
-      <code>$file</code>
-      <code>$file</code>
-    </PossiblyNullArgument>
-  </file>
-  <file src="src/Service/ProgressBarTrait.php">
-    <RedundantCondition occurrences="8">
-      <code>$this-&gt;progressBar</code>
-      <code>$this-&gt;progressBar</code>
-      <code>$this-&gt;progressBar</code>
-      <code>$this-&gt;progressBar</code>
-      <code>$this-&gt;progressBar</code>
-      <code>$this-&gt;progressBar</code>
-      <code>$this-&gt;progressBar</code>
-      <code>$this-&gt;progressBar</code>
-    </RedundantCondition>
+  <file src="src/Service/CoverStore/CloudinaryCoverStoreService.php">
+    <InvalidCatch occurrences="1"/>
   </file>
 </files>
