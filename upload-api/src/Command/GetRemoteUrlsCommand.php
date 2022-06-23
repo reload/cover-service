@@ -1,7 +1,7 @@
 <?php
 /**
  * @file
- * Command to clean up local stored images after upload detected.
+ * Command to get remote urls from cover store and update local database.
  */
 
 namespace App\Command;
@@ -16,18 +16,18 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
- * Class CleanUpCommand.
+ * Class GetRemoteUrlsCommand.
  */
-class CleanUpCommand extends Command
+class GetRemoteUrlsCommand extends Command
 {
     private CoverRepository $coverRepository;
     private CoverService $coverStoreService;
     private EntityManagerInterface $entityManager;
 
-    protected static $defaultName = 'app:image:cleanup';
+    protected static $defaultName = 'app:cover:get-remote-urls';
 
     /**
-     * CleanUpCommand constructor.
+     * GetRemoteUrlsCommand constructor.
      */
     public function __construct(CoverRepository $coverRepository, CoverService $coverStoreService, EntityManagerInterface $entityManager)
     {
@@ -46,7 +46,7 @@ class CleanUpCommand extends Command
     protected function configure(): void
     {
         $this->addOption('limit', null, InputOption::VALUE_OPTIONAL, 'Limit number of records to load.', 0)
-            ->setDescription('Clean up local stored images after upload detected');
+            ->setDescription('Update cover store urls in local database (remoteUrl)');
     }
 
     /**
@@ -56,13 +56,14 @@ class CleanUpCommand extends Command
     {
         $limit = $input->getOption('limit');
 
-        $query = $this->coverRepository->getIsNotUploaded($limit);
+        $query = $this->coverRepository->getNoRemoteUrl($limit);
+
         /** @var Cover $cover */
         foreach ($query->toIterable() as $cover) {
             if ($this->coverStoreService->exists($cover->getMaterial()->getIsIdentifier())) {
                 $this->coverStoreService->removeLocalFile($cover);
-
                 $item = $this->coverStoreService->search($cover->getMaterial()->getIsIdentifier());
+
                 if (null !== $item) {
                     $cover->setRemoteUrl($item->getUrl());
                 }

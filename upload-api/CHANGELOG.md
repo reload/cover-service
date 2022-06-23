@@ -11,6 +11,13 @@ See [keep a changelog](https://keepachangelog.com/en/1.0.0/) for information abo
 
 ## [Unreleased]
 
+### Added
+- New command 'app:cover:remote' that get the remote urls for the local cover entity (if uploaded).
+- Cache to cover store searches.
+
+### Changed
+- Added remoteUrl to cover entity
+
 ## [2.2.9] - 2022-06-13
 
 ### Changed
