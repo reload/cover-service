@@ -24,10 +24,10 @@ class GetRemoteUrlsCommand extends Command
     private CoverService $coverStoreService;
     private EntityManagerInterface $entityManager;
 
-    protected static $defaultName = 'app:cover:remote';
+    protected static $defaultName = 'app:cover:get-remote-urls';
 
     /**
-     * CleanUpCommand constructor.
+     * GetRemoteUrlsCommand constructor.
      */
     public function __construct(CoverRepository $coverRepository, CoverService $coverStoreService, EntityManagerInterface $entityManager)
     {
@@ -56,7 +56,7 @@ class GetRemoteUrlsCommand extends Command
     {
         $limit = $input->getOption('limit');
 
-        $query = $this->coverRepository->getNoRemoveUrl($limit);
+        $query = $this->coverRepository->getNoRemoteUrl($limit);
 
         /** @var Cover $cover */
         foreach ($query->toIterable() as $cover) {

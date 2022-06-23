@@ -48,7 +48,7 @@ class CoverRepository extends ServiceEntityRepository
      * @return Query
      *   DQL query
      */
-    public function getNoRemoveUrl(int $limit = 0): Query
+    public function getNoRemoteUrl(int $limit = 0): Query
     {
         $queryBuilder = $this->createQueryBuilder('c')
             ->where('c.remoteUrl is null')
