@@ -7,6 +7,7 @@ use ApiPlatform\Core\Annotation\ApiResource;
 use App\Controller\CreateCoverAction;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\File;
+use Symfony\Component\PropertyAccess\Exception\UninitializedPropertyException;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
@@ -304,8 +305,12 @@ class Cover
         return $this;
     }
 
-    public function getMaterial(): ?Material
+    public function getMaterial(): Material
     {
+        if (null === $this->material) {
+            throw new UninitializedPropertyException();
+        }
+
         return $this->material;
     }
 

@@ -69,7 +69,7 @@ class CloudinaryCoverStoreService implements CoverStoreInterface
      *
      * @throws \Cloudinary\Api\Exception\GeneralError
      */
-    public function search(string $identifier = null, bool $refresh = false): array
+    public function search(string $identifier, bool $refresh = false): array
     {
         try {
             // Try getting item from cache.
@@ -85,10 +85,8 @@ class CloudinaryCoverStoreService implements CoverStoreInterface
                 ->sortBy('public_id', 'desc')
                 ->maxResults(100);
 
-            if (!is_null($identifier)) {
-                $query = 'public_id:'.$this->folder.'/'.addcslashes($identifier, ':');
-                $search->expression($query);
-            }
+            $query = 'public_id:'.$this->folder.'/'.addcslashes($identifier, ':');
+            $search->expression($query);
             $result = $search->execute()->getArrayCopy();
 
             $items = [];

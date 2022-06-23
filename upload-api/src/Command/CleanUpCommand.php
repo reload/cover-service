@@ -61,9 +61,11 @@ class CleanUpCommand extends Command
         foreach ($query->toIterable() as $cover) {
             if ($this->coverStoreService->exists($cover->getMaterial()->getIsIdentifier())) {
                 $this->coverStoreService->removeLocalFile($cover);
-                $item = $this->coverStoreService->search($cover->getMaterial()->getIsIdentifier());
 
-                $cover->setRemoteUrl($item->getUrl());
+                $item = $this->coverStoreService->search($cover->getMaterial()->getIsIdentifier());
+                if (null !== $item) {
+                    $cover->setRemoteUrl($item->getUrl());
+                }
                 $cover->setUploaded(true);
                 $this->entityManager->flush();
             }

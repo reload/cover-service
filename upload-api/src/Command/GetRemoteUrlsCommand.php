@@ -64,7 +64,9 @@ class GetRemoteUrlsCommand extends Command
                 $this->coverStoreService->removeLocalFile($cover);
                 $item = $this->coverStoreService->search($cover->getMaterial()->getIsIdentifier());
 
-                $cover->setRemoteUrl($item->getUrl());
+                if (null !== $item) {
+                    $cover->setRemoteUrl($item->getUrl());
+                }
                 $cover->setUploaded(true);
                 $this->entityManager->flush();
             }

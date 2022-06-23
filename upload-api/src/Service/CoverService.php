@@ -101,7 +101,7 @@ class CoverService
     public function removeLocalFile(Cover $cover): void
     {
         $file = $this->storage->resolvePath($cover, 'file');
-        if ($this->filesystem->exists($file)) {
+        if (null !== $file && $this->filesystem->exists($file)) {
             $this->filesystem->remove($file);
         }
     }
@@ -119,6 +119,6 @@ class CoverService
     {
         $file = $this->storage->resolvePath($cover, 'file');
 
-        return $this->filesystem->exists($file);
+        return null !== $file && $this->filesystem->exists($file);
     }
 }

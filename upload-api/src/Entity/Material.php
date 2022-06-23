@@ -5,6 +5,7 @@ namespace App\Entity;
 use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\PropertyAccess\Exception\UninitializedPropertyException;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
@@ -132,8 +133,12 @@ class Material
         return $this->id;
     }
 
-    public function getIsIdentifier(): ?string
+    public function getIsIdentifier(): string
     {
+        if (null === $this->isIdentifier) {
+            throw new UninitializedPropertyException();
+        }
+
         return $this->isIdentifier;
     }
 
@@ -144,8 +149,12 @@ class Material
         return $this;
     }
 
-    public function getIsType(): ?string
+    public function getIsType(): string
     {
+        if (null === $this->isType) {
+            throw new UninitializedPropertyException();
+        }
+
         return $this->isType;
     }
 
@@ -156,8 +165,12 @@ class Material
         return $this;
     }
 
-    public function getAgencyId(): ?string
+    public function getAgencyId(): string
     {
+        if (null === $this->agencyId) {
+            throw new UninitializedPropertyException();
+        }
+
         return $this->agencyId;
     }
 
@@ -168,8 +181,12 @@ class Material
         return $this;
     }
 
-    public function getCover(): ?Cover
+    public function getCover(): Cover
     {
+        if (null === $this->cover) {
+            throw new UninitializedPropertyException();
+        }
+
         return $this->cover;
     }
 

@@ -96,7 +96,9 @@ class CleanUpDatabaseCommand extends Command
                 ++$existsInCoverStore;
 
                 $item = $this->coverStoreService->search($cover->getMaterial()->getIsIdentifier());
-                $cover->setRemoteUrl($item->getUrl());
+                if (null !== $item) {
+                    $cover->setRemoteUrl($item->getUrl());
+                }
                 $cover->setUploaded(true);
                 $this->em->flush();
             }
