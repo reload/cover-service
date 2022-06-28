@@ -118,8 +118,15 @@
     "extra": {
         "symfony": {
             "allow-contrib": false,
-            "require": "5.2.*",
+            "require": "6.1.*",
             "docker": false
         }
-    }
+    },
+    "repositories": [
+        {
+            "type": "path",
+            "url": "../agency-auth-bundle"
+        }
+    ]
+
 }
