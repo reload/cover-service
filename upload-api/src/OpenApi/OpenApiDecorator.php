@@ -56,7 +56,7 @@ final class OpenApiDecorator implements NormalizerInterface
         // Correct material write definition for cover
         $coverDefinition = [
             'externalDocs' => [
-                'url' => 'http://schema.org/image',
+                'url' => 'https://schema.org/image',
             ],
             'type' => 'string',
             'format' => 'iri-reference',

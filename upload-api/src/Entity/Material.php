@@ -108,7 +108,7 @@ class Material
      * @var Cover|null
      *
      * @ApiProperty(
-     *     iri="http://schema.org/image",
+     *     iri="https://schema.org/image",
      *     attributes={
      *         "openapi_context"={
      *             "type"="object",

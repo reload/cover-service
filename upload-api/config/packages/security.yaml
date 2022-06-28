@@ -1,17 +1,17 @@
 security:
     # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
     providers:
-        users_in_memory: { memory: null }
+        openplatform_provider:
+            id: DanskernesDigitaleBibliotek\AgencyAuthBundle\Security\OpenPlatformUserProvider
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
         main:
             stateless: true
-            anonymous: lazy
-            guard:
-                authenticators:
-                    - DanskernesDigitaleBibliotek\AgencyAuthBundle\Security\TokenAuthenticator
+            custom_authenticators:
+                - DanskernesDigitaleBibliotek\AgencyAuthBundle\Security\TokenAuthenticator
+
 
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#firewalls-authentication
@@ -22,8 +22,8 @@ security:
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
-        # - { path: ^/admin, roles: ROLE_ADMIN }
-        # - { path: ^/profile, roles: ROLE_USER }
+    # - { path: ^/admin, roles: ROLE_ADMIN }
+    # - { path: ^/profile, roles: ROLE_USER }
 
     role_hierarchy:
         ROLE_OPENPLATFORM_AGENCY: [ROLE_COVER_CRUD]

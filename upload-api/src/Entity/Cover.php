@@ -26,7 +26,7 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
  *              "id": "DESC"
  *          }
  *     },
- *     iri="http://schema.org/MediaObject",
+ *     iri="https://schema.org/MediaObject",
  *     normalizationContext={
  *         "groups"={"read"},
  *         "swagger_definition_name"="Read"
@@ -75,7 +75,7 @@ class Cover
 
     /**
      * @ApiProperty(
-     *     iri="http://schema.org/contentUrl",
+     *     iri="https://schema.org/contentUrl",
      *     attributes={
      *         "openapi_context"={
      *             "type"="string",

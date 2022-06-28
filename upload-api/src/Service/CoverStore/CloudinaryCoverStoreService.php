@@ -12,6 +12,7 @@ use App\Utils\CoverStore\CoverStoreItem;
 use Cloudinary\Api\Exception\GeneralError;
 use Cloudinary\Api\Search\SearchApi;
 use Cloudinary\Configuration\Configuration;
+use Psr\Cache\CacheItemPoolInterface;
 use Psr\Cache\InvalidArgumentException;
 use Symfony\Component\Cache\Adapter\AdapterInterface;
 
@@ -36,7 +37,7 @@ class CloudinaryCoverStoreService implements CoverStoreInterface
      *
      * @throws CoverStoreCredentialException
      */
-    public function __construct(string $bindCloudinaryCloudName, string $bindCloudinaryApiKey, string $bindCloudinaryApiSecret, string $bindCloudinaryFolder, int $bindCloudinarySearchTTL, AdapterInterface $cache)
+    public function __construct(string $bindCloudinaryCloudName, string $bindCloudinaryApiKey, string $bindCloudinaryApiSecret, string $bindCloudinaryFolder, int $bindCloudinarySearchTTL, CacheItemPoolInterface $cache)
     {
         if (empty($bindCloudinaryCloudName)) {
             throw new CoverStoreCredentialException('Missing Cloudinary configuration in environment: CLOUDINARY_CLOUD_NAME');
