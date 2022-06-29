@@ -6,7 +6,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        php: [ '7.4' ]
+        php: [ '8.1' ]
     name: Validate composer (${{ matrix.php}})
     steps:
       - name: Checkout
@@ -90,7 +90,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        php: [ '7.4' ]
+        php: [ '8.1' ]
     name: PHP Coding Standards Fixer (${{ matrix.php}})
     steps:
       - name: Checkout
@@ -127,7 +127,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        php: [ '7.4' ]
+        php: [ '8.1' ]
     name: Psalm static analysis (${{ matrix.php}})
     steps:
       - name: Checkout
