@@ -236,7 +236,7 @@ components:
       type: object
       description: ''
       externalDocs:
-        url: 'http://schema.org/MediaObject'
+        url: 'https://schema.org/MediaObject'
       properties:
         id:
           readOnly: true
@@ -246,7 +246,7 @@ components:
           format: url
           example: 'https://upload.cover.dandigbib.org/cover/5ed65baa2b264_870970-basis%3A52890365.jpg'
           externalDocs:
-            url: 'http://schema.org/contentUrl'
+            url: 'https://schema.org/contentUrl'
         size:
           type: integer
           example: 769822
@@ -283,7 +283,7 @@ components:
             size: 1478312
             agencyId: '123456'
           externalDocs:
-            url: 'http://schema.org/image'
+            url: 'https://schema.org/image'
           nullable: true
           anyOf:
             -
@@ -311,7 +311,7 @@ components:
             size: 1478312
             agencyId: '123456'
           externalDocs:
-            url: 'http://schema.org/image'
+            url: 'https://schema.org/image'
           format: iri-reference
           nullable: true
   responses: {  }
