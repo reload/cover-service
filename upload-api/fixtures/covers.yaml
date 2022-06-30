@@ -1,0 +1,8 @@
+App\Entity\Cover:
+  cover_{1..10}:
+    filePath: <randomImage()>
+    size: <imageSize(@self->filePath)>
+    agencyId: <agencyId()>
+    uploaded: <boolean()>
+    remoteUrl: <remoteUrl()>
+    updatedAt: <dateTimeThisYear()>

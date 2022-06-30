@@ -6,7 +6,6 @@
 /public/bundles/
 /var/
 /vendor/
-/public/cover
 ###< symfony/framework-bundle ###
 
 ###> squizlabs/php_codesniffer ###
@@ -18,15 +17,15 @@
 /.php-cs-fixer.php
 /.php-cs-fixer.cache
 ###< friendsofphp/php-cs-fixer ###
+###> phpunit/phpunit ###
+/phpunit.xml
+.phpunit.result.cache
+###< phpunit/phpunit ###
+
+node_modules
+.php_cs.cache
 
 ###> symfony/phpunit-bridge ###
 .phpunit.result.cache
 /phpunit.xml
 ###< symfony/phpunit-bridge ###
-
-###> phpunit/phpunit ###
-/phpunit.xml
-.phpunit.result.cache
-###< phpunit/phpunit ###
-node_modules
-.php_cs.cache

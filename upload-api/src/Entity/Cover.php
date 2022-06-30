@@ -206,6 +206,18 @@ class Cover
     }
 
     /**
+     * @param \DateTimeInterface $updatedAt
+     */
+    public function setUpdatedAt(\DateTimeInterface $updatedAt): void
+    {
+        if ($updatedAt instanceof \DateTime) {
+            $updatedAt = \DateTimeImmutable::createFromMutable($updatedAt);
+        }
+
+        $this->updatedAt = $updatedAt;
+    }
+
+    /**
      * @return File|null
      */
     public function getFile(): ?File

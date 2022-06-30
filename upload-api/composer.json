@@ -48,6 +48,7 @@
     "require-dev": {
         "escapestudios/symfony2-coding-standard": "^3.11",
         "friendsofphp/php-cs-fixer": "^3.8",
+        "hautelook/alice-bundle": "^2.10",
         "phpunit/phpunit": "^9.5",
         "symfony/browser-kit": "^6.1",
         "symfony/css-selector": "^6.1",
@@ -93,6 +94,10 @@
         "docker-build": [
             "bin/console --env=prod assets:install"
         ],
+        "fixtures-load": [
+            "rm -fv ./public/cover/*.jpg",
+            "bin/console hautelook:fixtures:load --no-interaction"
+        ],
         "post-install-cmd": [
             "@auto-scripts"
         ],
@@ -107,6 +112,12 @@
         ],
         "phpunit": [
             "./vendor/bin/phpunit"
+        ],
+        "tests": [
+            "bin/console --env=test doctrine:database:drop --if-exists --force --quiet",
+            "bin/console --env=test doctrine:database:create --no-interaction --if-not-exists --quiet",
+            "bin/console --env=test doctrine:migrations:migrate --no-interaction --quiet",
+            "bin/phpunit --stop-on-failure"
         ],
         "update-api-spec": [
             "bin/console api:openapi:export --output=public/api-spec-v1.yaml --yaml --no-interaction"
