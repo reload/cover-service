@@ -4,3 +4,7 @@ homepage:
   defaults:
     path: /api
     permanent: false
+
+controllers:
+    resource: ../src/Controller/
+    type: attribute
