@@ -38,6 +38,7 @@
         "symfony/property-access": "6.1.*",
         "symfony/property-info": "6.1.*",
         "symfony/proxy-manager-bridge": "6.1.*",
+        "symfony/runtime": "6.1.*",
         "symfony/security-bundle": "6.1.*",
         "symfony/serializer": "6.1.*",
         "symfony/twig-bundle": "6.1.*",
@@ -50,7 +51,7 @@
         "friendsofphp/php-cs-fixer": "^3.8",
         "hautelook/alice-bundle": "^2.10",
         "phpunit/phpunit": "^9.5",
-        "symfony/browser-kit": "^6.1",
+        "symfony/browser-kit": "6.1.*",
         "symfony/css-selector": "^6.1",
         "symfony/maker-bundle": "^1.14",
         "symfony/phpunit-bridge": "^6.1",
@@ -65,7 +66,8 @@
         "sort-packages": true,
         "allow-plugins": {
             "composer/package-versions-deprecated": true,
-            "symfony/flex": true
+            "symfony/flex": true,
+            "symfony/runtime": true
         }
     },
     "autoload": {
@@ -95,7 +97,7 @@
             "bin/console --env=prod assets:install"
         ],
         "fixtures-load": [
-            "rm -fv ./public/cover/*.jpg",
+            "rm -fv ./public/cover/dev_fixture_*.jpg",
             "bin/console hautelook:fixtures:load --no-interaction"
         ],
         "post-install-cmd": [

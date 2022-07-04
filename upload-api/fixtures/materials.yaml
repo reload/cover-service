@@ -1,6 +1,0 @@
-App\Entity\Material:
-  material_{1..10}:
-    cover (unique): '@cover_*'
-    isIdentifier: <pid()>
-    isType: 'PID'
-    agencyId: <agencyId()>

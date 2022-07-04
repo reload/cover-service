@@ -1,6 +1,17 @@
 # DDB Cover Service Upload
 
-Upload service for DDB Cover Service
+[![Github](https://img.shields.io/badge/source-danskernesdigitalebibliotek/ddb--cover--service--upload-blue?style=flat-square)](https://github.com/danskernesdigitalebibliotek/ddb-cover-service-upload)
+[![Tag](https://img.shields.io/github/v/tag/danskernesdigitalebibliotek/ddb-cover-service-upload?sort=semver&style=flat-square)](https://github.com/danskernesdigitalebibliotek/ddb-cover-service-upload/tags)
+[![Build Status](https://img.shields.io/github/workflow/status/danskernesdigitalebibliotek/ddb-cover-service-upload/Review?label=CI&logo=github&style=flat-square)](https://github.com/danskernesdigitalebibliotek/ddb-cover-service-upload/actions?query=workflow%3A%22Review%22)
+[![Codecov Code Coverage](https://img.shields.io/codecov/c/gh/danskernesdigitalebibliotek/ddb-cover-service-upload?label=codecov&logo=codecov&style=flat-square)](https://codecov.io/gh/danskernesdigitalebibliotek/ddb-cover-service-upload)
+[![Read License](https://img.shields.io/packagist/l/danskernesdigitalebibliotek/ddb-cover-service-upload.svg?style=flat-square&colorB=darkcyan)](https://github.com/danskernesdigitalebibliotek/ddb-cover-service-upload/blob/master/LICENSE.txt)
+
+Upload service for DDB Cover Service. 
+
+This is a Symfony 6 project based on the [Api-platform
+framework](https://github.com/api-platform/api-platform).  Please see the
+[Api-platform documentation](https://api-platform.com/docs/) for a basic
+understanding of concepts and structure.
 
 ## Doctrine Migrations
 

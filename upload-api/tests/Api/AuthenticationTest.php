@@ -2,27 +2,39 @@
 
 namespace App\Tests\Api;
 
-use ApiPlatform\Core\Bridge\Symfony\Bundle\Test\ApiTestCase;
-use App\Tests\AbstractTest;
 use Hautelook\AliceBundle\PhpUnit\ReloadDatabaseTrait;
-use http\Client;
 
 class AuthenticationTest extends AbstractTest
 {
-    use ReloadDatabaseTrait;
-
-    public function testLogin(): void
+    public function testDocsAccess(): void
     {
-        $response = $this->createClientWithCredentials()->request('GET', '/cover');
+        $response = static::createClient()->request('GET', '/api', [
+            'headers' => [
+                'accept' => 'text/html'
+            ]
+        ]);
         $this->assertResponseIsSuccessful();
     }
 
-//    private function getAuthenticatedClient: Client
-//    {
-//        $client = self::createClient();
-//
-//        $client->request(
-//
-//        )
-//    }
+    public function testLoginCovers(): void
+    {
+        $response = $this->createClientWithCredentials()->request('GET', '/api/covers');
+        $this->assertResponseIsSuccessful();
+    }
+
+    public function testLoginMaterials(): void
+    {
+        $response = $this->createClientWithCredentials()->request('GET', '/api/materials');
+        $this->assertResponseIsSuccessful();
+    }
+
+    public function testAccessDenied(): void
+    {
+        $response = static::createClient()->request('GET', '/api/covers', [
+            'headers' => [
+                'accept' => 'application/json'
+            ]
+        ]);
+        $this->assertResponseStatusCodeSame(401);
+    }
 }
