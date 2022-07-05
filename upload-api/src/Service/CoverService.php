@@ -18,11 +18,6 @@ use Vich\UploaderBundle\Storage\StorageInterface;
  */
 class CoverService
 {
-    private StorageInterface $storage;
-    private Filesystem $filesystem;
-    private CoverStoreInterface $coverStore;
-    private EntityManagerInterface $em;
-
     /**
      * CoverStoreService constructor.
      *
@@ -30,12 +25,8 @@ class CoverService
      * @param Filesystem $filesystem
      * @param CoverStoreInterface $coverStore
      */
-    public function __construct(StorageInterface $storage, Filesystem $filesystem, CoverStoreInterface $coverStore, EntityManagerInterface $entityManager)
+    public function __construct(private readonly StorageInterface $storage, private readonly Filesystem $filesystem, private readonly CoverStoreInterface $coverStore, private readonly EntityManagerInterface $em)
     {
-        $this->storage = $storage;
-        $this->filesystem = $filesystem;
-        $this->coverStore = $coverStore;
-        $this->em = $entityManager;
     }
 
     /**

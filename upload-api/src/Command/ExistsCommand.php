@@ -16,28 +16,18 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 class ExistsCommand extends Command
 {
-    private CoverService $coverStoreService;
-    private EntityManagerInterface $entityManager;
-    private MaterialRepository $materialRepository;
-
     protected static $defaultName = 'app:cs:exists';
 
     /**
      * CleanUpCommand constructor.
      */
-    public function __construct(MaterialRepository $materialRepository, CoverService $coverStoreService, EntityManagerInterface $entityManager)
+    public function __construct(private readonly MaterialRepository $materialRepository, private readonly CoverService $coverStoreService, private readonly EntityManagerInterface $entityManager)
     {
         parent::__construct();
-
-        $this->coverStoreService = $coverStoreService;
-        $this->entityManager = $entityManager;
-        $this->materialRepository = $materialRepository;
     }
 
     /**
      * {@inheritdoc}
-     *
-     * @return void
      */
     protected function configure(): void
     {

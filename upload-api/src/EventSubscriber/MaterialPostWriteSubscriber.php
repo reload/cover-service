@@ -22,19 +22,14 @@ use Vich\UploaderBundle\Storage\StorageInterface;
  */
 final class MaterialPostWriteSubscriber implements EventSubscriberInterface
 {
-    private MessageBusInterface $bus;
-    private StorageInterface $storage;
-
     /**
      * MaterialPostWriteSubscriber constructor.
      *
      * @param MessageBusInterface $bus
      * @param StorageInterface $storage
      */
-    public function __construct(MessageBusInterface $bus, StorageInterface $storage)
+    public function __construct(private readonly MessageBusInterface $bus, private readonly StorageInterface $storage)
     {
-        $this->bus = $bus;
-        $this->storage = $storage;
     }
 
     /**

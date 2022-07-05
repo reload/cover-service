@@ -97,7 +97,7 @@ class CoverProvider extends Base
 
         foreach ($files as $file) {
             $filename = self::getProjectDir().'/public/cover/'.$file;
-            if (\str_starts_with($file, $env.'_fixture_') && \is_file($filename)) {
+            if (\str_starts_with((string) $file, $env.'_fixture_') && \is_file($filename)) {
                 \unlink($filename);
             }
         }

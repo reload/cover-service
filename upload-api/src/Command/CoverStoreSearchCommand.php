@@ -20,17 +20,13 @@ class CoverStoreSearchCommand extends Command
 {
     protected static $defaultName = 'app:cover:search';
 
-    private CoverStoreInterface $store;
-
     /**
      * CoverStoreSearchCommand constructor.
      *
      * @param CoverStoreInterface $store
      */
-    public function __construct(CoverStoreInterface $store)
+    public function __construct(private readonly CoverStoreInterface $store)
     {
-        $this->store = $store;
-
         parent::__construct();
     }
 

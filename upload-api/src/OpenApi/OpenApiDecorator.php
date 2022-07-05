@@ -13,16 +13,13 @@ use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
  */
 final class OpenApiDecorator implements NormalizerInterface
 {
-    private NormalizerInterface $decorated;
-
     /**
      * OpenApiDecorator constructor.
      *
      * @param NormalizerInterface $decorated
      */
-    public function __construct(NormalizerInterface $decorated)
+    public function __construct(private readonly NormalizerInterface $decorated)
     {
-        $this->decorated = $decorated;
     }
 
     /**

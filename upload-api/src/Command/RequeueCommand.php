@@ -29,33 +29,18 @@ class RequeueCommand extends Command
 {
     use ProgressBarTrait;
 
-    private CoverService $coverStoreService;
-    private MaterialRepository $materialRepository;
-    private StorageInterface $storage;
-    private MessageBusInterface $bus;
-    private RouterInterface $router;
-    private EntityManagerInterface $em;
-
     protected static $defaultName = 'app:image:requeue';
 
     /**
      * CleanUpCommand constructor.
      */
-    public function __construct(MaterialRepository $materialRepository, CoverService $coverStoreService, StorageInterface $storage, MessageBusInterface $bus, RouterInterface $router, EntityManagerInterface $entityManager)
+    public function __construct(private readonly MaterialRepository $materialRepository, private readonly CoverService $coverStoreService, private readonly StorageInterface $storage, private readonly MessageBusInterface $bus, private readonly RouterInterface $router, private readonly EntityManagerInterface $em)
     {
         parent::__construct();
-        $this->materialRepository = $materialRepository;
-        $this->coverStoreService = $coverStoreService;
-        $this->storage = $storage;
-        $this->bus = $bus;
-        $this->router = $router;
-        $this->em = $entityManager;
     }
 
     /**
      * {@inheritdoc}
-     *
-     * @return void
      */
     protected function configure(): void
     {

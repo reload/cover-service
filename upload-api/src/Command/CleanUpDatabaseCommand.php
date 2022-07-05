@@ -16,21 +16,13 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 class CleanUpDatabaseCommand extends Command
 {
-    private CoverRepository $coverRepository;
-    private CoverService $coverStoreService;
-    private EntityManagerInterface $em;
-
     protected static $defaultName = 'app:database:cleanup';
 
     /**
      * CleanUpCommand constructor.
      */
-    public function __construct(CoverRepository $coverRepository, CoverService $coverStoreService, EntityManagerInterface $entityManager)
+    public function __construct(private readonly CoverRepository $coverRepository, private readonly CoverService $coverStoreService, private readonly EntityManagerInterface $em)
     {
-        $this->coverRepository = $coverRepository;
-        $this->coverStoreService = $coverStoreService;
-        $this->em = $entityManager;
-
         parent::__construct();
     }
 

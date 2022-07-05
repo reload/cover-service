@@ -25,13 +25,8 @@ use Vich\UploaderBundle\Storage\StorageInterface;
  */
 final class ResolveCoverContentUrlSubscriber implements EventSubscriberInterface
 {
-    private StorageInterface $storage;
-    private CoverService $coverStoreService;
-
-    public function __construct(StorageInterface $storage, CoverService $coverStoreService)
+    public function __construct(private readonly StorageInterface $storage, private readonly CoverService $coverStoreService)
     {
-        $this->storage = $storage;
-        $this->coverStoreService = $coverStoreService;
     }
 
     public static function getSubscribedEvents(): array

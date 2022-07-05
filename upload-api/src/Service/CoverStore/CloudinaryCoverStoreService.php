@@ -14,7 +14,6 @@ use Cloudinary\Api\Search\SearchApi;
 use Cloudinary\Configuration\Configuration;
 use Psr\Cache\CacheItemPoolInterface;
 use Psr\Cache\InvalidArgumentException;
-use Symfony\Component\Cache\Adapter\AdapterInterface;
 
 /**
  * Class CloudinaryCoverStoreService.
@@ -22,7 +21,6 @@ use Symfony\Component\Cache\Adapter\AdapterInterface;
 class CloudinaryCoverStoreService implements CoverStoreInterface
 {
     private string $folder;
-    private AdapterInterface $cache;
     private int $cacheTTL;
 
     /**
@@ -37,7 +35,7 @@ class CloudinaryCoverStoreService implements CoverStoreInterface
      *
      * @throws CoverStoreCredentialException
      */
-    public function __construct(string $bindCloudinaryCloudName, string $bindCloudinaryApiKey, string $bindCloudinaryApiSecret, string $bindCloudinaryFolder, int $bindCloudinarySearchTTL, CacheItemPoolInterface $cache)
+    public function __construct(string $bindCloudinaryCloudName, string $bindCloudinaryApiKey, string $bindCloudinaryApiSecret, string $bindCloudinaryFolder, int $bindCloudinarySearchTTL, private readonly CacheItemPoolInterface $cache)
     {
         if (empty($bindCloudinaryCloudName)) {
             throw new CoverStoreCredentialException('Missing Cloudinary configuration in environment: CLOUDINARY_CLOUD_NAME');
@@ -61,7 +59,6 @@ class CloudinaryCoverStoreService implements CoverStoreInterface
             ],
         ]);
 
-        $this->cache = $cache;
         $this->cacheTTL = $bindCloudinarySearchTTL;
     }
 
@@ -75,7 +72,7 @@ class CloudinaryCoverStoreService implements CoverStoreInterface
         try {
             // Try getting item from cache.
             $cacheItem = $this->cache->getItem('coverstore.search_query'.str_replace(':', '', $identifier));
-        } catch (InvalidArgumentException $exception) {
+        } catch (InvalidArgumentException) {
             throw new GeneralError('Invalid cache argument');
         }
 
