@@ -10,7 +10,7 @@
         "ext-json": "*",
         "api-platform/core": "^2.6",
         "cloudinary/cloudinary_php": "^2.7",
-        "danskernesdigitalebibliotek/agency-auth-bundle": "dev-develop",
+        "danskernesdigitalebibliotek/agency-auth-bundle": "^3.0",
         "doctrine/annotations": "^1.10",
         "doctrine/doctrine-bundle": "^2.5",
         "doctrine/doctrine-migrations-bundle": "^3.0",
@@ -107,10 +107,10 @@
             "@auto-scripts"
         ],
         "coding-standards-check": [
-            "php-cs-fixer --config=.php_cs.dist fix --dry-run --format=checkstyle"
+            "php-cs-fixer fix --dry-run --format=checkstyle"
         ],
         "coding-standards-apply": [
-            "php-cs-fixer --config=.php_cs.dist fix"
+            "php-cs-fixer fix"
         ],
         "phpunit": [
             "./vendor/bin/phpunit"
@@ -134,12 +134,5 @@
             "require": "6.1.*",
             "docker": false
         }
-    },
-    "repositories": [
-        {
-            "type": "path",
-            "url": "../agency-auth-bundle"
-        }
-    ]
-
+    }
 }
