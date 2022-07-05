@@ -8,6 +8,10 @@ $finder = (new PhpCsFixer\Finder())
 return (new PhpCsFixer\Config())
     ->setRules([
         '@Symfony' => true,
+        '@Symfony:risky' => false,
+        'phpdoc_align' => false,
+        'no_superfluous_phpdoc_tags' => false,
+        'array_syntax' => ['syntax' => 'short'],
     ])
     ->setFinder($finder)
-;
+    ;

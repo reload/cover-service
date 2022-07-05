@@ -107,10 +107,10 @@
             "@auto-scripts"
         ],
         "coding-standards-check": [
-            "php-cs-fixer fix --dry-run --format=checkstyle"
+            "vendor/bin/php-cs-fixer fix --dry-run --format=checkstyle"
         ],
         "coding-standards-apply": [
-            "php-cs-fixer fix"
+            "vendor/bin/php-cs-fixer fix"
         ],
         "phpunit": [
             "./vendor/bin/phpunit"
