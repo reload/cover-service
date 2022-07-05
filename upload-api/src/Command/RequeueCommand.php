@@ -77,7 +77,7 @@ class RequeueCommand extends Command
             }
         } else {
             $material = $this->materialRepository->findOneBy(['isIdentifier' => $identifier]);
-            if (isset($material)) {
+            if ($material instanceof Material) {
                 $this->progressAdvance();
                 $this->progressMessage($i.' material found in DB');
                 $this->progressFinish();

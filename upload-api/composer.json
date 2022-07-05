@@ -44,13 +44,15 @@
         "symfony/twig-bundle": "6.1.*",
         "symfony/validator": "6.1.*",
         "symfony/yaml": "6.1.*",
-        "vich/uploader-bundle": "^1.12"
+        "vich/uploader-bundle": "^1.12",
+        "weirdan/doctrine-psalm-plugin": "^2.3"
     },
     "require-dev": {
         "escapestudios/symfony2-coding-standard": "^3.11",
         "friendsofphp/php-cs-fixer": "^3.8",
         "hautelook/alice-bundle": "^2.10",
         "phpunit/phpunit": "^9.5",
+        "rector/rector": "^0.13.7",
         "symfony/browser-kit": "6.1.*",
         "symfony/css-selector": "^6.1",
         "symfony/maker-bundle": "^1.14",
