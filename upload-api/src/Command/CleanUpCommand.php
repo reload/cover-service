@@ -10,18 +10,17 @@ use App\Entity\Cover;
 use App\Repository\CoverRepository;
 use App\Service\CoverService;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
-/**
- * Class CleanUpCommand.
- */
+#[AsCommand(
+    name: 'app:image:cleanup',
+)]
 class CleanUpCommand extends Command
 {
-    protected static $defaultName = 'app:image:cleanup';
-
     /**
      * CleanUpCommand constructor.
      */

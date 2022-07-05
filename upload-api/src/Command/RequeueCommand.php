@@ -13,6 +13,7 @@ use App\Service\CoverService;
 use App\Service\ProgressBarTrait;
 use App\Utils\Types\VendorState;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Input\InputInterface;
@@ -22,14 +23,12 @@ use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Routing\RouterInterface;
 use Vich\UploaderBundle\Storage\StorageInterface;
 
-/**
- * Class RequeueCommand.
- */
+#[AsCommand(
+    name: 'app:image:requeue',
+)]
 class RequeueCommand extends Command
 {
     use ProgressBarTrait;
-
-    protected static $defaultName = 'app:image:requeue';
 
     /**
      * CleanUpCommand constructor.

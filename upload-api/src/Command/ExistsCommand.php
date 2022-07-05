@@ -6,18 +6,17 @@ use App\Entity\Material;
 use App\Repository\MaterialRepository;
 use App\Service\CoverService;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
-/**
- * Class CleanUpCommand.
- */
+#[AsCommand(
+    name: 'app:cs:exists',
+)]
 class ExistsCommand extends Command
 {
-    protected static $defaultName = 'app:cs:exists';
-
     /**
      * CleanUpCommand constructor.
      */
