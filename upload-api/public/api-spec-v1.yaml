@@ -251,6 +251,10 @@ components:
           type: integer
           example: 769822
           nullable: true
+        updatedAt:
+          writeOnly: true
+          type: string
+          format: date-time
         agencyId:
           type: string
           example: '123456'
