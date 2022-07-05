@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiResource;
+use App\Repository\MaterialRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\PropertyAccess\Exception\UninitializedPropertyException;
 use Symfony\Component\Serializer\Annotation\Groups;
@@ -40,7 +41,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *          }
  *     }
  * )
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass=MaterialRepository::class)
  * @ORM\Table(
  *     name="material",
  *     indexes={
@@ -105,8 +106,6 @@ class Material
     private ?string $agencyId;
 
     /**
-     * @var Cover|null
-     *
      * @ApiProperty(
      *     iri="https://schema.org/image",
      *     attributes={

@@ -40,8 +40,6 @@ class CleanUpCommand extends Command
 
     /**
      * {@inheritdoc}
-     *
-     * @return void
      */
     protected function configure(): void
     {
@@ -56,7 +54,7 @@ class CleanUpCommand extends Command
     {
         $limit = $input->getOption('limit');
 
-        $query = $this->coverRepository->getIsNotUploaded($limit);
+        $query = $this->coverRepository->getIsNotUploadedQuery($limit);
         /** @var Cover $cover */
         foreach ($query->toIterable() as $cover) {
             if ($this->coverStoreService->exists($cover->getMaterial()->getIsIdentifier())) {

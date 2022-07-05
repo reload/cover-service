@@ -18,7 +18,7 @@ class CoverRepository extends ServiceEntityRepository
     }
 
     /**
-     * Find all covers that have not been marked as uploaded.
+     * Get query for all covers that have not been marked as uploaded.
      *
      * @param int $limit
      *   Limit the number of records
@@ -26,7 +26,7 @@ class CoverRepository extends ServiceEntityRepository
      * @return Query
      *   DQL query
      */
-    public function getIsNotUploaded(int $limit = 0): Query
+    public function getIsNotUploadedQuery(int $limit = 0): Query
     {
         $queryBuilder = $this->createQueryBuilder('c')
             ->where('c.isUploaded = false')
@@ -40,7 +40,7 @@ class CoverRepository extends ServiceEntityRepository
     }
 
     /**
-     * Find all covers that do not have remote url defined.
+     * Get query for all covers that do not have remote url defined.
      *
      * @param int $limit
      *   Limit the number of records
@@ -48,7 +48,7 @@ class CoverRepository extends ServiceEntityRepository
      * @return Query
      *   DQL query
      */
-    public function getNoRemoteUrl(int $limit = 0): Query
+    public function getNoRemoteUrlQuery(int $limit = 0): Query
     {
         $queryBuilder = $this->createQueryBuilder('c')
             ->where('c.remoteUrl is null')
@@ -56,6 +56,34 @@ class CoverRepository extends ServiceEntityRepository
 
         if (0 !== $limit) {
             $queryBuilder->setMaxResults($limit);
+        }
+
+        return $queryBuilder->getQuery();
+    }
+
+    /**
+     * Get query for all covers that are nor related to a Material.
+     *
+     * @param int $limit
+     *   Limit for query
+     * @param int $offset
+     *   Offset for query
+     *
+     * @return Query
+     *   DQL Query
+     */
+    public function getHasNoMaterialQuery(int $limit = 0, int $offset = 0): Query
+    {
+        $queryBuilder = $this->createQueryBuilder('c')
+            ->leftJoin('c.material', 'm')
+            ->where('m.cover IS NULL');
+
+        if (0 !== $limit) {
+            $queryBuilder->setMaxResults($limit);
+        }
+
+        if (0 !== $offset) {
+            $queryBuilder->setFirstResult($offset);
         }
 
         return $queryBuilder->getQuery();
