@@ -6,7 +6,7 @@
 [![Codecov Code Coverage](https://img.shields.io/codecov/c/gh/danskernesdigitalebibliotek/ddb-cover-service-upload?label=codecov&logo=codecov&style=flat-square)](https://codecov.io/gh/danskernesdigitalebibliotek/ddb-cover-service-upload)
 [![Read License](https://img.shields.io/packagist/l/danskernesdigitalebibliotek/ddb-cover-service-upload.svg?style=flat-square&colorB=darkcyan)](https://github.com/danskernesdigitalebibliotek/ddb-cover-service-upload/blob/master/LICENSE.txt)
 
-Upload service for DDB Cover Service. 
+Upload service for DDB Cover Service.
 
 This is a Symfony 6 project based on the [Api-platform
 framework](https://github.com/api-platform/api-platform).  Please see the
