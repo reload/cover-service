@@ -104,7 +104,7 @@ jobs:
         env:
           MYSQL_USER: db
           MYSQL_PASSWORD: db
-          MYSQL_DATABASE: db
+          MYSQL_DATABASE: db_test
           MYSQL_ROOT_PASSWORD: db
         ports:
           - 3306:3306
@@ -135,8 +135,8 @@ jobs:
       - name: Install Dependencies
         run: composer install -q --no-ansi --no-interaction --no-scripts --no-suggest --no-progress --prefer-dist
 
-      - name: Unit tests
-        run: ./vendor/bin/phpunit --coverage-clover=coverage/unit.xml
+      - name: PhpUnit tests
+        run: DATABASE_URL="mysql://db:db@127.0.0.1:$PORT/db_test" ./vendor/bin/phpunit --coverage-clover=coverage/unit.xml
 
       - name: Upload coverage to Codecov test
         uses: codecov/codecov-action@v1
