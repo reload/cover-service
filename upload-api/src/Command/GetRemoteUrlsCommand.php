@@ -40,8 +40,6 @@ class GetRemoteUrlsCommand extends Command
 
     /**
      * {@inheritdoc}
-     *
-     * @return void
      */
     protected function configure(): void
     {
@@ -56,7 +54,7 @@ class GetRemoteUrlsCommand extends Command
     {
         $limit = $input->getOption('limit');
 
-        $query = $this->coverRepository->getNoRemoteUrl($limit);
+        $query = $this->coverRepository->getNoRemoteUrlQuery($limit);
 
         /** @var Cover $cover */
         foreach ($query->toIterable() as $cover) {

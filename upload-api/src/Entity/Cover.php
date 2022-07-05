@@ -5,6 +5,7 @@ namespace App\Entity;
 use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Controller\CreateCoverAction;
+use App\Repository\CoverRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\PropertyAccess\Exception\UninitializedPropertyException;
@@ -13,7 +14,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 /**
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass=CoverRepository::class)
  * @ORM\Table(
  *     name="cover",
  *     indexes={
@@ -143,7 +144,6 @@ class Cover
     private ?string $agencyId;
 
     /**
-     * @var bool
      * @ORM\Column(type="boolean", options={"default":false})
      */
     private bool $isUploaded = false;
@@ -159,25 +159,17 @@ class Cover
      */
     private ?Material $material;
 
-    /**
-     * @return int|null
-     */
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    /**
-     * @return string|null
-     */
     public function getImageUrl(): ?string
     {
         return $this->imageUrl;
     }
 
     /**
-     * @param string $imageUrl
-     *
      * @return $this
      */
     public function setImageUrl(string $imageUrl): self
@@ -188,8 +180,6 @@ class Cover
     }
 
     /**
-     * @param File|null $file
-     *
      * @return $this
      */
     public function setFile(?File $file = null): self
@@ -205,9 +195,6 @@ class Cover
         return $this;
     }
 
-    /**
-     * @param \DateTimeInterface $updatedAt
-     */
     public function setUpdatedAt(\DateTimeInterface $updatedAt): void
     {
         if ($updatedAt instanceof \DateTime) {
@@ -217,17 +204,12 @@ class Cover
         $this->updatedAt = $updatedAt;
     }
 
-    /**
-     * @return File|null
-     */
     public function getFile(): ?File
     {
         return $this->file ?? null;
     }
 
     /**
-     * @param string|null $filePath
-     *
      * @return $this
      */
     public function setFilePath(?string $filePath): self
@@ -237,17 +219,12 @@ class Cover
         return $this;
     }
 
-    /**
-     * @return string|null
-     */
     public function getFilePath(): ?string
     {
         return $this->filePath;
     }
 
     /**
-     * @param int|null $size
-     *
      * @return $this
      */
     public function setSize(?int $size): self
@@ -257,25 +234,17 @@ class Cover
         return $this;
     }
 
-    /**
-     * @return int|null
-     */
     public function getSize(): ?int
     {
         return $this->size;
     }
 
-    /**
-     * @return string|null
-     */
     public function getAgencyId(): ?string
     {
         return $this->agencyId;
     }
 
     /**
-     * @param string $agencyId
-     *
      * @return $this
      */
     public function setAgencyId(string $agencyId): self
@@ -285,17 +254,12 @@ class Cover
         return $this;
     }
 
-    /**
-     * @return bool
-     */
     public function isUploaded(): bool
     {
         return $this->isUploaded;
     }
 
     /**
-     * @param bool $isUploaded
-     *
      * @return $this
      */
     public function setUploaded(bool $isUploaded): self

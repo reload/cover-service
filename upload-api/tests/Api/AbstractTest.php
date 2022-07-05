@@ -14,12 +14,11 @@ use Symfony\Component\Filesystem\Filesystem;
 
 abstract class AbstractTest extends ApiTestCase
 {
+    use RefreshDatabaseTrait;
     private ?string $token = null;
     private ?Client $clientWithCredentials = null;
     private AdapterInterface $tokenCache;
     private Filesystem $filesystem;
-
-    use RefreshDatabaseTrait;
 
     public function setUp(): void
     {
@@ -50,13 +49,13 @@ abstract class AbstractTest extends ApiTestCase
     protected function getIdFromIri(string $iri): int
     {
         $pos = \strrpos($iri, '/');
-        
+
         if (false === $pos) {
             throw new RuntimeException('No / found in iri');
         }
-        
+
         $id = \substr($iri, $pos + 1);
-        
+
         return (int) $id;
     }
 
@@ -69,8 +68,8 @@ abstract class AbstractTest extends ApiTestCase
         $this->clientWithCredentials = static::createClient([], [
             'headers' => [
                 'authorization' => 'Bearer '.$this->getToken(),
-                'accept' => 'application/json'
-            ]
+                'accept' => 'application/json',
+            ],
         ]);
 
         return $this->clientWithCredentials;

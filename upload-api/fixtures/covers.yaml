@@ -1,13 +1,13 @@
 App\Entity\Cover:
-  cover_775100_{1..10}:
-    filePath: <randomImage('test')>
+  cover_775100_{1..5}:
+    filePath: <randomImage(<{kernel.environment}>)>
     size: <imageSize(@self->filePath)>
     agencyId: '775100'
     uploaded: 1
     remoteUrl: <remoteUrl()>
     updatedAt: <dateTimeThisYear()>
-  cover_881010_{1..10}:
-    filePath: <randomImage('test')>
+  cover_881010_{1..5}:
+    filePath: <randomImage(<{kernel.environment}>)>
     size: <imageSize(@self->filePath)>
     agencyId: '881010'
     uploaded: 1

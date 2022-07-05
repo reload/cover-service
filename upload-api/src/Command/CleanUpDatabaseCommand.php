@@ -36,8 +36,6 @@ class CleanUpDatabaseCommand extends Command
 
     /**
      * {@inheritdoc}
-     *
-     * @return void
      */
     protected function configure(): void
     {
@@ -63,7 +61,7 @@ class CleanUpDatabaseCommand extends Command
         $fileExists = 0;
         $noMaterial = 0;
 
-        $query = $this->coverRepository->getIsNotUploaded($limit);
+        $query = $this->coverRepository->getIsNotUploadedQuery($limit);
         /** @var Cover $cover */
         foreach ($query->toIterable() as $cover) {
             $output->write('.');

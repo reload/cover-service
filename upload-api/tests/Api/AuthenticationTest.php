@@ -2,16 +2,14 @@
 
 namespace App\Tests\Api;
 
-use Hautelook\AliceBundle\PhpUnit\ReloadDatabaseTrait;
-
 class AuthenticationTest extends AbstractTest
 {
     public function testDocsAccess(): void
     {
         $response = static::createClient()->request('GET', '/api', [
             'headers' => [
-                'accept' => 'text/html'
-            ]
+                'accept' => 'text/html',
+            ],
         ]);
         $this->assertResponseIsSuccessful();
     }
@@ -32,8 +30,8 @@ class AuthenticationTest extends AbstractTest
     {
         $response = static::createClient()->request('GET', '/api/covers', [
             'headers' => [
-                'accept' => 'application/json'
-            ]
+                'accept' => 'application/json',
+            ],
         ]);
         $this->assertResponseStatusCodeSame(401);
     }

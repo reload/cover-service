@@ -17,12 +17,12 @@ class CoverTest extends AbstractTest
         $this->assertResponseHeaderSame('content-type', 'application/json; charset=utf-8');
         $this->assertJsonContains([
             [
-                'imageUrl' => 'https://res.cloudinary.com/dandigbib/image/upload/v1543609481//FixturesData/887210-basis:35646368.jpg',
+                'imageUrl' => 'https://res.cloudinary.com/dandigbib/image/upload/v1543609481//FixturesData/712810-basis:44991213.jpg',
                 'size' => 8945324,
-                'agencyId' => '775100'
-            ]
+                'agencyId' => '775100',
+            ],
         ]);
-        $this->assertCount(20, $json);
+        $this->assertCount(10, $json);
     }
 
     public function testGetItem(): void
@@ -34,7 +34,7 @@ class CoverTest extends AbstractTest
             'id' => $this->getIDFromIri($iri),
             'imageUrl' => 'https://res.cloudinary.com/dandigbib/image/upload/v1543609481//FixturesData/843200-basis:96826157.jpg',
             'size' => 8945324,
-            'agencyId' => '775100'
+            'agencyId' => '775100',
         ]);
     }
 
@@ -68,12 +68,12 @@ class CoverTest extends AbstractTest
         \unlink($filename);
     }
 
-    private static function getProjectDir(): string
+    protected static function getProjectDir(): string
     {
         return !empty($GLOBALS['app']) ? $GLOBALS['app']->getKernel()->getProjectDir() : getcwd();
     }
 
-    private static function getPublicFile(string $file): string
+    protected static function getPublicFile(string $file): string
     {
         return self::getProjectDir().'/public/cover/'.$file;
     }
