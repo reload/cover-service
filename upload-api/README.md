@@ -29,7 +29,7 @@ is in sync with the current mapping file(s).
 
 ## Development Setup
 
-A `docker-compose.yml` file with a PHP 7.4 image is included in this project.
+A `docker-compose.yml` file with a PHP 8.1 image is included in this project.
 To install the dependencies you can run
 
 ```shell
@@ -43,7 +43,7 @@ A PhpUnit/Mockery setup is included in this library. To run the unit tests:
 
 ```shell
 docker compose exec phpfpm composer install
-docker compose exec phpfpm ./vendor/bin/phpunit
+docker compose exec phpfpm ./vendor/bin/simple-phpunit
 ```
 
 ### Psalm static analysis
