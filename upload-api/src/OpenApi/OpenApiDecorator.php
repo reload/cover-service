@@ -18,8 +18,9 @@ final class OpenApiDecorator implements NormalizerInterface
      *
      * @param NormalizerInterface $decorated
      */
-    public function __construct(private readonly NormalizerInterface $decorated)
-    {
+    public function __construct(
+        private readonly NormalizerInterface $decorated
+    ) {
     }
 
     /**

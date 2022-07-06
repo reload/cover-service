@@ -28,8 +28,10 @@ final class MaterialPostWriteSubscriber implements EventSubscriberInterface
      * @param MessageBusInterface $bus
      * @param StorageInterface $storage
      */
-    public function __construct(private readonly MessageBusInterface $bus, private readonly StorageInterface $storage)
-    {
+    public function __construct(
+        private readonly MessageBusInterface $bus,
+        private readonly StorageInterface $storage
+    ) {
     }
 
     /**

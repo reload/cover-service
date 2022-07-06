@@ -24,8 +24,11 @@ class GetRemoteUrlsCommand extends Command
     /**
      * GetRemoteUrlsCommand constructor.
      */
-    public function __construct(private readonly CoverRepository $coverRepository, private readonly CoverService $coverStoreService, private readonly EntityManagerInterface $entityManager)
-    {
+    public function __construct(
+        private readonly CoverRepository $coverRepository,
+        private readonly CoverService $coverStoreService,
+        private readonly EntityManagerInterface $entityManager
+    ) {
         parent::__construct();
     }
 

@@ -35,8 +35,14 @@ class CloudinaryCoverStoreService implements CoverStoreInterface
      *
      * @throws CoverStoreCredentialException
      */
-    public function __construct(string $bindCloudinaryCloudName, string $bindCloudinaryApiKey, string $bindCloudinaryApiSecret, string $bindCloudinaryFolder, int $bindCloudinarySearchTTL, private readonly CacheItemPoolInterface $cache)
-    {
+    public function __construct(
+        string $bindCloudinaryCloudName,
+        string $bindCloudinaryApiKey,
+        string $bindCloudinaryApiSecret,
+        string $bindCloudinaryFolder,
+        int $bindCloudinarySearchTTL,
+        private readonly CacheItemPoolInterface $cache
+    ) {
         if (empty($bindCloudinaryCloudName)) {
             throw new CoverStoreCredentialException('Missing Cloudinary configuration in environment: CLOUDINARY_CLOUD_NAME');
         }

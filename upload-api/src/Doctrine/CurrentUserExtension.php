@@ -26,8 +26,9 @@ class CurrentUserExtension implements QueryCollectionExtensionInterface, QueryIt
      * @param Security $security
      *   The security service with the current user
      */
-    public function __construct(private readonly Security $security)
-    {
+    public function __construct(
+        private readonly Security $security
+    ) {
     }
 
     /**

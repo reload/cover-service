@@ -24,8 +24,11 @@ class CleanUpCommand extends Command
     /**
      * CleanUpCommand constructor.
      */
-    public function __construct(private readonly CoverRepository $coverRepository, private readonly CoverService $coverStoreService, private readonly EntityManagerInterface $entityManager)
-    {
+    public function __construct(
+        private readonly CoverRepository $coverRepository,
+        private readonly CoverService $coverStoreService,
+        private readonly EntityManagerInterface $entityManager
+    ) {
         parent::__construct();
     }
 

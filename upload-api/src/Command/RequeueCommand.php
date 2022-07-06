@@ -33,8 +33,14 @@ class RequeueCommand extends Command
     /**
      * CleanUpCommand constructor.
      */
-    public function __construct(private readonly MaterialRepository $materialRepository, private readonly CoverService $coverStoreService, private readonly StorageInterface $storage, private readonly MessageBusInterface $bus, private readonly RouterInterface $router, private readonly EntityManagerInterface $em)
-    {
+    public function __construct(
+        private readonly MaterialRepository $materialRepository,
+        private readonly CoverService $coverStoreService,
+        private readonly StorageInterface $storage,
+        private readonly MessageBusInterface $bus,
+        private readonly RouterInterface $router,
+        private readonly EntityManagerInterface $em
+    ) {
         parent::__construct();
     }
 

@@ -20,8 +20,11 @@ class ExistsCommand extends Command
     /**
      * CleanUpCommand constructor.
      */
-    public function __construct(private readonly MaterialRepository $materialRepository, private readonly CoverService $coverStoreService, private readonly EntityManagerInterface $entityManager)
-    {
+    public function __construct(
+        private readonly MaterialRepository $materialRepository,
+        private readonly CoverService $coverStoreService,
+        private readonly EntityManagerInterface $entityManager
+    ) {
         parent::__construct();
     }
 

@@ -25,8 +25,12 @@ class CoverService
      * @param Filesystem $filesystem
      * @param CoverStoreInterface $coverStore
      */
-    public function __construct(private readonly StorageInterface $storage, private readonly Filesystem $filesystem, private readonly CoverStoreInterface $coverStore, private readonly EntityManagerInterface $em)
-    {
+    public function __construct(
+        private readonly StorageInterface $storage,
+        private readonly Filesystem $filesystem,
+        private readonly CoverStoreInterface $coverStore,
+        private readonly EntityManagerInterface $em
+    ) {
     }
 
     /**

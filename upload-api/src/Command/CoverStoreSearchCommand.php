@@ -24,8 +24,9 @@ class CoverStoreSearchCommand extends Command
      *
      * @param CoverStoreInterface $store
      */
-    public function __construct(private readonly CoverStoreInterface $store)
-    {
+    public function __construct(
+        private readonly CoverStoreInterface $store
+    ) {
         parent::__construct();
     }
 
