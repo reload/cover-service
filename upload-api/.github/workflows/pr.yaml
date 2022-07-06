@@ -140,7 +140,7 @@ jobs:
           bin/console --env=test doctrine:migrations:migrate --no-interaction --quiet
           ./vendor/bin/phpunit --coverage-clover=coverage/unit.xml
         env:
-          DATABASE_URL: mysql://db:db@127.0.0.1:$PORT/db_test
+          DATABASE_URL: 'mysql://db:db@127.0.0.1:$PORT/db_test'
           SYMFONY_DEPRECATIONS_HELPER: disabled
 
       - name: Upload coverage to Codecov test
