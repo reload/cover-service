@@ -62,7 +62,7 @@ class CoverRepository extends ServiceEntityRepository
     }
 
     /**
-     * Get query for all covers that are nor related to a Material.
+     * Get query for all covers that are not related to a Material.
      *
      * @param int $limit
      *   Limit for query

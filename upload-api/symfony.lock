@@ -252,9 +252,6 @@
     "phpspec/prophecy": {
         "version": "v1.15.0"
     },
-    "phpstan/phpdoc-parser": {
-        "version": "1.2.0"
-    },
     "phpunit/php-code-coverage": {
         "version": "9.2.10"
     },
@@ -452,9 +449,6 @@
     "symfony/event-dispatcher-contracts": {
         "version": "v2.5.0"
     },
-    "symfony/expression-language": {
-        "version": "v5.2.12"
-    },
     "symfony/filesystem": {
         "version": "v5.2.12"
     },
@@ -472,9 +466,6 @@
         "files": [
             ".env"
         ]
-    },
-    "symfony/form": {
-        "version": "v4.4.2"
     },
     "symfony/framework-bundle": {
         "version": "6.1",
@@ -573,9 +564,6 @@
     "symfony/polyfill-intl-grapheme": {
         "version": "v1.24.0"
     },
-    "symfony/polyfill-intl-icu": {
-        "version": "v1.13.1"
-    },
     "symfony/polyfill-intl-idn": {
         "version": "v1.24.0"
     },
@@ -604,9 +592,6 @@
         "version": "v5.2.12"
     },
     "symfony/property-info": {
-        "version": "v5.2.12"
-    },
-    "symfony/proxy-manager-bridge": {
         "version": "v5.2.12"
     },
     "symfony/redis-messenger": {

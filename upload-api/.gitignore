@@ -8,6 +8,11 @@
 /vendor/
 ###< symfony/framework-bundle ###
 
+###> symfony/phpunit-bridge ###
+.phpunit.result.cache
+/phpunit.xml
+###< symfony/phpunit-bridge ###
+
 ###> squizlabs/php_codesniffer ###
 /.phpcs-cache
 /phpcs.xml
@@ -17,6 +22,7 @@
 /.php-cs-fixer.php
 /.php-cs-fixer.cache
 ###< friendsofphp/php-cs-fixer ###
+
 ###> phpunit/phpunit ###
 /phpunit.xml
 .phpunit.result.cache
@@ -24,8 +30,4 @@
 
 node_modules
 .php_cs.cache
-
-###> symfony/phpunit-bridge ###
-.phpunit.result.cache
-/phpunit.xml
-###< symfony/phpunit-bridge ###
+/public/cover
