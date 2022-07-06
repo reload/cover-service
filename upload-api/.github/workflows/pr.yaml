@@ -138,7 +138,7 @@ jobs:
       - name: PhpUnit tests
         run: |
           DATABASE_URL="mysql://db:db@127.0.0.1:$PORT/db_test" bin/console --env=test doctrine:migrations:migrate --no-interaction --quiet
-          SYMFONY_DEPRECATIONS_HELPER=disabled DATABASE_URL="mysql://db:db@127.0.0.1:$PORT/db_test" ./vendor/bin/phpunit --coverage-clover=coverage/unit.xml
+          SYMFONY_DEPRECATIONS_HELPER=disabled DATABASE_URL="mysql://db:db@127.0.0.1:$PORT/db_test" ./vendor/bin/simple-phpunit --coverage-clover=coverage/unit.xml
 
       - name: Upload coverage to Codecov test
         uses: codecov/codecov-action@v1
