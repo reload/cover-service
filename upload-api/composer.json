@@ -4,54 +4,57 @@
     "type": "project",
     "license": "AGPL-3.0-only",
     "require": {
-        "php": "^7.4",
+        "php": "^8.1",
         "ext-ctype": "*",
         "ext-iconv": "*",
         "ext-json": "*",
         "api-platform/core": "^2.6",
         "cloudinary/cloudinary_php": "^2.7",
-        "danskernesdigitalebibliotek/agency-auth-bundle": "^2.0",
+        "danskernesdigitalebibliotek/agency-auth-bundle": "^3.0",
         "doctrine/annotations": "^1.10",
         "doctrine/doctrine-bundle": "^2.5",
         "doctrine/doctrine-migrations-bundle": "^3.0",
         "doctrine/orm": "^2.11",
         "nelmio/cors-bundle": "^2.2",
-        "phpdocumentor/reflection-docblock": "^5.3",
-        "phpstan/phpdoc-parser": "^1.2",
-        "predis/predis": "^1.1",
-        "sensio/framework-extra-bundle": "^5.5",
-        "symfony/asset": "5.2.*",
-        "symfony/cache": "5.2.*",
-        "symfony/console": "5.2.*",
-        "symfony/dotenv": "5.2.*",
-        "symfony/expression-language": "5.2.*",
-        "symfony/filesystem": "5.2.*",
-        "symfony/flex": "^1.3.1",
-        "symfony/framework-bundle": "5.2.*",
-        "symfony/http-client": "5.2.*",
-        "symfony/messenger": "5.2.*",
+        "predis/predis": "^2.0",
+        "sensio/framework-extra-bundle": "^6.2",
+        "symfony/amqp-messenger": "6.1.*",
+        "symfony/asset": "6.1.*",
+        "symfony/cache": "6.1.*",
+        "symfony/console": "6.1.*",
+        "symfony/doctrine-messenger": "6.1.*",
+        "symfony/dotenv": "6.1.*",
+        "symfony/expression-language": "6.1.*",
+        "symfony/filesystem": "6.1.*",
+        "symfony/flex": "^2.2",
+        "symfony/framework-bundle": "6.1.*",
+        "symfony/http-client": "6.1.*",
+        "symfony/messenger": "6.1.*",
         "symfony/monolog-bundle": "^3.5",
-        "symfony/property-access": "5.2.*",
-        "symfony/property-info": "5.2.*",
-        "symfony/proxy-manager-bridge": "5.2.*",
-        "symfony/security-bundle": "5.2.*",
-        "symfony/serializer": "5.2.*",
-        "symfony/twig-bundle": "5.2.*",
-        "symfony/validator": "5.2.*",
-        "symfony/yaml": "5.2.*",
+        "symfony/property-access": "6.1.*",
+        "symfony/property-info": "6.1.*",
+        "symfony/runtime": "6.1.*",
+        "symfony/security-bundle": "6.1.*",
+        "symfony/serializer": "6.1.*",
+        "symfony/twig-bundle": "6.1.*",
+        "symfony/validator": "6.1.*",
+        "symfony/yaml": "6.1.*",
         "vich/uploader-bundle": "^1.12"
     },
     "require-dev": {
         "escapestudios/symfony2-coding-standard": "^3.11",
-        "friendsofphp/php-cs-fixer": "^2.16",
-        "phpunit/phpunit": "^9.5",
-        "symfony/browser-kit": "^5.2",
-        "symfony/css-selector": "^5.2",
+        "friendsofphp/php-cs-fixer": "^3.8",
+        "hautelook/alice-bundle": "^2.10",
+        "kubawerlos/php-cs-fixer-custom-fixers": "^3.11",
+        "rector/rector": "^0.13.7",
+        "symfony/browser-kit": "6.1.*",
+        "symfony/css-selector": "^6.1",
         "symfony/maker-bundle": "^1.14",
-        "symfony/phpunit-bridge": "^5.3",
-        "symfony/stopwatch": "^5.4",
-        "symfony/web-profiler-bundle": "^5.2",
-        "vimeo/psalm": "^4.8"
+        "symfony/phpunit-bridge": "^6.1",
+        "symfony/stopwatch": "^6.1",
+        "symfony/web-profiler-bundle": "^6.1",
+        "vimeo/psalm": "^4.8",
+        "weirdan/doctrine-psalm-plugin": "^2.3"
     },
     "config": {
         "preferred-install": {
@@ -60,7 +63,8 @@
         "sort-packages": true,
         "allow-plugins": {
             "composer/package-versions-deprecated": true,
-            "symfony/flex": true
+            "symfony/flex": true,
+            "symfony/runtime": true
         }
     },
     "autoload": {
@@ -89,6 +93,10 @@
         "docker-build": [
             "bin/console --env=prod assets:install"
         ],
+        "fixtures-load": [
+            "rm -fv ./public/cover/dev_fixture_*.jpg",
+            "bin/console hautelook:fixtures:load --no-interaction"
+        ],
         "post-install-cmd": [
             "@auto-scripts"
         ],
@@ -96,13 +104,19 @@
             "@auto-scripts"
         ],
         "coding-standards-check": [
-            "php-cs-fixer --config=.php_cs.dist fix --dry-run --format=checkstyle"
+            "vendor/bin/php-cs-fixer fix --dry-run --format=checkstyle"
         ],
         "coding-standards-apply": [
-            "php-cs-fixer --config=.php_cs.dist fix"
+            "vendor/bin/php-cs-fixer fix"
         ],
         "phpunit": [
             "./vendor/bin/phpunit"
+        ],
+        "tests": [
+            "bin/console --env=test doctrine:database:drop --if-exists --force --quiet",
+            "bin/console --env=test doctrine:database:create --no-interaction --if-not-exists --quiet",
+            "bin/console --env=test doctrine:migrations:migrate --no-interaction --quiet",
+            "bin/phpunit --stop-on-failure"
         ],
         "update-api-spec": [
             "bin/console api:openapi:export --output=public/api-spec-v1.yaml --yaml --no-interaction"
@@ -114,7 +128,7 @@
     "extra": {
         "symfony": {
             "allow-contrib": false,
-            "require": "5.2.*",
+            "require": "6.1.*",
             "docker": false
         }
     }

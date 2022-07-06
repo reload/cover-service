@@ -6,9 +6,15 @@ $finder = (new PhpCsFixer\Finder())
 ;
 
 return (new PhpCsFixer\Config())
+    ->registerCustomFixers(new PhpCsFixerCustomFixers\Fixers())
     ->setRules([
+        '@PHP81Migration' => true,
         '@Symfony' => true,
+        '@Symfony:risky' => false,
+        'phpdoc_align' => false,
+        'no_superfluous_phpdoc_tags' => false,
+        'array_syntax' => ['syntax' => 'short'],
+        \PhpCsFixerCustomFixers\Fixer\MultilinePromotedPropertiesFixer::name() => true,
     ])
     ->setFinder($finder)
-    ->setCacheFile('.php-cs-fixer.cache') // forward compatibility with 3.x line
-;
+    ;

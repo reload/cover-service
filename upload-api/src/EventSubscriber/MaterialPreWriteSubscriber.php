@@ -23,8 +23,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
  */
 final class MaterialPreWriteSubscriber implements EventSubscriberInterface
 {
-    private MessageBusInterface $bus;
-    private UserInterface $user;
+    private readonly UserInterface $user;
 
     /**
      * MaterialPreWriteSubscriber constructor.
@@ -32,9 +31,10 @@ final class MaterialPreWriteSubscriber implements EventSubscriberInterface
      * @param MessageBusInterface $bus
      * @param Security $security
      */
-    public function __construct(MessageBusInterface $bus, Security $security)
-    {
-        $this->bus = $bus;
+    public function __construct(
+        private readonly MessageBusInterface $bus,
+        Security $security
+    ) {
         $this->user = $security->getUser();
     }
 
