@@ -26,6 +26,7 @@ app:
     server: "cover-service-prod.mariadb.database.azure.com"
     port: "3306"
     database: "upload"
+    version: "mariadb-10.6.7"
   php:
     memory_limit: "128M"
     max_children: "80"

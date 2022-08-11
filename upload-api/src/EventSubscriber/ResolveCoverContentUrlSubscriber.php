@@ -25,13 +25,10 @@ use Vich\UploaderBundle\Storage\StorageInterface;
  */
 final class ResolveCoverContentUrlSubscriber implements EventSubscriberInterface
 {
-    private StorageInterface $storage;
-    private CoverService $coverStoreService;
-
-    public function __construct(StorageInterface $storage, CoverService $coverStoreService)
-    {
-        $this->storage = $storage;
-        $this->coverStoreService = $coverStoreService;
+    public function __construct(
+        private readonly StorageInterface $storage,
+        private readonly CoverService $coverStoreService
+    ) {
     }
 
     public static function getSubscribedEvents(): array
@@ -70,7 +67,7 @@ final class ResolveCoverContentUrlSubscriber implements EventSubscriberInterface
             $cover = $entity instanceof Cover ? $entity : $entity->cover;
 
             if ($cover->isUploaded()) {
-                $cover->setImageUrl($this->coverStoreService->generateUrl($cover->getMaterial()->getIsIdentifier()));
+                $cover->setImageUrl($this->coverStoreService->generateUrl($cover));
             } else {
                 $host = $request->getSchemeAndHttpHost();
                 $uri = $this->storage->resolveUri($cover, 'file');

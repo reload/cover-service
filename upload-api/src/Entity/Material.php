@@ -4,7 +4,9 @@ namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiResource;
+use App\Repository\MaterialRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\PropertyAccess\Exception\UninitializedPropertyException;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
@@ -39,7 +41,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *          }
  *     }
  * )
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass=MaterialRepository::class)
  * @ORM\Table(
  *     name="material",
  *     indexes={
@@ -104,10 +106,8 @@ class Material
     private ?string $agencyId;
 
     /**
-     * @var Cover|null
-     *
      * @ApiProperty(
-     *     iri="http://schema.org/image",
+     *     iri="https://schema.org/image",
      *     attributes={
      *         "openapi_context"={
      *             "type"="object",
@@ -132,8 +132,12 @@ class Material
         return $this->id;
     }
 
-    public function getIsIdentifier(): ?string
+    public function getIsIdentifier(): string
     {
+        if (null === $this->isIdentifier) {
+            throw new UninitializedPropertyException();
+        }
+
         return $this->isIdentifier;
     }
 
@@ -144,8 +148,12 @@ class Material
         return $this;
     }
 
-    public function getIsType(): ?string
+    public function getIsType(): string
     {
+        if (null === $this->isType) {
+            throw new UninitializedPropertyException();
+        }
+
         return $this->isType;
     }
 
@@ -156,8 +164,12 @@ class Material
         return $this;
     }
 
-    public function getAgencyId(): ?string
+    public function getAgencyId(): string
     {
+        if (null === $this->agencyId) {
+            throw new UninitializedPropertyException();
+        }
+
         return $this->agencyId;
     }
 
@@ -168,8 +180,12 @@ class Material
         return $this;
     }
 
-    public function getCover(): ?Cover
+    public function getCover(): Cover
     {
+        if (null === $this->cover) {
+            throw new UninitializedPropertyException();
+        }
+
         return $this->cover;
     }
 
@@ -178,5 +194,18 @@ class Material
         $this->cover = $cover;
 
         return $this;
+    }
+
+    public function __toString()
+    {
+        $str = [];
+        $str[] = str_repeat('-', 14).' Material '.str_repeat('-', 14);
+        $str[] = "Id:\t\t$this->id";
+        $str[] = "Type:\t\t$this->isType";
+        $str[] = "Identifier:\t$this->isIdentifier";
+        $str[] = "Agency ID:\t$this->agencyId";
+        $str[] = str_repeat('-', 38);
+
+        return implode("\n", $str)."\n";
     }
 }

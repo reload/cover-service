@@ -13,22 +13,20 @@ use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
  */
 final class OpenApiDecorator implements NormalizerInterface
 {
-    private $decorated;
-
     /**
      * OpenApiDecorator constructor.
      *
      * @param NormalizerInterface $decorated
      */
-    public function __construct(NormalizerInterface $decorated)
-    {
-        $this->decorated = $decorated;
+    public function __construct(
+        private readonly NormalizerInterface $decorated
+    ) {
     }
 
     /**
      * {@inheritdoc}
      */
-    public function normalize($object, $format = null, array $context = [])
+    public function normalize($object, $format = null, array $context = []): array|string|int|float|bool|\ArrayObject|null
     {
         $docs = $this->decorated->normalize($object, $format, $context);
 
@@ -41,7 +39,7 @@ final class OpenApiDecorator implements NormalizerInterface
     /**
      * {@inheritdoc}
      */
-    public function supportsNormalization($data, $format = null): bool
+    public function supportsNormalization($data, $format = null, array $context = []): bool
     {
         return $this->decorated->supportsNormalization($data, $format);
     }
@@ -56,7 +54,7 @@ final class OpenApiDecorator implements NormalizerInterface
         // Correct material write definition for cover
         $coverDefinition = [
             'externalDocs' => [
-                'url' => 'http://schema.org/image',
+                'url' => 'https://schema.org/image',
             ],
             'type' => 'string',
             'format' => 'iri-reference',

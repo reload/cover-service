@@ -10,23 +10,20 @@ use ApiPlatform\Core\EventListener\EventPriorities;
 use App\Entity\Material;
 use App\Message\CoverUserUploadMessage;
 use App\Utils\Types\VendorState;
-use DanskernesDigitaleBibliotek\AgencyAuthBundle\Security\User;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Event\ViewEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
 use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Security\Core\Security;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * Class MaterialPreWriteSubscriber.
  */
 final class MaterialPreWriteSubscriber implements EventSubscriberInterface
 {
-    private MessageBusInterface $bus;
-
-    /** @var User */
-    private $user;
+    private readonly UserInterface $user;
 
     /**
      * MaterialPreWriteSubscriber constructor.
@@ -34,9 +31,10 @@ final class MaterialPreWriteSubscriber implements EventSubscriberInterface
      * @param MessageBusInterface $bus
      * @param Security $security
      */
-    public function __construct(MessageBusInterface $bus, Security $security)
-    {
-        $this->bus = $bus;
+    public function __construct(
+        private readonly MessageBusInterface $bus,
+        Security $security
+    ) {
         $this->user = $security->getUser();
     }
 

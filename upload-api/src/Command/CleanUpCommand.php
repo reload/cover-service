@@ -10,41 +10,35 @@ use App\Entity\Cover;
 use App\Repository\CoverRepository;
 use App\Service\CoverService;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
-/**
- * Class CleanUpCommand.
- */
+#[AsCommand(
+    name: 'app:image:cleanup',
+)]
 class CleanUpCommand extends Command
 {
-    private CoverRepository $coverRepository;
-    private CoverService $coverStoreService;
-    private EntityManagerInterface $entityManager;
-
-    protected static $defaultName = 'app:image:cleanup';
-
     /**
      * CleanUpCommand constructor.
      */
-    public function __construct(CoverRepository $coverRepository, CoverService $coverStoreService, EntityManagerInterface $entityManager)
-    {
-        $this->coverRepository = $coverRepository;
-        $this->coverStoreService = $coverStoreService;
-        $this->entityManager = $entityManager;
-
+    public function __construct(
+        private readonly CoverRepository $coverRepository,
+        private readonly CoverService $coverStoreService,
+        private readonly EntityManagerInterface $entityManager
+    ) {
         parent::__construct();
     }
 
     /**
      * {@inheritdoc}
-     *
-     * @return void
      */
     protected function configure(): void
     {
-        $this->setDescription('Clean up local stored images after upload detected');
+        $this->addOption('limit', null, InputOption::VALUE_OPTIONAL, 'Limit number of records to load.', 0)
+            ->setDescription('Clean up local stored images after upload detected');
     }
 
     /**
@@ -52,12 +46,18 @@ class CleanUpCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $covers = $this->coverRepository->getIsNotUploaded();
-        foreach ($covers as $cover) {
-            /** @var Cover $cover */
+        $limit = $input->getOption('limit');
+
+        $query = $this->coverRepository->getIsNotUploadedQuery($limit);
+        /** @var Cover $cover */
+        foreach ($query->toIterable() as $cover) {
             if ($this->coverStoreService->exists($cover->getMaterial()->getIsIdentifier())) {
                 $this->coverStoreService->removeLocalFile($cover);
 
+                $item = $this->coverStoreService->search($cover->getMaterial()->getIsIdentifier());
+                if (null !== $item) {
+                    $cover->setRemoteUrl($item->getUrl());
+                }
                 $cover->setUploaded(true);
                 $this->entityManager->flush();
             }

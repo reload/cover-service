@@ -7,7 +7,7 @@
 
 namespace App\Utils\CoverStore;
 
-class CoverStoreItem
+class CoverStoreItem implements \Stringable
 {
     private string $id;
     private string $url;
@@ -17,7 +17,7 @@ class CoverStoreItem
     private int $height;
     private string $imageFormat;
 
-    public function __toString()
+    public function __toString(): string
     {
         $output = [];
 
@@ -33,17 +33,12 @@ class CoverStoreItem
         return implode("\n", $output);
     }
 
-    /**
-     * @return string
-     */
     public function getId(): string
     {
         return $this->id;
     }
 
     /**
-     * @param string $id
-     *
      * @return static
      */
     public function setId(string $id): self
@@ -53,17 +48,12 @@ class CoverStoreItem
         return $this;
     }
 
-    /**
-     * @return string
-     */
     public function getUrl(): string
     {
         return $this->url;
     }
 
     /**
-     * @param string $url
-     *
      * @return static
      */
     public function setUrl(string $url): self
@@ -73,16 +63,13 @@ class CoverStoreItem
         return $this;
     }
 
-    /**
-     * @return string
-     */
     public function getVendor(): string
     {
         return $this->vendor;
     }
 
     /**
-     * @param $vendor
+     * @param string $vendor
      *
      * @return static
      */
@@ -102,8 +89,6 @@ class CoverStoreItem
     }
 
     /**
-     * @param int $size
-     *
      * @return static
      */
     public function setSize(int $size): self
@@ -113,17 +98,12 @@ class CoverStoreItem
         return $this;
     }
 
-    /**
-     * @return int
-     */
     public function getWidth(): int
     {
         return $this->width;
     }
 
     /**
-     * @param int $width
-     *
      * @return static
      */
     public function setWidth(int $width): self
@@ -133,17 +113,12 @@ class CoverStoreItem
         return $this;
     }
 
-    /**
-     * @return int
-     */
     public function getHeight(): int
     {
         return $this->height;
     }
 
     /**
-     * @param int $height
-     *
      * @return static
      */
     public function setHeight(int $height): self
@@ -153,17 +128,12 @@ class CoverStoreItem
         return $this;
     }
 
-    /**
-     * @return string
-     */
     public function getImageFormat(): string
     {
         return $this->imageFormat;
     }
 
     /**
-     * @param string $imageFormat
-     *
      * @return static
      */
     public function setImageFormat(string $imageFormat): self

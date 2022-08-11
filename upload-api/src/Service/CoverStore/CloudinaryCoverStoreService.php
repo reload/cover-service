@@ -9,6 +9,11 @@ namespace App\Service\CoverStore;
 
 use App\Exception\CoverStoreCredentialException;
 use App\Utils\CoverStore\CoverStoreItem;
+use Cloudinary\Api\Exception\GeneralError;
+use Cloudinary\Api\Search\SearchApi;
+use Cloudinary\Configuration\Configuration;
+use Psr\Cache\CacheItemPoolInterface;
+use Psr\Cache\InvalidArgumentException;
 
 /**
  * Class CloudinaryCoverStoreService.
@@ -16,6 +21,7 @@ use App\Utils\CoverStore\CoverStoreItem;
 class CloudinaryCoverStoreService implements CoverStoreInterface
 {
     private string $folder;
+    private int $cacheTTL;
 
     /**
      * CloudinaryCoverStoreService constructor.
@@ -29,8 +35,14 @@ class CloudinaryCoverStoreService implements CoverStoreInterface
      *
      * @throws CoverStoreCredentialException
      */
-    public function __construct(string $bindCloudinaryCloudName, string $bindCloudinaryApiKey, string $bindCloudinaryApiSecret, string $bindCloudinaryFolder)
-    {
+    public function __construct(
+        string $bindCloudinaryCloudName,
+        string $bindCloudinaryApiKey,
+        string $bindCloudinaryApiSecret,
+        string $bindCloudinaryFolder,
+        int $bindCloudinarySearchTTL,
+        private readonly CacheItemPoolInterface $cache
+    ) {
         if (empty($bindCloudinaryCloudName)) {
             throw new CoverStoreCredentialException('Missing Cloudinary configuration in environment: CLOUDINARY_CLOUD_NAME');
         }
@@ -44,41 +56,61 @@ class CloudinaryCoverStoreService implements CoverStoreInterface
         $this->folder = $bindCloudinaryFolder;
 
         // Set global Cloudinary configuration.
-        \Cloudinary::config([
-            'cloud_name' => $bindCloudinaryCloudName,
-            'api_key' => $bindCloudinaryApiKey,
-            'api_secret' => $bindCloudinaryApiSecret,
-            'secure' => true, ]);
+        Configuration::instance([
+            'cloud' => [
+                'cloud_name' => $bindCloudinaryCloudName,
+                'api_key' => $bindCloudinaryApiKey,
+                'api_secret' => $bindCloudinaryApiSecret,
+                'secure' => true,
+            ],
+        ]);
+
+        $this->cacheTTL = $bindCloudinarySearchTTL;
     }
 
     /**
      * {@inheritdoc}
+     *
+     * @throws \Cloudinary\Api\Exception\GeneralError
      */
-    public function search(string $identifier = null): array
+    public function search(string $identifier, bool $refresh = false): array
     {
-        $search = new \Cloudinary\Search();
-        $search
-            ->expression('folder='.$this->folder)
-            ->sort_by('public_id', 'desc')
-            ->max_results(100);
+        try {
+            // Try getting item from cache.
+            $cacheItem = $this->cache->getItem('coverstore.search_query'.str_replace(':', '', $identifier));
+        } catch (InvalidArgumentException) {
+            throw new GeneralError('Invalid cache argument');
+        }
 
-        if (!is_null($identifier)) {
+        // Check if cache should be used if item have been located.
+        if ($refresh || !$cacheItem->isHit()) {
+            $search = new SearchApi();
+            $search->expression('folder='.$this->folder)
+                ->sortBy('public_id', 'desc')
+                ->maxResults(100);
+
             $query = 'public_id:'.$this->folder.'/'.addcslashes($identifier, ':');
             $search->expression($query);
-        }
-        $result = $search->execute()->getArrayCopy();
+            $result = $search->execute()->getArrayCopy();
 
-        $items = [];
-        foreach ($result['resources'] as $resources) {
-            $item = new CoverStoreItem();
-            $item->setId($resources['public_id'])
-                ->setUrl($resources['secure_url'])
-                ->setVendor($this->folder)
-                ->setSize($resources['bytes'])
-                ->setWidth((int) $resources['width'])
-                ->setHeight((int) $resources['height'])
-                ->setImageFormat($resources['format']);
-            $items[] = $item;
+            $items = [];
+            foreach ($result['resources'] as $resources) {
+                $item = new CoverStoreItem();
+                $item->setId($resources['public_id'])
+                    ->setUrl($resources['secure_url'])
+                    ->setVendor($this->folder)
+                    ->setSize($resources['bytes'])
+                    ->setWidth((int) $resources['width'])
+                    ->setHeight((int) $resources['height'])
+                    ->setImageFormat($resources['format']);
+                $items[] = $item;
+            }
+
+            $cacheItem->expiresAfter($this->cacheTTL);
+            $cacheItem->set($items);
+            $this->cache->save($cacheItem);
+        } else {
+            $items = $cacheItem->get();
         }
 
         return $items;
