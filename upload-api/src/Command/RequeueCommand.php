@@ -13,6 +13,7 @@ use App\Service\CoverService;
 use App\Service\ProgressBarTrait;
 use App\Utils\Types\VendorState;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Input\InputInterface;
@@ -22,40 +23,29 @@ use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Routing\RouterInterface;
 use Vich\UploaderBundle\Storage\StorageInterface;
 
-/**
- * Class RequeueCommand.
- */
+#[AsCommand(
+    name: 'app:image:requeue',
+)]
 class RequeueCommand extends Command
 {
     use ProgressBarTrait;
 
-    private CoverService $coverStoreService;
-    private MaterialRepository $materialRepository;
-    private StorageInterface $storage;
-    private MessageBusInterface $bus;
-    private RouterInterface $router;
-    private EntityManagerInterface $em;
-
-    protected static $defaultName = 'app:image:requeue';
-
     /**
      * CleanUpCommand constructor.
      */
-    public function __construct(MaterialRepository $materialRepository, CoverService $coverStoreService, StorageInterface $storage, MessageBusInterface $bus, RouterInterface $router, EntityManagerInterface $entityManager)
-    {
+    public function __construct(
+        private readonly MaterialRepository $materialRepository,
+        private readonly CoverService $coverStoreService,
+        private readonly StorageInterface $storage,
+        private readonly MessageBusInterface $bus,
+        private readonly RouterInterface $router,
+        private readonly EntityManagerInterface $em
+    ) {
         parent::__construct();
-        $this->materialRepository = $materialRepository;
-        $this->coverStoreService = $coverStoreService;
-        $this->storage = $storage;
-        $this->bus = $bus;
-        $this->router = $router;
-        $this->em = $entityManager;
     }
 
     /**
      * {@inheritdoc}
-     *
-     * @return void
      */
     protected function configure(): void
     {
@@ -92,7 +82,7 @@ class RequeueCommand extends Command
             }
         } else {
             $material = $this->materialRepository->findOneBy(['isIdentifier' => $identifier]);
-            if (isset($material)) {
+            if ($material instanceof Material) {
                 $this->progressAdvance();
                 $this->progressMessage($i.' material found in DB');
                 $this->progressFinish();

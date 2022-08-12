@@ -6,38 +6,30 @@ use App\Entity\Material;
 use App\Repository\MaterialRepository;
 use App\Service\CoverService;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
-/**
- * Class CleanUpCommand.
- */
+#[AsCommand(
+    name: 'app:cs:exists',
+)]
 class ExistsCommand extends Command
 {
-    private CoverService $coverStoreService;
-    private EntityManagerInterface $entityManager;
-    private MaterialRepository $materialRepository;
-
-    protected static $defaultName = 'app:cs:exists';
-
     /**
      * CleanUpCommand constructor.
      */
-    public function __construct(MaterialRepository $materialRepository, CoverService $coverStoreService, EntityManagerInterface $entityManager)
-    {
+    public function __construct(
+        private readonly MaterialRepository $materialRepository,
+        private readonly CoverService $coverStoreService,
+        private readonly EntityManagerInterface $entityManager
+    ) {
         parent::__construct();
-
-        $this->coverStoreService = $coverStoreService;
-        $this->entityManager = $entityManager;
-        $this->materialRepository = $materialRepository;
     }
 
     /**
      * {@inheritdoc}
-     *
-     * @return void
      */
     protected function configure(): void
     {

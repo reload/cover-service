@@ -27,6 +27,7 @@ app:
     server: "k8s-ddf-prod.mariadb.database.azure.com"
     port: "3306"
     database: "cover-service-upload"
+    version: "mariadb-10.6.7"
   storage:
     class: "azurefile-premium-retain"
     size: "100Gi"
@@ -46,4 +47,4 @@ app:
 nginx:
   exporter:
     image:
-      version: 0.6.0
+      version: 0.10.0
