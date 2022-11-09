@@ -48,7 +48,7 @@ class CoverRepository extends ServiceEntityRepository
      * @return Query
      *   DQL query
      */
-    public function getNoRemoteUrlQuery(int $limit = 0): Query
+    public function getNoRemoteUrlQuery(string $agencyId = '', int $limit = 0): Query
     {
         $queryBuilder = $this->createQueryBuilder('c')
             ->where('c.remoteUrl is null')
@@ -56,6 +56,11 @@ class CoverRepository extends ServiceEntityRepository
 
         if (0 !== $limit) {
             $queryBuilder->setMaxResults($limit);
+        }
+
+        if ('' !== $agencyId) {
+            $queryBuilder->andWhere('c.agencyId = :agency')
+                ->setParameter('agency', $agencyId);
         }
 
         return $queryBuilder->getQuery();

@@ -38,6 +38,7 @@ class GetRemoteUrlsCommand extends Command
     protected function configure(): void
     {
         $this->addOption('limit', null, InputOption::VALUE_OPTIONAL, 'Limit number of records to load.', 0)
+            ->addOption('agency-id', null, InputOption::VALUE_OPTIONAL, 'Limit by agency id', '')
             ->setDescription('Update cover store urls in local database (remoteUrl)');
     }
 
@@ -47,8 +48,9 @@ class GetRemoteUrlsCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $limit = $input->getOption('limit');
+        $agencyId = $input->getOption('agency-id');
 
-        $query = $this->coverRepository->getNoRemoteUrlQuery($limit);
+        $query = $this->coverRepository->getNoRemoteUrlQuery($agencyId, $limit);
 
         /** @var Cover $cover */
         foreach ($query->toIterable() as $cover) {
