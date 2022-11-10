@@ -19,7 +19,9 @@ class CoverUserUploadMessage
     private string $identifier;
     private string $imageUrl;
     private string $accrediting;
-    private $vendorId;
+    private ?int $vendorId;
+    private ?string $agency = null;
+    private ?string $profile = null;
 
     /**
      * @return string
@@ -122,9 +124,9 @@ class CoverUserUploadMessage
     }
 
     /**
-     * @return mixed
+     * @return int|null
      */
-    public function getVendorId()
+    public function getVendorId(): ?int
     {
         return $this->vendorId;
     }
@@ -134,9 +136,59 @@ class CoverUserUploadMessage
      *
      * @return CoverUserUploadMessage
      */
-    public function setVendorId($vendorId): self
+    public function setVendorId(?int $vendorId): self
     {
         $this->vendorId = $vendorId;
+
+        return $this;
+    }
+
+    /**
+     * Get agency id.
+     *
+     * This is an optional field that maybe used to change what agency is used during search.
+     *
+     * @return string
+     *   Library agency id, if set else empty string
+     */
+    public function getAgency(): string
+    {
+        return $this->agency ?? '';
+    }
+
+    /**
+     * Set agency id.
+     *
+     * @param string $agency
+     *   Library agency id
+     *
+     * @return CoverUserUploadMessage
+     */
+    public function setAgency(string $agency): self
+    {
+        $this->agency = $agency;
+
+        return $this;
+    }
+
+    /**
+     * Get OpenPlatform search profile.
+     *
+     * @return string
+     */
+    public function getProfile(): string
+    {
+        return $this->profile ?? '';
+    }
+
+    /**
+     * @param string $profile
+     *
+     * @return CoverUserUploadMessage
+     */
+    public function setProfile(string $profile): self
+    {
+        $this->profile = $profile;
 
         return $this;
     }
