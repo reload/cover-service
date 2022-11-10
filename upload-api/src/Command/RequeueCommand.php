@@ -49,11 +49,12 @@ class RequeueCommand extends Command
      */
     protected function configure(): void
     {
-        $this->setDescription('Clean up local stored images after upload detected')
+        $this->setDescription('Requeue materials both updates and inserts missing')
+            ->addOption('limit', null, InputOption::VALUE_OPTIONAL, 'Limit number of records to load (CoverStore has API limits 5000 req/h).', 5000)
+            ->addOption('offset', null, InputOption::VALUE_OPTIONAL, 'Offset to start at in the database.', 0)
             ->addOption('agency-id', null, InputOption::VALUE_OPTIONAL, 'Limit by agency id')
             ->addOption('identifier', null, InputOption::VALUE_OPTIONAL, 'Only for this identifier')
-            ->addOption('is-not-uploaded', null, InputOption::VALUE_NONE, 'Only look at records that is not marked as uploaded')
-            ->addOption('force', null, InputOption::VALUE_NONE, 'Force re-upload of image even if it exists in the cover store');
+            ->addOption('is-not-uploaded', null, InputOption::VALUE_NONE, 'Only look at records that is not marked as uploaded');
     }
 
     /**
@@ -64,7 +65,8 @@ class RequeueCommand extends Command
         $agencyId = $input->getOption('agency-id');
         $identifier = $input->getOption('identifier');
         $isNotUploaded = $input->getOption('is-not-uploaded');
-        $force = $input->getOption('force');
+        $limit = $input->getOption('is-not-uploaded');
+        $offset = $input->getOption('is-not-uploaded');
 
         $section = $output->section('Sheet');
         $progressBarSheet = new ProgressBar($section);
@@ -73,12 +75,14 @@ class RequeueCommand extends Command
         $this->progressStart('Loading data from the database');
         $batchSize = 200;
         $i = 1;
+        $messagesInserted = 0;
+        $messagesUpdated = 0;
 
         if (is_null($identifier)) {
             if (is_null($agencyId)) {
-                $query = $this->materialRepository->getAll($isNotUploaded);
+                $query = $this->materialRepository->getAll($isNotUploaded, $limit, $offset);
             } else {
-                $query = $this->materialRepository->getByAgencyId($agencyId, $isNotUploaded);
+                $query = $this->materialRepository->getByAgencyId($agencyId, $isNotUploaded, $limit, $offset);
             }
         } else {
             $material = $this->materialRepository->findOneBy(['isIdentifier' => $identifier]);
@@ -87,7 +91,7 @@ class RequeueCommand extends Command
                 $this->progressMessage($i.' material found in DB');
                 $this->progressFinish();
 
-                $this->sendMessage($material);
+                $this->sendMessage($material, VendorState::INSERT);
 
                 return Command::SUCCESS;
             } else {
@@ -99,19 +103,24 @@ class RequeueCommand extends Command
 
         /** @var Material $material */
         foreach ($query->toIterable() as $material) {
-            if ($force || !$this->coverStoreService->exists($material->getIsIdentifier())) {
-                if ($this->coverStoreService->existsLocalFile($material->getCover())) {
-                    $this->sendMessage($material);
+            $existsRemote = $this->coverStoreService->exists($material->getIsIdentifier());
+            if ($this->coverStoreService->existsLocalFile($material->getCover()) && !$existsRemote) {
+                $this->sendMessage($material, VendorState::INSERT);
+                ++$messagesInserted;
+            } else {
+                if ($existsRemote) {
+                    $this->sendMessage($material, VendorState::UPDATE);
+                    ++$messagesUpdated;
                 }
+            }
 
-                $this->progressAdvance();
-                $this->progressMessage($i.' material(s) found in DB');
-                ++$i;
+            $this->progressAdvance();
+            $this->progressMessage($i.' material(s) found in DB. '.$messagesInserted.' inserted, '.$messagesUpdated.' updated send into queues');
+            ++$i;
 
-                // Free memory when batch size is reached.
-                if (0 === ($i % $batchSize)) {
-                    gc_collect_cycles();
-                }
+            // Free memory when batch size is reached.
+            if (0 === ($i % $batchSize)) {
+                gc_collect_cycles();
             }
         }
 
@@ -125,8 +134,10 @@ class RequeueCommand extends Command
      *
      * @param material $material
      *   The material to upload to cover service
+     * @param string $state
+     *   The operation to preform (insert or update)
      */
-    private function sendMessage(Material $material)
+    private function sendMessage(Material $material, string $state)
     {
         $base = 'https://'.rtrim($this->router->generate('homepage'), '/');
         $url = $base.$this->storage->resolveUri($material->getCover(), 'file');
@@ -134,7 +145,7 @@ class RequeueCommand extends Command
         $message = new CoverUserUploadMessage();
         $message->setIdentifierType($material->getIsType())
             ->setIdentifier($material->getIsIdentifier())
-            ->setOperation(VendorState::INSERT)
+            ->setOperation($state)
             ->setImageUrl($url)
             ->setAccrediting($material->getAgencyId())
             ->setAgency($material->getAgencyId());
