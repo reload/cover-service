@@ -50,6 +50,8 @@ class RequeueCommand extends Command
     protected function configure(): void
     {
         $this->setDescription('Requeue materials both updates and inserts missing')
+            ->addOption('limit', null, InputOption::VALUE_OPTIONAL, 'Limit number of records to load (CoverStore has API limits 5000 req/h).', 5000)
+            ->addOption('offset', null, InputOption::VALUE_OPTIONAL, 'Offset to start at in the database.', 0)
             ->addOption('agency-id', null, InputOption::VALUE_OPTIONAL, 'Limit by agency id')
             ->addOption('identifier', null, InputOption::VALUE_OPTIONAL, 'Only for this identifier')
             ->addOption('is-not-uploaded', null, InputOption::VALUE_NONE, 'Only look at records that is not marked as uploaded');
@@ -63,6 +65,8 @@ class RequeueCommand extends Command
         $agencyId = $input->getOption('agency-id');
         $identifier = $input->getOption('identifier');
         $isNotUploaded = $input->getOption('is-not-uploaded');
+        $limit = $input->getOption('is-not-uploaded');
+        $offset = $input->getOption('is-not-uploaded');
 
         $section = $output->section('Sheet');
         $progressBarSheet = new ProgressBar($section);
@@ -76,9 +80,9 @@ class RequeueCommand extends Command
 
         if (is_null($identifier)) {
             if (is_null($agencyId)) {
-                $query = $this->materialRepository->getAll($isNotUploaded);
+                $query = $this->materialRepository->getAll($isNotUploaded, $limit, $offset);
             } else {
-                $query = $this->materialRepository->getByAgencyId($agencyId, $isNotUploaded);
+                $query = $this->materialRepository->getByAgencyId($agencyId, $isNotUploaded, $limit, $offset);
             }
         } else {
             $material = $this->materialRepository->findOneBy(['isIdentifier' => $identifier]);

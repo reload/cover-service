@@ -24,11 +24,15 @@ class MaterialRepository extends ServiceEntityRepository
      *   Agency ID
      * @param bool $isNotUploaded
      *   Filter base on those that do not have covers marked as uploaded
+     * @param int $limit
+     *   Limit the number of records
+     * @param int $offset
+     *   The database offset to start at
      *
      * @return Query
      *   The query build
      */
-    public function getByAgencyId(int $agencyId, bool $isNotUploaded): Query
+    public function getByAgencyId(int $agencyId, bool $isNotUploaded, int $limit = 0, int $offset = 0): Query
     {
         $queryBuilder = $this->createQueryBuilder('m')
             ->where('m.agencyId = :agencyId')
@@ -39,6 +43,14 @@ class MaterialRepository extends ServiceEntityRepository
                 ->where('c.isUploaded = 0');
         }
 
+        if (0 !== $offset) {
+            $queryBuilder->setFirstResult($offset);
+        }
+
+        if (0 !== $limit) {
+            $queryBuilder->setMaxResults($limit);
+        }
+
         return $queryBuilder->getQuery();
     }
 
@@ -47,17 +59,29 @@ class MaterialRepository extends ServiceEntityRepository
      *
      * @param bool $isNotUploaded
      *   Filter base on those that do not have covers marked as uploaded
+     * @param int $limit
+     *   Limit the number of records
+     * @param int $offset
+     *   The database offset to start at
      *
      * @return Query
      *   The query build
      */
-    public function getAll(bool $isNotUploaded): Query
+    public function getAll(bool $isNotUploaded, int $limit = 0, int $offset = 0): Query
     {
         $queryBuilder = $this->createQueryBuilder('m');
 
         if ($isNotUploaded) {
             $queryBuilder->join('m.cover', 'c')
                 ->where('c.isUploaded = 0');
+        }
+
+        if (0 !== $offset) {
+            $queryBuilder->setFirstResult($offset);
+        }
+
+        if (0 !== $limit) {
+            $queryBuilder->setMaxResults($limit);
         }
 
         return $queryBuilder->getQuery();
