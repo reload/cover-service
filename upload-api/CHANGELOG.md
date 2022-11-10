@@ -11,6 +11,8 @@ See [keep a changelog](https://keepachangelog.com/en/1.0.0/) for information abo
 
 ## [Unreleased]
 
+## [3.1.0] - 2022-11-10
+
 ### Changed
 - Added agency and profile to upload messages for better search results doing indexing.
 
