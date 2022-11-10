@@ -71,9 +71,10 @@ final class MaterialPreWriteSubscriber implements EventSubscriberInterface
                 }
 
                 $message = new CoverUserUploadMessage();
-                $message->setIdentifierType($item->getIsType());
-                $message->setIdentifier($item->getIsIdentifier());
-                $message->setOperation(VendorState::DELETE);
+                $message->setIdentifierType($item->getIsType())
+                    ->setIdentifier($item->getIsIdentifier())
+                    ->setOperation(VendorState::DELETE)
+                    ->setAgency($this->user->getAgency());
 
                 $this->bus->dispatch($message);
                 break;

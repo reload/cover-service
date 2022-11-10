@@ -73,11 +73,12 @@ final class MaterialPostWriteSubscriber implements EventSubscriberInterface
                 $url = $base.$this->storage->resolveUri($material->getCover(), 'file');
 
                 $message = new CoverUserUploadMessage();
-                $message->setIdentifierType($material->getIsType());
-                $message->setIdentifier($material->getIsIdentifier());
-                $message->setOperation(VendorState::INSERT);
-                $message->setImageUrl($url);
-                $message->setAccrediting($material->getAgencyId());
+                $message->setIdentifierType($material->getIsType())
+                    ->setIdentifier($material->getIsIdentifier())
+                    ->setOperation(VendorState::INSERT)
+                    ->setImageUrl($url)
+                    ->setAccrediting($material->getAgencyId())
+                    ->setAgency($material->getAgencyId());
                 $this->bus->dispatch($message);
                 break;
         }
