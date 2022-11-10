@@ -11,7 +11,12 @@ See [keep a changelog](https://keepachangelog.com/en/1.0.0/) for information abo
 
 ## [Unreleased]
 
+### Changed
+- Added agency and profile to upload messages for better search results doing indexing.
+
 ## [3.0.0] - 2022-08-15
+
+### Changed
 - Updated to PHP 8.1
 - Updates to Symfony 6.1
 
