@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<files psalm-version="4.19.0@a2ad69ae4f5ab1f7d225a8dc4e2ec2d9415ed599">
+<files psalm-version="4.24.0@06dd975cb55d36af80f242561738f16c5f58264f">
   <file src="src/Command/RequeueCommand.php">
     <UndefinedInterfaceMethod occurrences="1">
       <code>section</code>
@@ -9,7 +9,8 @@
     <PossiblyNullPropertyAssignmentValue occurrences="1">
       <code>$security-&gt;getUser()</code>
     </PossiblyNullPropertyAssignmentValue>
-    <UndefinedInterfaceMethod occurrences="1">
+    <UndefinedInterfaceMethod occurrences="2">
+      <code>getAgency</code>
       <code>getAgency</code>
     </UndefinedInterfaceMethod>
   </file>
@@ -17,8 +18,5 @@
     <PossiblyInvalidArgument occurrences="1">
       <code>$docs</code>
     </PossiblyInvalidArgument>
-  </file>
-  <file src="src/Service/CoverStore/CloudinaryCoverStoreService.php">
-    <InvalidCatch occurrences="1"/>
   </file>
 </files>
