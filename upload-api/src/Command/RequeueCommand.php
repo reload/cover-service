@@ -77,6 +77,7 @@ class RequeueCommand extends Command
         $i = 1;
         $messagesInserted = 0;
         $messagesUpdated = 0;
+        $messagesNotProcessable = 0;
 
         if (is_null($identifier)) {
             if (is_null($agencyId)) {
@@ -91,7 +92,7 @@ class RequeueCommand extends Command
                 $this->progressMessage($i.' material found in DB');
                 $this->progressFinish();
 
-                $this->sendMessage($material, VendorState::INSERT);
+                $this->sendMessage($material);
 
                 return Command::SUCCESS;
             } else {
@@ -105,17 +106,20 @@ class RequeueCommand extends Command
         foreach ($query->toIterable() as $material) {
             $existsRemote = $this->coverStoreService->exists($material->getIsIdentifier());
             if ($this->coverStoreService->existsLocalFile($material->getCover()) && !$existsRemote) {
-                $this->sendMessage($material, VendorState::INSERT);
+                $this->sendMessage($material);
                 ++$messagesInserted;
             } else {
                 if ($existsRemote) {
-                    $this->sendMessage($material, VendorState::UPDATE);
+                    $this->sendMessage($material);
                     ++$messagesUpdated;
+                } else {
+                    // Not processable.
+                    ++$messagesNotProcessable;
                 }
             }
 
             $this->progressAdvance();
-            $this->progressMessage($i.' material(s) found in DB. '.$messagesInserted.' inserted, '.$messagesUpdated.' updated send into queues');
+            $this->progressMessage($i.' material(s) found in DB. '.$messagesInserted.' inserted, '.$messagesUpdated.' updated send into queues and not processable '.$messagesNotProcessable);
             ++$i;
 
             // Free memory when batch size is reached.
@@ -134,10 +138,8 @@ class RequeueCommand extends Command
      *
      * @param material $material
      *   The material to upload to cover service
-     * @param string $state
-     *   The operation to preform (insert or update)
      */
-    private function sendMessage(Material $material, string $state)
+    private function sendMessage(Material $material)
     {
         $base = 'https://'.rtrim($this->router->generate('homepage'), '/');
         $url = $base.$this->storage->resolveUri($material->getCover(), 'file');
@@ -145,7 +147,6 @@ class RequeueCommand extends Command
         $message = new CoverUserUploadMessage();
         $message->setIdentifierType($material->getIsType())
             ->setIdentifier($material->getIsIdentifier())
-            ->setOperation($state)
             ->setImageUrl($url)
             ->setAccrediting($material->getAgencyId())
             ->setAgency($material->getAgencyId());
