@@ -91,6 +91,8 @@ class CoverRepository extends ServiceEntityRepository
             $queryBuilder->setFirstResult($offset);
         }
 
+        $queryBuilder->orderBy('c.id', 'ASC');
+
         return $queryBuilder->getQuery();
     }
 }

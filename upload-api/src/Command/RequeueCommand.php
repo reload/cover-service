@@ -65,8 +65,8 @@ class RequeueCommand extends Command
         $agencyId = $input->getOption('agency-id');
         $identifier = $input->getOption('identifier');
         $isNotUploaded = $input->getOption('is-not-uploaded');
-        $limit = $input->getOption('is-not-uploaded');
-        $offset = $input->getOption('is-not-uploaded');
+        $limit = $input->getOption('limit');
+        $offset = $input->getOption('offset');
 
         $section = $output->section('Sheet');
         $progressBarSheet = new ProgressBar($section);
