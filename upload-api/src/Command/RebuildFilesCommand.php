@@ -57,19 +57,27 @@ class RebuildFilesCommand extends Command
         /** @var Cover $cover */
         foreach ($query->toIterable() as $cover) {
             if (!$this->coverStoreService->existsLocalFile($cover)) {
-                $response = $this->httpClient->request('GET', $cover->getRemoteUrl());
-                if (200 !== $response->getStatusCode()) {
-                    // Download failed.
-                    $output->write('E');
-                    continue;
-                }
+                $remoteUrl = $cover->getRemoteUrl();
+                if (!is_null($remoteUrl)) {
+                    $response = $this->httpClient->request('GET', $remoteUrl);
+                    if (200 !== $response->getStatusCode()) {
+                        // Download failed.
+                        $output->write('E');
+                        continue;
+                    }
 
-                $file = $this->storage->resolvePath($cover, 'file');
-                $fileHandler = fopen($file, 'w');
-                foreach ($this->httpClient->stream($response) as $chunk) {
-                    fwrite($fileHandler, $chunk->getContent());
+                    $file = $this->storage->resolvePath($cover, 'file');
+                    if (!is_null($file)) {
+                        $fileHandler = fopen($file, 'w');
+                        foreach ($this->httpClient->stream($response) as $chunk) {
+                            fwrite($fileHandler, $chunk->getContent());
+                        }
+                        fclose($fileHandler);
+                    } else {
+                        $output->write('E');
+                        continue;
+                    }
                 }
-                fclose($fileHandler);
 
                 $output->write('.');
             }
