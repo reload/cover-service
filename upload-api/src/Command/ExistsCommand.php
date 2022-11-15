@@ -5,7 +5,6 @@ namespace App\Command;
 use App\Entity\Material;
 use App\Repository\MaterialRepository;
 use App\Service\CoverService;
-use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
