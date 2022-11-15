@@ -15,20 +15,22 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\PropertyAccess\Exception\UninitializedPropertyException;
+use Symfony\Contracts\HttpClient\HttpClientInterface;
+use Vich\UploaderBundle\Storage\StorageInterface;
 
 #[AsCommand(
-    name: 'app:cover:get-remote-urls',
+    name: 'app:files:rebuild',
 )]
-class GetRemoteUrlsCommand extends Command
+class RebuildFilesCommand extends Command
 {
     /**
-     * GetRemoteUrlsCommand constructor.
+     * RebuildFilesCommand constructor.
      */
     public function __construct(
         private readonly CoverRepository $coverRepository,
         private readonly CoverService $coverStoreService,
-        private readonly EntityManagerInterface $entityManager
+        private readonly HttpClientInterface $httpClient,
+        private readonly StorageInterface $storage,
     ) {
         parent::__construct();
     }
@@ -40,7 +42,7 @@ class GetRemoteUrlsCommand extends Command
     {
         $this->addOption('limit', null, InputOption::VALUE_OPTIONAL, 'Limit number of records to load.', 0)
             ->addOption('agency-id', null, InputOption::VALUE_OPTIONAL, 'Limit by agency id', '')
-            ->setDescription('Update cover store urls in local database (remoteUrl)');
+            ->setDescription('Download all remote files thereby rebuilding local filesystem');
     }
 
     /**
@@ -51,25 +53,29 @@ class GetRemoteUrlsCommand extends Command
         $limit = $input->getOption('limit');
         $agencyId = $input->getOption('agency-id');
 
-        $query = $this->coverRepository->getNoRemoteUrlQuery($agencyId, $limit);
+        $query = $this->coverRepository->getAllWithRemoteUrlQuery($agencyId, $limit);
 
         /** @var Cover $cover */
         foreach ($query->toIterable() as $cover) {
-            try {
-                if ($this->coverStoreService->exists($cover->getMaterial()->getIsIdentifier())) {
-                    $this->coverStoreService->removeLocalFile($cover);
-                    $item = $this->coverStoreService->search($cover->getMaterial()->getIsIdentifier());
-
-                    if (null !== $item) {
-                        $cover->setRemoteUrl($item->getUrl());
-                    }
-                    $cover->setUploaded(true);
-                    $this->entityManager->flush();
+            if (!$this->coverStoreService->existsLocalFile($cover)) {
+                $response = $this->httpClient->request('GET', $cover->getRemoteUrl());
+                if (200 !== $response->getStatusCode()) {
+                    // Download failed.
+                    $output->write('E');
+                    continue;
                 }
-            } catch (UninitializedPropertyException $e) {
-                // Do nothing, as cover was not connect to a material.
+
+                $file = $this->storage->resolvePath($cover, 'file');
+                $fileHandler = fopen($file, 'w');
+                foreach ($this->httpClient->stream($response) as $chunk) {
+                    fwrite($fileHandler, $chunk->getContent());
+                }
+                fclose($fileHandler);
+
+                $output->write('.');
             }
         }
+        $output->writeln(' ');
 
         return Command::SUCCESS;
     }
