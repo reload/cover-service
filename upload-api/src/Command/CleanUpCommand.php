@@ -15,6 +15,7 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\PropertyAccess\Exception\UninitializedPropertyException;
 
 #[AsCommand(
     name: 'app:image:cleanup',
@@ -51,15 +52,19 @@ class CleanUpCommand extends Command
         $query = $this->coverRepository->getIsNotUploadedQuery($limit);
         /** @var Cover $cover */
         foreach ($query->toIterable() as $cover) {
-            if ($this->coverStoreService->exists($cover->getMaterial()->getIsIdentifier())) {
-                $this->coverStoreService->removeLocalFile($cover);
+            try {
+                if ($this->coverStoreService->exists($cover->getMaterial()->getIsIdentifier())) {
+                    $this->coverStoreService->removeLocalFile($cover);
 
-                $item = $this->coverStoreService->search($cover->getMaterial()->getIsIdentifier());
-                if (null !== $item) {
-                    $cover->setRemoteUrl($item->getUrl());
+                    $item = $this->coverStoreService->search($cover->getMaterial()->getIsIdentifier());
+                    if (null !== $item) {
+                        $cover->setRemoteUrl($item->getUrl());
+                    }
+                    $cover->setUploaded(true);
+                    $this->entityManager->flush();
                 }
-                $cover->setUploaded(true);
-                $this->entityManager->flush();
+            } catch (UninitializedPropertyException $e) {
+                // Don't do anything as we have covers without material.
             }
         }
 

@@ -11,7 +11,6 @@ use App\Message\CoverUserUploadMessage;
 use App\Repository\MaterialRepository;
 use App\Service\CoverService;
 use App\Service\ProgressBarTrait;
-use App\Utils\Types\VendorState;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;

@@ -11,6 +11,7 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\PropertyAccess\Exception\UninitializedPropertyException;
 
 #[AsCommand(
     name: 'app:database:cleanup',
@@ -60,7 +61,9 @@ class CleanUpDatabaseCommand extends Command
         foreach ($query->toIterable() as $cover) {
             $output->write('.');
 
-            if (is_null($cover->getMaterial())) {
+            try {
+                $cover->getMaterial();
+            } catch (UninitializedPropertyException $e) {
                 if (!$dryRun) {
                     $this->em->remove($cover);
                     $this->em->flush();
