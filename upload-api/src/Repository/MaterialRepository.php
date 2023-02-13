@@ -51,6 +51,8 @@ class MaterialRepository extends ServiceEntityRepository
             $queryBuilder->setMaxResults($limit);
         }
 
+        $queryBuilder->orderBy('m.id', 'ASC');
+
         return $queryBuilder->getQuery();
     }
 
@@ -83,6 +85,8 @@ class MaterialRepository extends ServiceEntityRepository
         if (0 !== $limit) {
             $queryBuilder->setMaxResults($limit);
         }
+
+        $queryBuilder->orderBy('m.id', 'ASC');
 
         return $queryBuilder->getQuery();
     }

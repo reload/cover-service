@@ -5,12 +5,12 @@ namespace App\Command;
 use App\Entity\Material;
 use App\Repository\MaterialRepository;
 use App\Service\CoverService;
-use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\PropertyAccess\Exception\UninitializedPropertyException;
 
 #[AsCommand(
     name: 'app:cs:exists',
@@ -23,7 +23,6 @@ class ExistsCommand extends Command
     public function __construct(
         private readonly MaterialRepository $materialRepository,
         private readonly CoverService $coverStoreService,
-        private readonly EntityManagerInterface $entityManager
     ) {
         parent::__construct();
     }
@@ -47,6 +46,7 @@ class ExistsCommand extends Command
         $inCoverServiceIndex = false;
         $inCoverTable = false;
         $inMaterialTable = false;
+        $noCover = false;
 
         $materials = $this->materialRepository->findBy(['isIdentifier' => $pid]);
         if (!empty($materials)) {
@@ -54,12 +54,15 @@ class ExistsCommand extends Command
 
             /** @var Material $material */
             foreach ($materials as $material) {
-                if (!is_null($material->getCover())) {
+                try {
+                    $material->getCover();
                     if ($this->coverStoreService->exists($material->getIsIdentifier())) {
                         $output->write((string) $material);
                         $inCoverServiceIndex = true;
                     }
                     $inCoverTable = true;
+                } catch (UninitializedPropertyException $e) {
+                    $noCover = true;
                 }
             }
         }
@@ -67,6 +70,7 @@ class ExistsCommand extends Command
         $output->writeln('In CoverService: '.$inCoverServiceIndex);
         $output->writeln('In cover table: '.$inCoverTable);
         $output->writeln('In material table: '.$inMaterialTable);
+        $output->writeln('No cover entity: '.$noCover);
 
         return Command::SUCCESS;
     }
