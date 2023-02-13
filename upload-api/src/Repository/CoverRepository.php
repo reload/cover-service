@@ -91,6 +91,37 @@ class CoverRepository extends ServiceEntityRepository
             $queryBuilder->setFirstResult($offset);
         }
 
+        $queryBuilder->orderBy('c.id', 'ASC');
+
+        return $queryBuilder->getQuery();
+    }
+
+    /**
+     * Get query for all covers that do have remote url defined.
+     *
+     * @param int $limit
+     *   Limit the number of records
+     *
+     * @return Query
+     *   DQL query
+     */
+    public function getAllWithRemoteUrlQuery(string $agencyId = '', int $limit = 0): Query
+    {
+        $queryBuilder = $this->createQueryBuilder('c')
+            ->where('c.remoteUrl is not null')
+            ->orderBy('c.updatedAt', 'ASC');
+
+        if (0 !== $limit) {
+            $queryBuilder->setMaxResults($limit);
+        }
+
+        if ('' !== $agencyId) {
+            $queryBuilder->andWhere('c.agencyId = :agency')
+                ->setParameter('agency', $agencyId);
+        }
+
+        $queryBuilder->orderBy('c.id', 'ASC');
+
         return $queryBuilder->getQuery();
     }
 }

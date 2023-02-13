@@ -11,6 +11,13 @@ See [keep a changelog](https://keepachangelog.com/en/1.0.0/) for information abo
 
 ## [Unreleased]
 
+### Changed
+- Added more information to requeue command
+- Added new command to rebuild local filesystem based on remote cover store
+
+## [3.1.1] - 2022-11-10
+- Added limit, offset and limit to agency to requeue command and better debug output
+
 ## [3.1.0] - 2022-11-10
 
 ### Changed
