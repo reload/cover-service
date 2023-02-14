@@ -15,12 +15,15 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 /**
  * @ORM\Entity(repositoryClass=CoverRepository::class)
+ *
  * @ORM\Table(
  *     name="cover",
  *     indexes={
+ *
  *          @ORM\Index(name="agency_idx", columns={"agency_id"})
  *     }
  * )
+ *
  * @ApiResource(
  *     attributes={
  *          "order"={
@@ -62,14 +65,18 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
  *         "get"={"security"="is_granted('ROLE_COVER_CRUD')"}
  *     }
  * )
+ *
  * @Vich\Uploadable
  */
 class Cover
 {
     /**
      * @ORM\Column(type="integer")
+     *
      * @ORM\GeneratedValue
+     *
      * @ORM\Id
+     *
      * @Groups({"read"})
      */
     protected int $id;
@@ -85,6 +92,7 @@ class Cover
      *         }
      *     }
      * )
+     *
      * @Groups({"read"})
      */
     private ?string $imageUrl;
@@ -95,7 +103,9 @@ class Cover
      *     mimeTypes = {"image/jpeg", "image/png"},
      *     mimeTypesMessage = "Please upload a valid jpeg or png"
      * )
+     *
      * @Assert\NotNull(groups={"cover_create"})
+     *
      * @Vich\UploadableField(mapping="cover", fileNameProperty="filePath", size="size")
      */
     private ?File $file;
@@ -139,6 +149,7 @@ class Cover
      * )
      *
      * @ORM\Column(type="string", length=16)
+     *
      * @Groups({"read"})
      */
     private ?string $agencyId;
@@ -150,6 +161,7 @@ class Cover
 
     /**
      * @var ?string
+     *
      * @ORM\Column(type="string", nullable="true", options={"default":null})
      */
     private ?string $remoteUrl;

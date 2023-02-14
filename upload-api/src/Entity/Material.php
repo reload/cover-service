@@ -41,10 +41,13 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *          }
  *     }
  * )
+ *
  * @ORM\Entity(repositoryClass=MaterialRepository::class)
+ *
  * @ORM\Table(
  *     name="material",
  *     indexes={
+ *
  *          @ORM\Index(name="agency_idx", columns={"agency_id"}),
  *          @ORM\Index(name="is_idx", columns={"agency_id", "is_identifier", "is_type"})
  *     }
@@ -54,8 +57,11 @@ class Material
 {
     /**
      * @ORM\Id()
+     *
      * @ORM\GeneratedValue()
+     *
      * @ORM\Column(type="integer")
+     *
      * @Groups({"read"})
      */
     private int $id;
@@ -69,7 +75,9 @@ class Material
      *         }
      *     }
      * )
+     *
      * @ORM\Column(type="string", length=50)
+     *
      * @Groups({"read", "material:write"})
      */
     private ?string $isIdentifier;
@@ -84,6 +92,7 @@ class Material
      *         }
      *     }
      * )
+     *
      * @ORM\Column(type="string", length=5)
      *
      * @Groups({"read", "material:write"})
@@ -99,6 +108,7 @@ class Material
      *         }
      *     }
      * )
+     *
      * @ORM\Column(type="string", length=16)
      *
      * @Groups({"read"})
