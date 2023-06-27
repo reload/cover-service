@@ -11,6 +11,16 @@ See [keep a changelog](https://keepachangelog.com/en/1.0.0/) for information abo
 
 ## [Unreleased]
 
+## [3.1.4] - 2023-06-27
+
+### Changed
+- Bumped release version
+
+## [3.1.3] - 2023-03-30
+
+### Changed
+- Bumped release version
+
 ## [3.1.2] - 2022-02-13
 
 ### Changed
