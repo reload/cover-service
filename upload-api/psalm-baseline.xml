@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<files psalm-version="4.24.0@06dd975cb55d36af80f242561738f16c5f58264f">
+  <file src="src/Command/RequeueCommand.php">
+    <UndefinedInterfaceMethod occurrences="1">
+      <code>section</code>
+    </UndefinedInterfaceMethod>
+  </file>
+  <file src="src/EventSubscriber/MaterialPreWriteSubscriber.php">
+    <PossiblyNullPropertyAssignmentValue occurrences="1">
+      <code>$security-&gt;getUser()</code>
+    </PossiblyNullPropertyAssignmentValue>
+    <UndefinedInterfaceMethod occurrences="2">
+      <code>getAgency</code>
+      <code>getAgency</code>
+    </UndefinedInterfaceMethod>
+  </file>
+  <file src="src/OpenApi/OpenApiDecorator.php">
+    <PossiblyInvalidArgument occurrences="1">
+      <code>$docs</code>
+    </PossiblyInvalidArgument>
+  </file>
+</files>

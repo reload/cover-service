@@ -1,0 +1,50 @@
+# Default values for cover-service-importers.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+env: "prod"
+
+ingress:
+  enabled: true
+  enableAuth: false
+  enableTLS: true
+  cert: "letsencrypt"
+  path: "/"
+
+app:
+  image:
+    version: latest
+    imagePullPolicy: IfNotPresent
+  redis:
+    server: "redis-master.cover-service.svc.cluster.local"
+    prefix: "DDBCoverUpload"
+    port: "6379"
+    cache_db: "8"
+  amqp:
+    server: "mq-rabbitmq.cover-service.svc.cluster.local"
+    port: "5672"
+  db:
+    server: "k8s-ddf-prod.mariadb.database.azure.com"
+    port: "3306"
+    database: "cover-service-upload"
+    version: "mariadb-10.6.7"
+  storage:
+    class: "azurefile-premium-retain"
+    size: "100Gi"
+    access: "ReadWriteMany"
+  php:
+    memory_limit: "128M"
+    max_children: "80"
+    start_servers: "15"
+    min_spare_servers: "15"
+    max_spare_servers: "30"
+    slowlog_timeout: "1"
+    post_max_size: "40M"
+    upload_max_filesize: "32M"
+  coverstore:
+    folder: "UserUpload"
+
+nginx:
+  exporter:
+    image:
+      version: 0.11.0
