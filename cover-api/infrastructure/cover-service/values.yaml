@@ -1,0 +1,52 @@
+# Default values for cover-service.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+env: "prod"
+
+ingress:
+  enabled: true
+  enableAuth: false
+  enableTLS: true
+  cert: "letsencrypt"
+  path: "/api"
+
+hpa:
+  enabled: false
+  minReplicas: 5
+  maxReplicas: 15
+  cpuTargetAverageUtilization: 70
+  memoryTargetAverageUtilization: 80
+
+app:
+  image:
+    version: "latest"
+    imagePullPolicy: "IfNotPresent"
+  no_hits:
+    enabled: "false"
+    cache_ttl: "172800"
+  no_hits_ttl: 3600
+  cors_allow_origin: "*"
+  trusted_proxies: "127.0.0.1,10.240.0.0/16"
+  indexing_url: "http://es-elasticsearch.cover-service.svc.cluster.local:9200"
+  redis:
+    server: "redis-master.cover-service.svc.cluster.local"
+    prefix: "DDBCoverV2"
+    port: "6379"
+    cache_db: "10"
+  amqp:
+    server: "mq-rabbitmq.cover-service.svc.cluster.local"
+    port: "5672"
+  php:
+    type: "static"
+    max_children: "14"
+    opcache_memory_consumption: "32"
+    opcache_max_accelerated_files: "20000"
+    opcache_validate_timestamps: "0"
+    opcache_preload_path: "/var/www/html/config/preload.php"
+
+nginx:
+  exporter:
+    image:
+      version: 0.11.0
+

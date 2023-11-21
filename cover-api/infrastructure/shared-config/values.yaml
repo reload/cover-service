@@ -1,0 +1,7 @@
+# Default values for shared_config.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+cert:
+  env: prod
+  mail: itkdev@mkb.aarhus.dk

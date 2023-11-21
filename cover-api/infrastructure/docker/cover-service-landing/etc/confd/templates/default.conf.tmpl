@@ -1,0 +1,33 @@
+# @see https://symfony.com/doc/current/setup/web_server_configuration.html
+server {
+    listen 8080;
+    server_name localhost;
+    root {{ getenv "APP_PATH" "/var/www/html" }};
+
+    location / {
+        add_header X-Robots-Tag "noindex, nofollow, nosnippet, noarchive";
+        index index.htm index.html;
+    }
+
+    location = /robots.txt {
+       add_header Content-Type text/plain;
+       add_header X-Robots-Tag "noindex, nofollow, nosnippet, noarchive";
+       return 200 "User-agent: *\nDisallow: /\n";
+    }
+
+    error_log /dev/stderr;
+    access_log /dev/stdout main;
+}
+
+server {
+    listen 8081;
+    server_name localhost;
+    root {{ getenv "APP_PATH" "/var/www/html" }};
+
+    error_log off;
+    access_log off;
+
+    location /stub_status {
+        stub_status;
+    }
+}

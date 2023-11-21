@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<files psalm-version="4.30.0@d0bc6e25d89f649e4f36a534f330f8bb4643dd69">
+  <file src="src/Api/DataProvider/CoverCollectionDataProvider.php">
+    <RedundantCondition occurrences="1">
+      <code>\is_array($isIdentifiers)</code>
+    </RedundantCondition>
+    <TypeDoesNotContainType occurrences="1">
+      <code>[$isIdentifiers]</code>
+    </TypeDoesNotContainType>
+  </file>
+  <file src="src/Api/Elastic/SearchElasticService.php">
+    <InvalidArgument occurrences="1">
+      <code>['isIdentifier' =&gt; ['order' =&gt; 'asc']]</code>
+    </InvalidArgument>
+  </file>
+  <file src="src/Api/Factory/CoverFactory.php">
+    <InvalidArrayOffset occurrences="1">
+      <code>$formats[$imageSize]['extension']</code>
+    </InvalidArrayOffset>
+  </file>
+  <file src="src/DataFixtures/AppFixtures.php">
+    <UndefinedMagicMethod occurrences="6">
+      <code>generic</code>
+      <code>height</code>
+      <code>imageFormat</code>
+      <code>isIdentifier</code>
+      <code>isType</code>
+      <code>width</code>
+    </UndefinedMagicMethod>
+  </file>
+  <file src="src/EnvVarProcessor/AppendDateStampEnvVarProcessor.php">
+    <UndefinedAttributeClass occurrences="1">
+      <code>ArrayShape</code>
+    </UndefinedAttributeClass>
+  </file>
+  <file src="src/EnvVarProcessor/YmlEnvVarProcessor.php">
+    <UndefinedAttributeClass occurrences="1">
+      <code>ArrayShape</code>
+    </UndefinedAttributeClass>
+  </file>
+  <file src="src/EventSubscriber/SearchNoHitEventSubscriber.php">
+    <UndefinedAttributeClass occurrences="1">
+      <code>ArrayShape</code>
+    </UndefinedAttributeClass>
+  </file>
+</files>
