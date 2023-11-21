@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<files psalm-version="4.30.0@d0bc6e25d89f649e4f36a534f330f8bb4643dd69">
+  <file src="src/Command/HasCoverCommand.php">
+    <UndefinedInterfaceMethod occurrences="1">
+      <code>section</code>
+    </UndefinedInterfaceMethod>
+  </file>
+  <file src="src/Command/Vendors/VendorLoadCommand.php">
+    <UndefinedInterfaceMethod occurrences="1">
+      <code>section</code>
+    </UndefinedInterfaceMethod>
+  </file>
+  <file src="src/Command/Vendors/VendorUploadServiceReindexCommand.php">
+    <PropertyTypeCoercion occurrences="1">
+      <code>$this-&gt;vendorRepository-&gt;findOneBy(['id' =&gt; self::VENDOR_ID])</code>
+    </PropertyTypeCoercion>
+  </file>
+  <file src="src/Command/Vendors/VendorValidateImageUrlCommand.php">
+    <ArgumentTypeCoercion occurrences="1">
+      <code>$vendor</code>
+    </ArgumentTypeCoercion>
+    <PossiblyNullArgument occurrences="2">
+      <code>$url</code>
+      <code>$vendor</code>
+    </PossiblyNullArgument>
+  </file>
+  <file src="src/DataFixtures/AppFixtures.php">
+    <InvalidArgument occurrences="1">
+      <code>$faker-&gt;date</code>
+    </InvalidArgument>
+    <PossiblyNullArgument occurrences="12">
+      <code>$image-&gt;getCoverStoreURL()</code>
+      <code>$image-&gt;getCoverStoreURL()</code>
+      <code>$image-&gt;getCoverStoreURL()</code>
+      <code>$image-&gt;getHeight()</code>
+      <code>$image-&gt;getHeight()</code>
+      <code>$image-&gt;getHeight()</code>
+      <code>$image-&gt;getImageFormat()</code>
+      <code>$image-&gt;getImageFormat()</code>
+      <code>$image-&gt;getImageFormat()</code>
+      <code>$image-&gt;getWidth()</code>
+      <code>$image-&gt;getWidth()</code>
+      <code>$image-&gt;getWidth()</code>
+    </PossiblyNullArgument>
+    <UndefinedMagicMethod occurrences="2">
+      <code>dataServerURI</code>
+      <code>imageServerURI</code>
+    </UndefinedMagicMethod>
+    <UndefinedMagicPropertyFetch occurrences="10">
+      <code>$faker-&gt;coverStoreURL</code>
+      <code>$faker-&gt;dataServerPassword</code>
+      <code>$faker-&gt;dataServerUser</code>
+      <code>$faker-&gt;faust</code>
+      <code>$faker-&gt;height</code>
+      <code>$faker-&gt;matchId</code>
+      <code>$faker-&gt;matchType</code>
+      <code>$faker-&gt;originalImageFormat</code>
+      <code>$faker-&gt;pid</code>
+      <code>$faker-&gt;width</code>
+    </UndefinedMagicPropertyFetch>
+  </file>
+  <file src="src/Exception/XmlReaderException.php">
+    <UndefinedClass occurrences="1">
+      <code>Throwable</code>
+    </UndefinedClass>
+  </file>
+  <file src="src/MessageHandler/IndexMessageHandler.php">
+    <ArgumentTypeCoercion occurrences="1">
+      <code>$search</code>
+    </ArgumentTypeCoercion>
+    <PossiblyNullReference occurrences="1">
+      <code>getVendor</code>
+    </PossiblyNullReference>
+  </file>
+  <file src="src/MessageHandler/SearchNoHitsMessageHandler.php">
+    <PossiblyNullReference occurrences="1">
+      <code>getId</code>
+    </PossiblyNullReference>
+  </file>
+  <file src="src/Service/CoverStore/CloudinaryCoverStoreService.php">
+    <InvalidScalarArgument occurrences="1">
+      <code>$error-&gt;getCode()</code>
+    </InvalidScalarArgument>
+  </file>
+  <file src="src/Service/VendorService/VendorServiceTrait.php">
+    <UndefinedConstant occurrences="1">
+      <code>$this::VENDOR_ID</code>
+    </UndefinedConstant>
+  </file>
+</files>

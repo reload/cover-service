@@ -1,0 +1,85 @@
+framework:
+    messenger:
+        # Uncomment this (and the failed transport below) to send failed messages to this transport for later handling.
+        failure_transport: failed
+
+        transports:
+            # https://symfony.com/doc/current/messenger.html#transport-configuration
+            async_priority_high:
+                dsn: '%env(MESSENGER_TRANSPORT_DSN)%'
+                options:
+                    exchange:
+                        name: high
+                        type: fanout
+                    queues:
+                        cs_high: ~
+
+            async_priority_normal:
+                dsn: '%env(MESSENGER_TRANSPORT_DSN)%'
+                options:
+                    exchange:
+                        name: normal
+                    queues:
+                        cs_normal: ~
+
+            async_priority_low:
+                dsn: '%env(MESSENGER_TRANSPORT_DSN)%'
+                options:
+                    exchange:
+                        name: low
+                    queues:
+                        cs_low: ~
+
+            async_has_cover:
+                dsn: '%env(MESSENGER_TRANSPORT_DSN)%'
+                retry_strategy:
+                    max_retries: 4
+                    # milliseconds delay
+                    delay: 1000
+                    max_delay: 30000
+                    multiplier: 4
+                options:
+                    exchange:
+                        name: has_cover
+                    queues:
+                        cs_has_cover: ~
+
+            async_no_hit:
+                dsn: '%env(MESSENGER_TRANSPORT_DSN)%'
+                options:
+                    exchange:
+                        name: no-hit
+                        type: fanout
+                    queues:
+                        cs_no_hit:
+                            arguments:
+                                x-message-ttl: '%env(int:APP_NO_HITS_TTL)%'
+
+            failed:
+                dsn: '%env(MESSENGER_TRANSPORT_DSN_FAILED)%'
+                options:
+                    auto_setup: 'false'
+
+        routing:
+            # Route your messages to the transports
+            'App\Message\SearchMessage': async_priority_high
+            'App\Message\VendorImageMessage': async_priority_high
+            'App\Message\CoverStoreMessage': async_priority_high
+            'App\Message\IndexMessage': async_priority_high
+            'App\Message\CoverUserUploadMessage': async_priority_high
+            'App\Message\DeleteMessage': async_priority_low
+            'App\Message\HasCoverMessage': async_has_cover
+            'App\Message\SearchNoHitsMessage': async_no_hit
+
+        buses:
+            messenger.bus.default:
+                middleware:
+                    - 'messenger.middleware.reject_redelivered_message_middleware'
+
+# when@test:
+#    framework:
+#        messenger:
+#            transports:
+#                # replace with your transport name here (e.g., my_transport: 'in-memory://')
+#                # For more Messenger testing tools, see https://github.com/zenstruck/messenger-test
+#                async: 'in-memory://'
