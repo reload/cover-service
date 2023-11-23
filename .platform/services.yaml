@@ -1,5 +1,6 @@
 # The name given to the Elasticsearch service (lowercase alphanumeric only).
 
+# TODO:
 #searchelastic:
 #  # The type of your service (elasticsearch), which uses the format
 #  # 'type:version'. Be sure to consult the Elasticsearch documentation
@@ -22,7 +23,7 @@ queuerabbit:
   disk: 512
 
 # The name given to the Redis service (lowercase alphanumeric only).
-cacherediscoverservice:
+cacheredis:
   # The type of your service (redis), which uses the format
   # 'type:version'. Be sure to consult the Redis documentation
   # (https://docs.platform.sh/add-services/redis.html#supported-versions)

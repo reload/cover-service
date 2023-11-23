@@ -24,8 +24,11 @@ cover-api:
   variables:
     php:
       opcache.preload: config/preload.php
-    # TODO:
-    # env:
+    env:
+      APP_ENV: 'dev'
+      APP_DEBUG: 1
+
+      # TODO:
       # Tell Symfony to always install in production-mode.
       # APP_ENV: 'prod'
       # APP_DEBUG: 0
@@ -54,7 +57,7 @@ cover-api:
   relationships:
 #    essearch: 'searchelastic:elasticsearch'
     rabbitmqqueue: 'queuerabbit:rabbitmq'
-    rediscache: 'cacherediscoverservice:redis'
+    redis: 'cacheredis:redis'
 
   hooks:
     build: |
@@ -100,3 +103,5 @@ cover-api:
   source:
     # The path where the app code lives. Defaults to the directory of the .platform.app.yaml file. Useful for multi-app setups.
     root: cover-api
+
+importers:
