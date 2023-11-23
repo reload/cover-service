@@ -104,4 +104,4 @@ cover-api:
     # The path where the app code lives. Defaults to the directory of the .platform.app.yaml file. Useful for multi-app setups.
     root: cover-api
 
-importers:
+# importers:
