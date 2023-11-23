@@ -24,8 +24,9 @@ cover-api:
   variables:
     php:
       opcache.preload: config/preload.php
-    env:
-      # TODO: Tell Symfony to always install in production-mode.
+    # TODO:
+    # env:
+      # Tell Symfony to always install in production-mode.
       # APP_ENV: 'prod'
       # APP_DEBUG: 0
 
