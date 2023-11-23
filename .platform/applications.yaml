@@ -51,7 +51,7 @@ cover-api:
   # to the application in the PLATFORM_RELATIONSHIPS variable. The right-hand
   # side is in the form '<service name>:<endpoint name>'.
   relationships:
-    essearch: 'searchelastic:elasticsearch'
+#    essearch: 'searchelastic:elasticsearch'
     rabbitmqqueue: 'queuerabbit:rabbitmq'
     rediscache: 'cacherediscoverservice:redis'
 
