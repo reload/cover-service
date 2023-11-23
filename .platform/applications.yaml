@@ -59,7 +59,7 @@ cover-api:
     build: |
       set -x -e
       curl -s https://get.symfony.com/cloud/configurator | bash
-      COMPOSER_FLAGS="--ignore-platform-reqs" symfony-build        
+      symfony-build
 
     deploy: |
       set -x -e    
@@ -79,3 +79,9 @@ cover-api:
       commands:
         # Consume "async_no_hit" messages (as configured in the routing section of config/packages/messenger.yaml)
         start: symfony console --time-limit=3600 --memory-limit=64M messenger:consume --env=prod --quiet --failure-limit=1 async_no_hit
+
+  # Information on the app's source code and operations that can be run on it.
+  # More information: https://docs.platform.sh/create-apps/app-reference.html#source
+  source:
+    # The path where the app code lives. Defaults to the directory of the .platform.app.yaml file. Useful for multi-app setups.
+    root: cover-api
