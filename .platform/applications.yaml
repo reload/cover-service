@@ -59,7 +59,7 @@ cover-api:
     build: |
       set -x -e
       curl -s https://get.symfony.com/cloud/configurator | bash
-      COMPOSER_FLAGS="--ignore-platform-reqs" symfony-build
+      symfony-build
 
     deploy: |
       set -x -e    
@@ -79,6 +79,20 @@ cover-api:
       commands:
         # Consume "async_no_hit" messages (as configured in the routing section of config/packages/messenger.yaml)
         start: symfony console --time-limit=3600 --memory-limit=64M messenger:consume --env=prod --quiet --failure-limit=1 async_no_hit
+
+  # Customizations to your PHP or Lisp runtime. More information: https://docs.platform.sh/create-apps/app-reference.html#runtime
+  runtime:
+    extensions:
+      - apcu
+      - blackfire
+      - ctype
+      - iconv
+      - mbstring
+      - pdo_pgsql
+      - sodium
+      - xsl
+      - amqp
+      - redis
 
   # Information on the app's source code and operations that can be run on it.
   # More information: https://docs.platform.sh/create-apps/app-reference.html#source
