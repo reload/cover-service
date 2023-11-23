@@ -29,9 +29,6 @@ cover-api:
       APP_ENV: 'prod'
       APP_DEBUG: 0
 
-  build:
-    flavor: none
-
   # The 'source' specifies where the writable mount is. The 'local' source
   # indicates that the mount point will point to a local directory on the
   # application container. The 'source_path' specifies the subdirectory
