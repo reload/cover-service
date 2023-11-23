@@ -1,0 +1,84 @@
+# A unique name for the app. Must be lowercase alphanumeric characters. Changing the name destroys data associated
+# with the app.
+
+cover-api:
+
+  # The runtime the application uses. The 'type' key defines the base container
+  # image that will be used to run the application. There is a separate base
+  # container image for each primary language for the application,
+  # in multiple versions. Check the PHP documentation
+  # (https://docs.platform.sh/languages/php.html#supported-versions)
+  # to find the supported versions for the 'php' type.
+  type: 'php:8.2'
+
+  # The size of the persistent disk of the application (in MB).
+  disk: 1024
+
+  build:
+    flavor: composer
+
+  dependencies:
+    php:
+      composer/composer: '^2'
+
+  variables:
+    php:
+      opcache.preload: config/preload.php
+    env:
+      # Tell Symfony to always install in production-mode.
+      APP_ENV: 'prod'
+      APP_DEBUG: 0
+
+  build:
+    flavor: none
+
+  # The 'source' specifies where the writable mount is. The 'local' source
+  # indicates that the mount point will point to a local directory on the
+  # application container. The 'source_path' specifies the subdirectory
+  # from within the source that the mount should point at.
+  # The mounts that will be performed when the package is deployed.
+  mounts:
+    "/var/cache":
+      source: local
+      source_path: "cache"
+    "/var/log":
+      source: local
+      source_path: "log"
+    "/var/sessions":
+      source: local
+      source_path: "sessions"
+
+  # The relationships of the application with services or other applications.
+  #
+  # The left-hand side is the name of the relationship as it will be exposed
+  # to the application in the PLATFORM_RELATIONSHIPS variable. The right-hand
+  # side is in the form '<service name>:<endpoint name>'.
+  relationships:
+    essearch: 'searchelastic:elasticsearch'
+    rabbitmqqueue: 'queuerabbit:rabbitmq'
+    rediscache: 'cacherediscoverservice:redis'
+
+  hooks:
+    build: |
+      set -x -e
+      curl -s https://get.symfony.com/cloud/configurator | bash
+      COMPOSER_FLAGS="--ignore-platform-reqs" symfony-build        
+
+    deploy: |
+      set -x -e    
+      symfony-deploy        
+
+  # The configuration of app when it is exposed to the web.
+  web:
+    locations:
+      "/":
+        # The public directory of the app, relative to its root.
+        root: "public"
+        # The front-controller script to send non-static requests to.
+        passthru: "/index.php"
+
+  workers:
+    messenger:
+      commands:
+        # Consume "async_no_hit" messages (as configured in the routing section of config/packages/messenger.yaml)
+        start: symfony console --time-limit=3600 --memory-limit=64M messenger:consume --env=prod --quiet --failure-limit=1 async_no_hit
