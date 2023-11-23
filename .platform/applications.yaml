@@ -25,9 +25,9 @@ cover-api:
     php:
       opcache.preload: config/preload.php
     env:
-      # Tell Symfony to always install in production-mode.
-      APP_ENV: 'prod'
-      APP_DEBUG: 0
+      # TODO: Tell Symfony to always install in production-mode.
+      # APP_ENV: 'prod'
+      # APP_DEBUG: 0
 
   # The 'source' specifies where the writable mount is. The 'local' source
   # indicates that the mount point will point to a local directory on the
