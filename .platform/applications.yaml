@@ -12,7 +12,7 @@ cover-api:
   type: 'php:8.1'
 
   # The size of the persistent disk of the application (in MB).
-  disk: 1024
+  disk: 256
 
   build:
     flavor: composer
@@ -110,7 +110,7 @@ importers:
   type: 'php:8.1'
 
   # The size of the persistent disk of the application (in MB).
-  disk: 1024
+  disk: 256
 
   build:
     flavor: composer
@@ -217,7 +217,7 @@ upload-api:
   type: 'php:8.1'
 
   # The size of the persistent disk of the application (in MB).
-  disk: 1024
+  disk: 256
 
   build:
     flavor: composer
