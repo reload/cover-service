@@ -51,7 +51,7 @@ cover-api:
   # side is in the form '<service name>:<endpoint name>'.
   relationships:
 #    essearch: 'searchelastic:elasticsearch'
-    rabbitmqqueue: 'queuerabbit:rabbitmq'
+    rabbit: 'queuerabbit:rabbitmq'
     redis: 'cachecoverservice:redis'
 
   hooks:
@@ -149,6 +149,7 @@ importers:
   relationships:
     database: 'dbimporters:mysql'
     redis: 'cacheimporters:redis'
+    rabbit: 'queuerabbit:rabbitmq'
 
   hooks:
     build: |
