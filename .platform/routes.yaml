@@ -4,3 +4,8 @@ https://{default}:
   upstream: "cover-api:http"
   id: cover-api
 
+https://{default}/importers:
+  type: upstream
+  upstream: "importers:http"
+  id: importers
+
