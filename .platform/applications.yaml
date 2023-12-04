@@ -142,8 +142,7 @@ importers:
   # side is in the form `<service name>:<endpoint name>`.
   relationships:
     database: 'dbimporters:mysql'
-#    redis: 'cacheimporters:redis'
-    redis: 'cachecoverapi:redis'
+    redis: 'cacheimporters:redis'
     rabbit: 'queuerabbit:rabbitmq'
 
   hooks:
