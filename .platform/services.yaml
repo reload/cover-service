@@ -22,10 +22,6 @@ queuerabbit:
   # The disk attribute is the size of the persistent disk (in MB) allocated to the service.
   disk: 512
 
-  # TODO: Remove this again (enables RabbitMQ Management Plugin)
-  configuration:
-    management: true
-
 # The name given to the Redis service (lowercase alphanumeric only).
 cachecoverapi:
   # The type of your service (redis), which uses the format
