@@ -147,6 +147,7 @@ importers:
     database: 'dbimporters:mysql'
     redis: 'cacheimporters:redis'
     rabbit: 'queuerabbit:rabbitmq'
+    search: 'searchopen:opensearch'
 
   hooks:
     build: |

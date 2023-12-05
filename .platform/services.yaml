@@ -70,3 +70,14 @@ dbuploadapi:
   type: mariadb:10.6
   # The disk attribute is the size of the persistent disk (in MB) allocated to the service.
   disk: 256
+
+# The name given to the OpenSearch service (lowercase alphanumeric only).
+searchopen:
+  # The type of your service (opensearch), which uses the format
+  # 'type:version'. Be sure to consult the OpenSearch documentation
+  # (https://docs.platform.sh/add-services/opensearch.html#supported-versions)
+  # when choosing a version. If you specify a version number which is not available,
+  # the CLI will return an error.
+  type: opensearch:2
+  # The disk attribute is the size of the persistent disk (in MB) allocated to the service.
+  disk: 256
