@@ -144,9 +144,6 @@
             "config/packages/dev/easy_log_handler.yaml"
         ]
     },
-    "elastic/transport": {
-        "version": "v8.1.0"
-    },
     "elasticsearch/elasticsearch": {
         "version": "v8.2.2"
     },
@@ -250,13 +247,16 @@
         "version": "v1.3.1"
     },
     "php-http/discovery": {
-        "version": "1.14.2"
-    },
-    "php-http/httplug": {
-        "version": "2.3.0"
-    },
-    "php-http/promise": {
-        "version": "1.1.0"
+        "version": "1.19",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "main",
+            "version": "1.18",
+            "ref": "f45b5dd173a27873ab19f5e3180b2f661c21de02"
+        },
+        "files": [
+            "config/packages/http_discovery.yaml"
+        ]
     },
     "phpdocumentor/reflection-common": {
         "version": "2.2.0"
@@ -269,6 +269,15 @@
     },
     "phpspec/prophecy": {
         "version": "1.14.0"
+    },
+    "phpstan/phpstan": {
+        "version": "1.9",
+        "recipe": {
+            "repo": "github.com/symfony/recipes-contrib",
+            "branch": "main",
+            "version": "1.0",
+            "ref": "5e490cc197fb6bb1ae22e5abbc531ddc633b6767"
+        }
     },
     "phpunit/php-code-coverage": {
         "version": "9.2.8"

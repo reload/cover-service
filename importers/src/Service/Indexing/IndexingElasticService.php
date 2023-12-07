@@ -4,6 +4,7 @@ namespace App\Service\Indexing;
 
 use App\Exception\SearchIndexException;
 use Elastic\Elasticsearch\Client;
+// use OpenSearch\Client;
 use Elastic\Elasticsearch\Exception\ClientResponseException;
 use Elastic\Elasticsearch\Exception\MissingParameterException;
 use Elastic\Elasticsearch\Exception\ServerResponseException;

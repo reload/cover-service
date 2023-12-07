@@ -8,7 +8,9 @@ security:
             id: DanskernesDigitaleBibliotek\AgencyAuthBundle\Security\OpenPlatformUserProvider
     firewalls:
         dev:
-            pattern: ^/(_(profiler|wdt)|css|images|js)/
+            # TODO:
+            # pattern: ^/(_(profiler|wdt)|css|images|js)/
+            pattern: ^/(_(profiler|wdt)|css|images|js|api)/
             security: false
         main:
             stateless: true

@@ -21,7 +21,7 @@
         "doctrine/doctrine-bundle": "^2.4",
         "doctrine/doctrine-migrations-bundle": "^3.0",
         "doctrine/orm": "^2.10",
-        "elasticsearch/elasticsearch": "^8.2",
+        "elasticsearch/elasticsearch": "^8.11",
         "itk-dev/metrics-bundle": "^1.0.0",
         "league/oauth2-client": "^2.6",
         "nicebooks/isbn": "^0.3",
