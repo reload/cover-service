@@ -118,13 +118,13 @@ services:
     App\Service\VendorService\VendorServiceFactory:
         arguments: [!tagged app.vendor.service]
 
-    Elastic\Elasticsearch\Client:
-        factory: ['@Elastic\Elasticsearch\ClientBuilder', fromConfig]
+    OpenSearch\Client:
+        factory: ['@OpenSearch\ClientBuilder', fromConfig]
         arguments:
             $config:
                 hosts: ['%env(INDEXING_URL)%']
 
-    Elastic\Elasticsearch\ClientBuilder: ~
+    OpenSearch\ClientBuilder: ~
 
     monolog.formatter.json:
         class: Monolog\Formatter\JsonFormatter
