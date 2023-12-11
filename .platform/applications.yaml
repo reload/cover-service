@@ -104,7 +104,7 @@ importers:
   type: 'php:8.1'
 
   # The size of the persistent disk of the application (in MB).
-  disk: 256
+  disk: 1024
 
   build:
     flavor: composer

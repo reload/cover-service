@@ -1,7 +1,7 @@
 version: "3"
 
 networks:
-  frontend:
+  web:
     external: true
   app:
     driver: bridge
@@ -36,8 +36,8 @@ services:
       - COMPOSER_VERSION=2
       - PHP_IDE_CONFIG=serverName=localhost
       # Send all container trafik though proxy, useful for testing.
-#      - HTTP_PROXY=host.docker.internal:8090
-#      - HTTPS_PROXY=host.docker.internal:8090
+    #      - HTTP_PROXY=host.docker.internal:8090
+    #      - HTTPS_PROXY=host.docker.internal:8090
     depends_on:
       - mariadb
     volumes:
@@ -47,7 +47,7 @@ services:
     image: nginx:latest
     networks:
       - app
-      - frontend
+      - web
     depends_on:
       - phpfpm
     ports:
@@ -57,7 +57,7 @@ services:
       - .:/app:delegated
     labels:
       - "traefik.enable=true"
-      - "traefik.docker.network=frontend"
+      - "traefik.docker.network=web"
       - "traefik.http.routers.${COMPOSE_PROJECT_NAME}.rule=Host(`${COMPOSE_DOMAIN}`)"
 
   redis:
@@ -71,7 +71,7 @@ services:
     image: elasticsearch:8.5.2
     networks:
       - app
-      - frontend
+      - web
     environment:
       - node.name=es02
       - discovery.type=single-node
@@ -96,7 +96,7 @@ services:
     image: rabbitmq:3.9-management
     networks:
       - app
-      - frontend
+      - web
     ports:
       - '15672'
     environment:
