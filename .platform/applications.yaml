@@ -246,11 +246,9 @@ upload-api:
     "/var/sessions":
       source: local
       source_path: "sessions"
-
-      # TODO: path?
-    "UploadService":
+    "public/cover":
       source: local
-      source_path: "UploadService"
+      source_path: "public/cover"
 
   # The relationships of the application with services or other applications.
   #
