@@ -165,7 +165,7 @@ importers:
     # Run nightly imports of vendors.
     import-vendors:
       spec: '0 1 * * 1-6'
-      # TODO: Set vendors - how?
+      # TODO: Load all vendors - '--vendor=all'
       cmd: './bin/console app:vendor:load --env=prod --no-debug --days-ago=180 --vendor=none'
 
   # The configuration of app when it is exposed to the web.
