@@ -80,16 +80,9 @@ class OverDriveBooksVendorService implements VendorServiceImporterInterface
             do {
                 $products = $this->apiClient->getProducts($batchSize, $offset);
 
-
-
                 $isbnImageUrlArray = [];
                 foreach ($products as $product) {
-
-
                     $coverImageUrl = $product->images->cover->href ?? null;
-
-                    dump($coverImageUrl);
-                    echo PHP_EOL;
 
                     // Exclude (set null) URLs for known generic covers
                     if (null !== $coverImageUrl) {
@@ -97,18 +90,6 @@ class OverDriveBooksVendorService implements VendorServiceImporterInterface
                     }
 
                     foreach ($product->formats as $format) {
-
-                        dump($product);
-                        die("EEERRR");
-
-
-                        if (empty($format->identifiers)) {
-
-                            dump($product);
-
-
-                        }
-
                         foreach ($format->identifiers as $identifier) {
                             if (IdentifierType::ISBN === strtolower((string) $identifier->type)) {
                                 if (!empty($identifier->value)) {
@@ -118,10 +99,6 @@ class OverDriveBooksVendorService implements VendorServiceImporterInterface
                         }
                     }
                 }
-
-
-                die("XXYYZZ");
-
 
                 $this->vendorCoreService->updateOrInsertMaterials($status, $isbnImageUrlArray, IdentifierType::ISBN, $this->getVendorId(), $this->withUpdatesDate, $this->withoutQueue, self::BATCH_SIZE);
 
