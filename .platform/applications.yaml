@@ -104,7 +104,7 @@ importers:
   type: 'php:8.1'
 
   # The size of the persistent disk of the application (in MB).
-  disk: 1024
+  disk: 2028
 
   build:
     flavor: composer
@@ -138,6 +138,9 @@ importers:
     "resources":
       source: local
       source_path: "resources"
+    "db":
+      source: local
+      source_path: "db"
 
   # The relationships of the application with services or other applications.
   # The left-hand side is the name of the relationship as it will be exposed
