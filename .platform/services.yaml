@@ -45,7 +45,7 @@ dbimporters:
   # the CLI will return an error.
   type: mariadb:10.6
   # The disk attribute is the size of the persistent disk (in MB) allocated to the service.
-  disk: 2048
+  disk: 1024
 
 # The name given to the MariaDB/MySQL service (lowercase alphanumeric only).
 dbuploadapi:
@@ -67,4 +67,4 @@ searchopen:
   # the CLI will return an error.
   type: opensearch:2
   # The disk attribute is the size of the persistent disk (in MB) allocated to the service.
-  disk: 2048
+  disk: 256
