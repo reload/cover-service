@@ -17,6 +17,7 @@ use App\Utils\Message\VendorImportResultMessage;
 use App\Utils\Types\IdentifierType;
 use App\Utils\Types\VendorStatus;
 use Psr\Cache\InvalidArgumentException;
+use Psr\Log\LoggerInterface;
 use Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface;
@@ -44,7 +45,8 @@ class OverDriveBooksVendorService implements VendorServiceImporterInterface
      *   Api client for the OverDrive API
      */
     public function __construct(
-        private readonly Client $apiClient
+        private readonly Client $apiClient,
+        private readonly LoggerInterface $logger
     ) {
     }
 
@@ -90,6 +92,16 @@ class OverDriveBooksVendorService implements VendorServiceImporterInterface
                     }
 
                     foreach ($product->formats as $format) {
+
+                        // Handle missing identifiers property.
+                        if (empty($format->identifiers))   {
+                            $this->logger->warning('Missing identifiers property.', [
+                                'Service' => 'OverDriveBooksVendorService',
+                                'Product Id' => $product->id ?? "",
+                            ]);
+                            continue;
+                        }
+
                         foreach ($format->identifiers as $identifier) {
                             if (IdentifierType::ISBN === strtolower((string) $identifier->type)) {
                                 if (!empty($identifier->value)) {
