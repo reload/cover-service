@@ -19,8 +19,10 @@ use Symfony\Component\Config\FileLocator;
 
 /**
  * Class SaxoVendorService.
+ *
+ * @deprecated
  */
-class SaxoVendorService implements VendorServiceImporterInterface
+class SaxoVendorService
 {
     use ProgressBarTrait;
     use VendorServiceTrait;

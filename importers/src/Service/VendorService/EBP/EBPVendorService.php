@@ -10,8 +10,10 @@ use App\Service\VendorService\AbstractTsvVendorService;
 
 /**
  * Class EBPVendorService.
+ *
+ * @deprecated
  */
-class EBPVendorService extends AbstractTsvVendorService
+class EBPVendorService
 {
     public const VENDOR_ID = 13;
 

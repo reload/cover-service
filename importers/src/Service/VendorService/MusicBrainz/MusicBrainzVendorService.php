@@ -10,8 +10,10 @@ use App\Service\VendorService\AbstractTsvVendorService;
 
 /**
  * Class MusicBrainzVendorService.
+ *
+ * @deprecated
  */
-class MusicBrainzVendorService extends AbstractTsvVendorService
+class MusicBrainzVendorService
 {
     public const VENDOR_ID = 9;
 

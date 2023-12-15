@@ -10,8 +10,10 @@ use App\Service\VendorService\AbstractTsvVendorService;
 
 /**
  * Class ChandosVendorService.
+ *
+ * @deprecated
  */
-class ChandosVendorService extends AbstractTsvVendorService
+class ChandosVendorService
 {
     public const VENDOR_ID = 10;
 
