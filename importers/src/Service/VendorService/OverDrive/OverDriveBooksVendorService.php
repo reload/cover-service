@@ -94,7 +94,7 @@ class OverDriveBooksVendorService implements VendorServiceImporterInterface
                     foreach ($product->formats as $format) {
 
                         // Handle missing identifiers property.
-                        if (empty($format->identifiers))   {
+                        if (empty($format->identifiers)) {
                             $this->logger->warning('Missing identifiers property.', [
                                 'Service' => 'OverDriveBooksVendorService',
                                 'Product Id' => $product->id ?? "",
