@@ -14,8 +14,3 @@ https://upload-api.{default}/:
   type: upstream
   upstream: "upload-api:http"
   id: upload-api
-
-#TODO: Remove this
-"https://os.{default}/":
-  type: upstream
-  upstream: "searchopen:opensearch"
