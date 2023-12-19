@@ -11,6 +11,8 @@ cover-api:
   # to find the supported versions for the 'php' type.
   type: 'php:8.1'
 
+  size: 2XL
+
   # The size of the persistent disk of the application (in MB).
   disk: 1024
 
@@ -213,6 +215,8 @@ upload-api:
   # (https://docs.platform.sh/languages/php.html#supported-versions)
   # to find the supported versions for the 'php' type.
   type: 'php:8.1'
+
+  size: M
 
   # The size of the persistent disk of the application (in MB).
   disk: 256
