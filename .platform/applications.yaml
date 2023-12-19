@@ -11,15 +11,6 @@ cover-api:
   # to find the supported versions for the 'php' type.
   type: 'php:8.1'
 
-  runtime:
-    sizing_hints:
-      # A lean stack means that application memory usage is low.
-      # This allows us to have many workers which is useful as most time is spent
-      # waiting for token authorization.
-      # 10MB is the Platform.sh minimum but setting this value results in
-      # redirection errors so use a value 1 larger.
-      request_memory: 16
-
   # How many CPU and memory resources to allocate to the app.
   size: 2XL
 
@@ -87,6 +78,13 @@ cover-api:
 
   # Customizations to your PHP or Lisp runtime. More information: https://docs.platform.sh/create-apps/app-reference.html#runtime
   runtime:
+    sizing_hints:
+      # A lean stack means that application memory usage is low.
+      # This allows us to have many workers which is useful as most time is spent
+      # waiting for token authorization.
+      # 10MB is the Platform.sh minimum but setting this value results in
+      # redirection errors so use a value 1 larger.
+      request_memory: 16
     extensions:
       - apcu
       - blackfire
