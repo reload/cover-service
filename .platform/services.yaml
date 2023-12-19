@@ -57,6 +57,7 @@ dbuploadapi:
   type: mariadb:10.6
   # The disk attribute is the size of the persistent disk (in MB) allocated to the service.
   disk: 256
+  # How many CPU and memory resources to allocate to the service.
   size: M
 
 # The name given to the OpenSearch service (lowercase alphanumeric only).
@@ -69,4 +70,5 @@ searchopen:
   type: opensearch:2
   # The disk attribute is the size of the persistent disk (in MB) allocated to the service.
   disk: 2048
+  # How many CPU and memory resources to allocate to the service.
   size: 4XL
