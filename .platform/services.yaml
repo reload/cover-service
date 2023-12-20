@@ -18,7 +18,7 @@ cachecoverapi:
   # when choosing a version. If you specify a version number which is not available,
   # the CLI will return an error.
   type: redis:6.2
-  size: L
+  size: XL
 
 # The name given to the Redis service (lowercase alphanumeric only).
 cacheimporters:
