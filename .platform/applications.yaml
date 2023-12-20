@@ -201,6 +201,11 @@ importers:
     messenger:
       # Importers are a single worker so set a size appropriate for this.
       size: M
+      runtime:
+        sizing_hints:
+          # Set a size with a high base memory to according to worker usage.
+          base_memory: 160
+          request_memory: 11
 
       commands:
         # Consume "async_priority_high", "async_priority_low", "async_has_cover" & "async_no_hit"
