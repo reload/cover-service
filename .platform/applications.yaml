@@ -123,6 +123,12 @@ importers:
   # a size as possible.
   size: S
 
+  resources:
+    # Set a higher than usual memory allocation. The application is I/O bound.
+    # By adding more memory we can get more PHP-FPM children.
+    base_memory: 160
+    memory_ratio: 64
+
   # The size of the persistent disk of the application (in MB).
   disk: 2028
 
@@ -220,10 +226,6 @@ importers:
       - xsl
       - amqp
       - redis
-    sizing_hints:
-      # Set a size with a high base memory to according to worker usage.
-      base_memory: 160
-      request_memory: 11
 
   # Information on the app's source code and operations that can be run on it.
   # More information: https://docs.platform.sh/create-apps/app-reference.html#source
