@@ -182,6 +182,15 @@ importers:
       # TODO: Load all vendors - '--vendor=all'
       cmd: './bin/console app:vendor:load --env=prod --no-debug --days-ago=180 --vendor=none'
 
+  # The configuration of app when it is exposed to the web.
+  web:
+    locations:
+      "/":
+        # The public directory of the app, relative to its root.
+        root: "public"
+        # The front-controller script to send non-static requests to.
+        passthru: "/index.php"
+
   workers:
     messenger:
       # Importers are a single worker so set a size appropriate for this.
