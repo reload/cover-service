@@ -50,7 +50,7 @@ dbimporters:
   type: mariadb:10.6
   # The disk attribute is the size of the persistent disk (in MB) allocated to the service.
   disk: 4096
-  size: M
+  size: L
 
 # The name given to the MariaDB/MySQL service (lowercase alphanumeric only).
 dbuploadapi:
