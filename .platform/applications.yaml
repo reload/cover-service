@@ -12,7 +12,7 @@ cover-api:
   type: 'php:8.1'
 
   # How many CPU and memory resources to allocate to the app.
-  size: 2XL
+  size: XL
 
   # The size of the persistent disk of the application (in MB).
   disk: 1024
