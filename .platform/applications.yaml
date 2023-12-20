@@ -97,12 +97,6 @@ cover-api:
       - amqp
       - redis
 
-  resources:
-    # Set a higher than usual memory allocation. The application is I/O bound.
-    # By adding more memory we can get more PHP-FPM children.
-    base_memory: 64
-    memory_ratio: 128
-
   # Information on the app's source code and operations that can be run on it.
   # More information: https://docs.platform.sh/create-apps/app-reference.html#source
   source:
