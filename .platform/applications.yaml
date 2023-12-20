@@ -130,9 +130,6 @@ importers:
   variables:
     php:
       opcache.preload: config/preload.php
-    env:
-      APP_ENV: 'dev'
-      APP_DEBUG: 1
 
   # The 'source' specifies where the writable mount is. The 'local' source
   # indicates that the mount point will point to a local directory on the
