@@ -194,7 +194,7 @@ importers:
   workers:
     messenger:
       # Importers are a single worker so set a size appropriate for this.
-      size: L
+      size: M
 
       commands:
         # Consume "async_priority_high", "async_priority_low", "async_has_cover" & "async_no_hit"
