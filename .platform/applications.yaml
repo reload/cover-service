@@ -126,8 +126,8 @@ importers:
   resources:
     # Set a higher than usual memory allocation. The application is I/O bound.
     # By adding more memory we can get more PHP-FPM children.
-    base_memory: 160
-    memory_ratio: 64
+    base_memory: 64
+    memory_ratio: 192
 
   # The size of the persistent disk of the application (in MB).
   disk: 2028
