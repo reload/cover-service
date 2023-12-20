@@ -8,6 +8,7 @@ queuerabbit:
   type: rabbitmq:3.9
   # The disk attribute is the size of the persistent disk (in MB) allocated to the service.
   disk: 512
+  size: M
 
 # The name given to the Redis service (lowercase alphanumeric only).
 cachecoverapi:
