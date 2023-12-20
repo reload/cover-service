@@ -84,7 +84,7 @@ cover-api:
       # waiting for token authorization.
       # 10MB is the Platform.sh minimum but setting this value results in
       # redirection errors so use a value 1 larger.
-      request_memory: 16
+      request_memory: 11
     extensions:
       - apcu
       - blackfire
