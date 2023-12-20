@@ -76,4 +76,4 @@ searchopen:
   # The disk attribute is the size of the persistent disk (in MB) allocated to the service.
   disk: 2048
   # How many CPU and memory resources to allocate to the service.
-  size: 4XL
+  size: 2XL
