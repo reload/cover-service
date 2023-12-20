@@ -113,6 +113,10 @@ importers:
   # to find the supported versions for the 'php' type.
   type: 'php:8.1'
 
+  # Importers are intended to be used as workers so intentionally set as small
+  # a size as possible.
+  size: S
+
   # The size of the persistent disk of the application (in MB).
   disk: 2028
 
@@ -189,6 +193,9 @@ importers:
 
   workers:
     messenger:
+      # Importers are a single worker so set a size appropriate for this.
+      size: L
+
       commands:
         # Consume "async_priority_high", "async_priority_low", "async_has_cover" & "async_no_hit"
         # messages (as configured in the routing section of config/packages/messenger.yaml)
