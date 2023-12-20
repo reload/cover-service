@@ -200,13 +200,7 @@ importers:
   workers:
     messenger:
       # Importers are a single worker so set a size appropriate for this.
-      size: M
-
-      resources:
-        # Set a higher than usual memory allocation. The application is I/O bound.
-        # By adding more memory we can get more PHP-FPM children.
-        base_memory: 64
-        memory_ratio: 128
+      size: L
 
       commands:
         # Consume "async_priority_high", "async_priority_low", "async_has_cover" & "async_no_hit"
