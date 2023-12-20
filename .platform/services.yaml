@@ -18,6 +18,7 @@ cachecoverapi:
   # when choosing a version. If you specify a version number which is not available,
   # the CLI will return an error.
   type: redis:6.2
+  size: L
 
 # The name given to the Redis service (lowercase alphanumeric only).
 cacheimporters:
@@ -27,6 +28,7 @@ cacheimporters:
   # when choosing a version. If you specify a version number which is not available,
   # the CLI will return an error.
   type: redis:6.2
+  size: M
 
 # The name given to the Redis service (lowercase alphanumeric only).
 cacheuploadapi:
@@ -36,6 +38,7 @@ cacheuploadapi:
   # when choosing a version. If you specify a version number which is not available,
   # the CLI will return an error.
   type: redis:6.2
+  size: M
 
 # The name given to the MariaDB/MySQL service (lowercase alphanumeric only).
 dbimporters:
