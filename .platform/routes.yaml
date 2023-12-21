@@ -14,3 +14,15 @@ https://upload.{default}/:
   type: upstream
   upstream: "upload-api:http"
   id: upload-api
+
+"http://{default}/":
+  type: redirect
+  to: "https://{default}/"
+
+"http://importers.{default}/":
+  type: redirect
+  to: "https://importers.{default}/"
+
+"http://upload.{default}/":
+  type: redirect
+  to: "https://upload.{default}/"
